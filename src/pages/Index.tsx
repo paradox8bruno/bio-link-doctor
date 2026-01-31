@@ -16,9 +16,15 @@ const Index = () => {
         {/* Content area */}
         <div className="w-full px-4 py-6 flex flex-col items-center gap-6">
           {/* Tagline */}
-          <div className="text-center animate-fade-in-up" style={{ animationDelay: '0.4s' }}>
-            <p className="flex items-start justify-center gap-2 text-white/90 text-lg leading-relaxed">
-              <Leaf className="w-5 h-5 mt-1 text-white/70 flex-shrink-0" />
+          <div 
+            className="text-center animate-fade-in-up px-4 py-3 rounded-xl backdrop-blur-sm" 
+            style={{ 
+              animationDelay: '0.4s',
+              background: 'hsla(93, 32%, 20%, 0.85)'
+            }}
+          >
+            <p className="flex items-start justify-center gap-2 text-white/95 text-lg leading-relaxed">
+              <Leaf className="w-5 h-5 mt-1 text-white/80 flex-shrink-0" />
               <span>
                 Invista na saúde do seu sangue<br />
                 com respeito pela vida animal
