@@ -1,5 +1,4 @@
 import doctorPhoto from "@/assets/doctor-photo.png";
-import logoHematoveg from "@/assets/logo-hematoveg.png";
 
 const DoctorCard = () => {
   return (
@@ -19,15 +18,6 @@ const DoctorCard = () => {
             background: 'linear-gradient(to bottom, transparent 60%, transparent 100%)'
           }}
         />
-        
-        {/* Logo in bottom left corner */}
-        <div className="absolute bottom-4 left-4 animate-scale-in" style={{ animationDelay: '0.3s' }}>
-          <img
-            src={logoHematoveg}
-            alt="HEMATOVEG Logo"
-            className="w-16 h-16 object-contain drop-shadow-lg"
-          />
-        </div>
       </div>
     </div>
   );
