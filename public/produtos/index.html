@@ -13,174 +13,213 @@
     
     :root {
       --olive: #6B8E23;
+      --olive-dark: #4D6617;
       --sage: #9CAF88;
       --beige: #D4C5B9;
       --chocolate: #8B7355;
       --cream: #FAF8F5;
+      --rose: #E8B4B8;
+      --peach: #F5D5C0;
     }
     
     .font-display { font-family: 'Playfair Display', serif; }
     .font-body { font-family: 'Lato', sans-serif; }
     
-    .card-hover {
-        transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    .product-card {
+        position: relative;
+        overflow: hidden;
+        transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
     }
     
-    .card-hover:hover {
-        transform: translateY(-4px);
-        box-shadow: 0 10px 25px -5px rgba(107, 142, 35, 0.15), 0 8px 10px -6px rgba(107, 142, 35, 0.1);
+    .product-card::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: linear-gradient(135deg, transparent 0%, rgba(107, 142, 35, 0.03) 100%);
+        opacity: 0;
+        transition: opacity 0.4s ease;
+    }
+    
+    .product-card:hover::before {
+        opacity: 1;
+    }
+    
+    .product-card:hover {
+        transform: translateY(-8px) scale(1.02);
+        box-shadow: 0 20px 40px -10px rgba(107, 142, 35, 0.25);
     }
 
-    .glass-header {
-        background: rgba(255, 255, 255, 0.8);
-        backdrop-filter: blur(8px);
+    .product-card:active {
+        transform: translateY(-6px) scale(1.01);
+    }
+
+    .icon-circle {
+        transition: all 0.3s ease;
+    }
+
+    .product-card:hover .icon-circle {
+        transform: scale(1.15) rotate(5deg);
+    }
+
+    @media (max-width: 640px) {
+        .product-card:hover {
+            transform: translateY(-4px);
+        }
     }
   </style>
  </head>
- <body class="h-full font-body bg-[#FAF8F5] text-stone-700">
+ <body class="h-full font-body bg-gradient-to-br from-emerald-50 via-stone-50 to-amber-50 text-stone-800">
    
-   <!-- Decorative Background Elements -->
-   <div class="fixed inset-0 pointer-events-none overflow-hidden z-0">
-     <div class="absolute top-0 right-0 w-64 h-64 bg-green-100 rounded-full mix-blend-multiply filter blur-3xl opacity-30 transform translate-x-1/2 -translate-y-1/2"></div>
-     <div class="absolute bottom-0 left-0 w-64 h-64 bg-stone-200 rounded-full mix-blend-multiply filter blur-3xl opacity-30 transform -translate-x-1/2 translate-y-1/2"></div>
-     
-     <!-- Leaf SVG Decoration -->
-     <svg class="absolute top-10 left-5 w-20 h-20 opacity-5" viewBox="0 0 100 100" fill="#6B8E23">
-         <path d="M50 10 Q60 30 50 50 Q40 30 50 10" />
-     </svg>
-   </div>
+   <!-- Header -->
+   <header class="w-full bg-white/90 backdrop-blur-md sticky top-0 z-50 border-b-2 border-[#6B8E23]/10 shadow-sm">
+       <div class="max-w-5xl mx-auto px-4 py-5 md:py-6">
+           <div class="flex flex-col items-center gap-2">
+               <div class="flex items-center gap-2">
+                   <div class="w-8 h-8 rounded-full bg-gradient-to-br from-[#6B8E23] to-[#5a7a1e] flex items-center justify-center">
+                       <span class="text-white text-lg">🌱</span>
+                   </div>
+                   <span class="text-xs font-bold tracking-[0.2em] text-[#6B8E23] uppercase">Hematoveg</span>
+               </div>
+               <h1 class="font-display text-3xl md:text-4xl font-bold text-stone-900 text-center">
+                   Produtos Selecionados
+               </h1>
+               <p class="text-sm text-stone-600 text-center max-w-md mt-1">
+                   Vegano & Cruelty-Free
+               </p>
+           </div>
+       </div>
+   </header>
 
-   <div class="relative z-10 w-full min-h-full flex flex-col items-center">
-     
-    <!-- Header -->
-    <header class="w-full glass-header sticky top-0 z-50 border-b border-stone-100/50 shadow-sm">
-        <div class="max-w-4xl mx-auto px-6 py-4 flex flex-col items-center">
-            <div class="flex items-center gap-2 mb-1">
-                <span class="text-xs font-semibold tracking-widest text-[#6B8E23] uppercase">Hematoveg</span>
+   <main class="w-full max-w-5xl mx-auto px-4 py-8 md:py-12 pb-16">
+       
+       <div class="text-center mb-10 md:mb-12">
+           <p class="text-stone-600 leading-relaxed text-base md:text-lg max-w-2xl mx-auto px-4">
+               Cada escolha reflete seus valores ✨
+           </p>
+           <div class="w-20 h-1.5 bg-gradient-to-r from-transparent via-[#6B8E23] to-transparent mx-auto mt-4 rounded-full"></div>
+       </div>
+       
+       <!-- Grid Layout - Mobile optimized -->
+       <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-6">
+         
+         <!-- Maquiagem -->
+         <a href="https://mercadolivre.com/sec/1EWtp7f" target="_blank" rel="noopener noreferrer" 
+            class="product-card group bg-white rounded-3xl p-6 md:p-8 border-2 border-transparent hover:border-[#6B8E23]/30 shadow-md min-h-[160px] flex flex-col items-center justify-center text-center active:scale-95">
+            <div class="icon-circle w-16 h-16 md:w-20 md:h-20 rounded-full bg-gradient-to-br from-pink-100 to-pink-200 flex items-center justify-center mb-4 shadow-sm">
+              <span class="text-3xl md:text-4xl">💄</span>
             </div>
-            <h1 class="font-display text-2xl md:text-3xl font-bold text-stone-800">Seleção Especial</h1>
-        </div>
-    </header>
+            <h3 class="font-display font-bold text-xl md:text-2xl text-stone-900 mb-2 group-hover:text-[#6B8E23] transition-colors">Maquiagem</h3>
+            <p class="text-sm md:text-base text-stone-500 font-medium">Beleza consciente</p>
+         </a>
+         
+         <!-- Cuidados com a Pele -->
+         <a href="https://mercadolivre.com/sec/1mXvpCt" target="_blank" rel="noopener noreferrer"
+            class="product-card group bg-white rounded-3xl p-6 md:p-8 border-2 border-transparent hover:border-rose-300 shadow-md min-h-[160px] flex flex-col items-center justify-center text-center active:scale-95">
+            <div class="icon-circle w-16 h-16 md:w-20 md:h-20 rounded-full bg-gradient-to-br from-rose-100 to-rose-200 flex items-center justify-center mb-4 shadow-sm">
+              <span class="text-3xl md:text-4xl">✨</span>
+            </div>
+            <h3 class="font-display font-bold text-xl md:text-2xl text-stone-900 mb-2 group-hover:text-rose-600 transition-colors">Pele</h3>
+            <p class="text-sm md:text-base text-stone-500 font-medium">Skincare natural</p>
+         </a>
+         
+         <!-- Higiene Pessoal -->
+         <a href="https://mercadolivre.com/sec/2JgNAbV" target="_blank" rel="noopener noreferrer"
+            class="product-card group bg-white rounded-3xl p-6 md:p-8 border-2 border-transparent hover:border-[#6B8E23]/30 shadow-md min-h-[160px] flex flex-col items-center justify-center text-center active:scale-95">
+            <div class="icon-circle w-16 h-16 md:w-20 md:h-20 rounded-full bg-gradient-to-br from-emerald-100 to-emerald-200 flex items-center justify-center mb-4 shadow-sm">
+              <span class="text-3xl md:text-4xl">🧼</span>
+            </div>
+            <h3 class="font-display font-bold text-xl md:text-2xl text-stone-900 mb-2 group-hover:text-[#6B8E23] transition-colors">Higiene</h3>
+            <p class="text-sm md:text-base text-stone-500 font-medium">Dia a dia</p>
+         </a>
+         
+         <!-- Bebês e Crianças -->
+         <a href="https://mercadolivre.com/sec/1wF9SdX" target="_blank" rel="noopener noreferrer"
+            class="product-card group bg-white rounded-3xl p-6 md:p-8 border-2 border-transparent hover:border-amber-300 shadow-md min-h-[160px] flex flex-col items-center justify-center text-center active:scale-95">
+            <div class="icon-circle w-16 h-16 md:w-20 md:h-20 rounded-full bg-gradient-to-br from-amber-100 to-amber-200 flex items-center justify-center mb-4 shadow-sm">
+              <span class="text-3xl md:text-4xl">👶</span>
+            </div>
+            <h3 class="font-display font-bold text-xl md:text-2xl text-stone-900 mb-2 group-hover:text-amber-700 transition-colors">Bebês</h3>
+            <p class="text-sm md:text-base text-stone-500 font-medium">Cuidado delicado</p>
+         </a>
+         
+         <!-- Unhas e Cabelos -->
+         <a href="https://mercadolivre.com/sec/1wxmCFP" target="_blank" rel="noopener noreferrer"
+            class="product-card group bg-white rounded-3xl p-6 md:p-8 border-2 border-transparent hover:border-purple-300 shadow-md min-h-[160px] flex flex-col items-center justify-center text-center active:scale-95">
+            <div class="icon-circle w-16 h-16 md:w-20 md:h-20 rounded-full bg-gradient-to-br from-purple-100 to-purple-200 flex items-center justify-center mb-4 shadow-sm">
+              <span class="text-3xl md:text-4xl">💅</span>
+            </div>
+            <h3 class="font-display font-bold text-xl md:text-2xl text-stone-900 mb-2 group-hover:text-purple-600 transition-colors">Cabelos</h3>
+            <p class="text-sm md:text-base text-stone-500 font-medium">Beleza integral</p>
+         </a>
+         
+         <!-- Casa e Limpeza -->
+         <a href="https://mercadolivre.com/sec/16QXDXt" target="_blank" rel="noopener noreferrer"
+            class="product-card group bg-white rounded-3xl p-6 md:p-8 border-2 border-transparent hover:border-teal-300 shadow-md min-h-[160px] flex flex-col items-center justify-center text-center active:scale-95">
+            <div class="icon-circle w-16 h-16 md:w-20 md:h-20 rounded-full bg-gradient-to-br from-teal-100 to-teal-200 flex items-center justify-center mb-4 shadow-sm">
+              <span class="text-3xl md:text-4xl">🏠</span>
+            </div>
+            <h3 class="font-display font-bold text-xl md:text-2xl text-stone-900 mb-2 group-hover:text-teal-600 transition-colors">Casa</h3>
+            <p class="text-sm md:text-base text-stone-500 font-medium">Lar ecológico</p>
+         </a>
+         
+         <!-- Suplementos -->
+         <a href="https://mercadolivre.com/sec/2nHAJht" target="_blank" rel="noopener noreferrer"
+            class="product-card group bg-white rounded-3xl p-6 md:p-8 border-2 border-transparent hover:border-[#6B8E23]/30 shadow-md min-h-[160px] flex flex-col items-center justify-center text-center active:scale-95">
+            <div class="icon-circle w-16 h-16 md:w-20 md:h-20 rounded-full bg-gradient-to-br from-green-100 to-green-200 flex items-center justify-center mb-4 shadow-sm">
+              <span class="text-3xl md:text-4xl">💊</span>
+            </div>
+            <h3 class="font-display font-bold text-xl md:text-2xl text-stone-900 mb-2 group-hover:text-[#6B8E23] transition-colors">Suplementos</h3>
+            <p class="text-sm md:text-base text-stone-500 font-medium">Saúde</p>
+         </a>
+         
+         <!-- Autocuidado -->
+         <a href="https://mercadolivre.com/sec/2FNmDHd" target="_blank" rel="noopener noreferrer"
+            class="product-card group bg-white rounded-3xl p-6 md:p-8 border-2 border-transparent hover:border-indigo-300 shadow-md min-h-[160px] flex flex-col items-center justify-center text-center active:scale-95">
+            <div class="icon-circle w-16 h-16 md:w-20 md:h-20 rounded-full bg-gradient-to-br from-indigo-100 to-indigo-200 flex items-center justify-center mb-4 shadow-sm">
+              <span class="text-3xl md:text-4xl">🧘</span>
+            </div>
+            <h3 class="font-display font-bold text-xl md:text-2xl text-stone-900 mb-2 group-hover:text-indigo-600 transition-colors">Autocuidado</h3>
+            <p class="text-sm md:text-base text-stone-500 font-medium">Bem-estar</p>
+         </a>
+         
+         <!-- Moda e Acessórios -->
+         <a href="https://mercadolivre.com/sec/2FxVXrR" target="_blank" rel="noopener noreferrer"
+            class="product-card group bg-white rounded-3xl p-6 md:p-8 border-2 border-transparent hover:border-fuchsia-300 shadow-md min-h-[160px] flex flex-col items-center justify-center text-center active:scale-95">
+            <div class="icon-circle w-16 h-16 md:w-20 md:h-20 rounded-full bg-gradient-to-br from-fuchsia-100 to-fuchsia-200 flex items-center justify-center mb-4 shadow-sm">
+              <span class="text-3xl md:text-4xl">👗</span>
+            </div>
+            <h3 class="font-display font-bold text-xl md:text-2xl text-stone-900 mb-2 group-hover:text-fuchsia-600 transition-colors">Moda</h3>
+            <p class="text-sm md:text-base text-stone-500 font-medium">Estilo ético</p>
+         </a>
 
-    <main class="w-full max-w-4xl mx-auto px-4 py-8 md:py-12 flex-1">
-        
-        <div class="text-center mb-10 max-w-lg mx-auto">
-            <p class="text-stone-500 leading-relaxed text-lg">
-                Produtos veganos e cruelty-free selecionados com carinho para o seu autocuidado consciente.
-            </p>
-            <div class="w-16 h-1 bg-[#9CAF88] mx-auto mt-6 rounded-full opacity-60"></div>
-        </div>
-        
-        <!-- Grid Layout -->
-        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-6">
-          
-          <!-- Maquiagem -->
-          <a href="https://mercadolivre.com/sec/1EWtp7f" target="_blank" rel="noopener noreferrer" 
-             class="card-hover group bg-white rounded-2xl p-6 border border-stone-100 shadow-sm hover:border-[#D4C5B9] flex flex-col items-center text-center">
-             <div class="w-14 h-14 rounded-full bg-[#FAF5F0] flex items-center justify-center mb-4 text-2xl group-hover:scale-110 transition-transform duration-300">
-               💄
-             </div>
-             <h3 class="font-display font-semibold text-lg text-stone-800 mb-1 group-hover:text-[#6B8E23] transition-colors">Maquiagem</h3>
-             <p class="text-xs text-stone-400">Beleza consciente</p>
-          </a>
-          
-          <!-- Cuidados com a Pele -->
-          <a href="https://mercadolivre.com/sec/1mXvpCt" target="_blank" rel="noopener noreferrer"
-             class="card-hover group bg-white rounded-2xl p-6 border border-stone-100 shadow-sm hover:border-[#D4a5a5] flex flex-col items-center text-center">
-             <div class="w-14 h-14 rounded-full bg-[#FFF0F0] flex items-center justify-center mb-4 text-2xl group-hover:scale-110 transition-transform duration-300">
-               ✨
-             </div>
-             <h3 class="font-display font-semibold text-lg text-stone-800 mb-1 group-hover:text-[#b46464] transition-colors">Cuidados com a Pele</h3>
-             <p class="text-xs text-stone-400">Skincare natural</p>
-          </a>
-          
-          <!-- Higiene Pessoal -->
-          <a href="https://mercadolivre.com/sec/2JgNAbV" target="_blank" rel="noopener noreferrer"
-             class="card-hover group bg-white rounded-2xl p-6 border border-stone-100 shadow-sm hover:border-[#9CAF88] flex flex-col items-center text-center">
-             <div class="w-14 h-14 rounded-full bg-[#F0F5eb] flex items-center justify-center mb-4 text-2xl group-hover:scale-110 transition-transform duration-300">
-               🧼
-             </div>
-             <h3 class="font-display font-semibold text-lg text-stone-800 mb-1 group-hover:text-[#6B8E23] transition-colors">Higiene Pessoal</h3>
-             <p class="text-xs text-stone-400">Dia a dia sustentável</p>
-          </a>
-          
-          <!-- Bebês e Crianças -->
-          <a href="https://mercadolivre.com/sec/1wF9SdX" target="_blank" rel="noopener noreferrer"
-             class="card-hover group bg-white rounded-2xl p-6 border border-stone-100 shadow-sm hover:border-[#D4C5B9] flex flex-col items-center text-center">
-             <div class="w-14 h-14 rounded-full bg-[#FAF5F0] flex items-center justify-center mb-4 text-2xl group-hover:scale-110 transition-transform duration-300">
-               👶
-             </div>
-             <h3 class="font-display font-semibold text-lg text-stone-800 mb-1 group-hover:text-[#8B7355] transition-colors">Bebês e Crianças</h3>
-             <p class="text-xs text-stone-400">Cuidado delicado</p>
-          </a>
-          
-          <!-- Unhas e Cabelos -->
-          <a href="https://mercadolivre.com/sec/1wxmCFP" target="_blank" rel="noopener noreferrer"
-             class="card-hover group bg-white rounded-2xl p-6 border border-stone-100 shadow-sm hover:border-[#D4C5B9] flex flex-col items-center text-center">
-             <div class="w-14 h-14 rounded-full bg-[#FAF5F0] flex items-center justify-center mb-4 text-2xl group-hover:scale-110 transition-transform duration-300">
-               💅
-             </div>
-             <h3 class="font-display font-semibold text-lg text-stone-800 mb-1 group-hover:text-[#8B7355] transition-colors">Unhas e Cabelos</h3>
-             <p class="text-xs text-stone-400">Beleza integral</p>
-          </a>
-          
-          <!-- Casa e Limpeza -->
-          <a href="https://mercadolivre.com/sec/16QXDXt" target="_blank" rel="noopener noreferrer"
-             class="card-hover group bg-white rounded-2xl p-6 border border-stone-100 shadow-sm hover:border-[#9CAF88] flex flex-col items-center text-center">
-             <div class="w-14 h-14 rounded-full bg-[#F0F5eb] flex items-center justify-center mb-4 text-2xl group-hover:scale-110 transition-transform duration-300">
-               🏠
-             </div>
-             <h3 class="font-display font-semibold text-lg text-stone-800 mb-1 group-hover:text-[#6B8E23] transition-colors">Casa e Limpeza</h3>
-             <p class="text-xs text-stone-400">Lar ecológico</p>
-          </a>
-          
-          <!-- Suplementos -->
-          <a href="https://mercadolivre.com/sec/2nHAJht" target="_blank" rel="noopener noreferrer"
-             class="card-hover group bg-white rounded-2xl p-6 border border-stone-100 shadow-sm hover:border-[#8B7355] flex flex-col items-center text-center">
-             <div class="w-14 h-14 rounded-full bg-[#F5F0EA] flex items-center justify-center mb-4 text-2xl group-hover:scale-110 transition-transform duration-300">
-               💊
-             </div>
-             <h3 class="font-display font-semibold text-lg text-stone-800 mb-1 group-hover:text-[#8B7355] transition-colors">Suplementos</h3>
-             <p class="text-xs text-stone-400">Nutrição e saúde</p>
-          </a>
-          
-          <!-- Autocuidado -->
-          <a href="https://mercadolivre.com/sec/2FNmDHd" target="_blank" rel="noopener noreferrer"
-             class="card-hover group bg-white rounded-2xl p-6 border border-stone-100 shadow-sm hover:border-[#D4a5a5] flex flex-col items-center text-center">
-             <div class="w-14 h-14 rounded-full bg-[#FFF0F0] flex items-center justify-center mb-4 text-2xl group-hover:scale-110 transition-transform duration-300">
-               🧘
-             </div>
-             <h3 class="font-display font-semibold text-lg text-stone-800 mb-1 group-hover:text-[#b46464] transition-colors">Autocuidado</h3>
-             <p class="text-xs text-stone-400">Bem-estar</p>
-          </a>
-          
-          <!-- Moda e Acessórios -->
-          <a href="https://mercadolivre.com/sec/2FxVXrR" target="_blank" rel="noopener noreferrer"
-             class="card-hover group bg-white rounded-2xl p-6 border border-stone-100 shadow-sm hover:border-[#D4C5B9] flex flex-col items-center text-center">
-             <div class="w-14 h-14 rounded-full bg-[#FAF5F0] flex items-center justify-center mb-4 text-2xl group-hover:scale-110 transition-transform duration-300">
-               👗
-             </div>
-             <h3 class="font-display font-semibold text-lg text-stone-800 mb-1 group-hover:text-[#8B7355] transition-colors">Moda e Acessórios</h3>
-             <p class="text-xs text-stone-400">Estilo ético</p>
-          </a>
+       </div>
+       
+       <!-- CTA Section -->
+       <div class="mt-12 md:mt-16 text-center bg-gradient-to-br from-[#6B8E23] to-[#5a7a1e] rounded-3xl p-8 md:p-10 shadow-xl">
+            <div class="max-w-lg mx-auto">
+                <h2 class="font-display text-2xl md:text-3xl font-bold text-white mb-3">
+                    Dúvidas sobre sua saúde?
+                </h2>
+                <p class="text-emerald-50 mb-6 text-base md:text-lg">
+                    Agende uma consulta com especialista
+                </p>
+                <a href="https://www.instagram.com/hematoveg/" target="_blank" rel="noopener noreferrer" 
+                   class="inline-flex items-center gap-3 text-base md:text-lg font-bold text-[#6B8E23] bg-white hover:bg-emerald-50 transition-all px-8 py-4 rounded-full shadow-lg hover:shadow-xl hover:-translate-y-1 active:translate-y-0">
+                    <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24">
+                        <path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/>
+                    </svg>
+                    <span>@hematoveg</span>
+                </a>
+                <div class="mt-6 text-emerald-100 text-sm">
+                  <p class="font-semibold">Dra. Marina Steffli</p>
+                  <p class="text-xs mt-1 opacity-90">CRM 22884 • RQE 18744</p>
+                </div>
+            </div>
+       </div>
 
-        </div>
-        
-        <!-- Bottom CTA -->
-        <div class="mt-16 text-center">
-             <a href="https://www.instagram.com/hematoveg/" target="_blank" rel="noopener noreferrer" 
-                class="inline-flex items-center gap-2 text-sm font-semibold text-[#6B8E23] hover:text-[#5a7a1e] transition-colors px-6 py-3 rounded-full bg-white shadow-sm border border-[#6B8E23]/20 hover:bg-[#FAF8F5]">
-                 <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
-                     <path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/>
-                 </svg>
-                 Dra. Marina Steffli
-             </a>
-             <div class="mt-8 text-xs text-stone-400">
-               © 2024 Hematoveg • CRM 22884 • RQE 18744
-             </div>
-        </div>
-
-    </main>
-   </div>
+   </main>
  </body>
 </html>
