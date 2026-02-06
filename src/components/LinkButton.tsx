@@ -16,11 +16,25 @@ const LinkButton = ({ href, children, icon, className, variant = "primary" }: Li
       rel="noopener noreferrer"
       className={cn(
         "group flex items-center justify-center gap-3 w-full py-4 px-6 rounded-xl font-medium transition-all duration-300",
-        variant === "primary" && "bg-primary text-primary-foreground shadow-button hover:shadow-lg hover:scale-[1.02] active:scale-[0.98]",
+        variant === "primary" && "text-white shadow-lg hover:shadow-xl hover:scale-[1.02] active:scale-[0.98]",
         variant === "secondary" && "bg-card text-card-foreground border border-border shadow-soft hover:bg-secondary hover:scale-[1.02] active:scale-[0.98]",
-        variant === "nude" && "bg-nude text-nude-foreground shadow-soft hover:bg-nude-dark hover:scale-[1.02] active:scale-[0.98]",
+        variant === "nude" && "shadow-soft hover:scale-[1.02] active:scale-[0.98]",
         className
       )}
+      style={
+        variant === "primary"
+          ? {
+              background: "linear-gradient(135deg, hsl(85, 50%, 38%) 0%, hsl(85, 40%, 30%) 100%)",
+              boxShadow: "0 4px 18px -4px hsla(85, 50%, 30%, 0.5)",
+            }
+          : variant === "nude"
+          ? {
+              background: "linear-gradient(135deg, hsl(35, 35%, 75%) 0%, hsl(30, 30%, 68%) 100%)",
+              color: "hsl(30, 25%, 20%)",
+              boxShadow: "0 4px 14px -4px hsla(35, 30%, 50%, 0.4)",
+            }
+          : undefined
+      }
     >
       {icon && <span className="transition-transform duration-300 group-hover:scale-110">{icon}</span>}
       <span>{children}</span>
