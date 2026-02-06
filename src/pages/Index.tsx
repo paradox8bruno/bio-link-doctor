@@ -1,6 +1,13 @@
 import DoctorCard from "@/components/DoctorCard";
 import LinkButton from "@/components/LinkButton";
-import { Calendar, Leaf, ClipboardCheck, BookOpen, Gift, Stethoscope } from "lucide-react";
+import {
+  Calendar,
+  Leaf,
+  ClipboardCheck,
+  BookOpen,
+  Gift,
+  Stethoscope,
+} from "lucide-react";
 import { cn } from "@/lib/utils";
 import leavesBackground from "@/assets/leaves-background.png";
 
@@ -11,7 +18,13 @@ const Index = () => {
       style={{ backgroundImage: `url(${leavesBackground})` }}
     >
       {/* Overlay escuro para garantir contraste */}
-      <div className="min-h-screen w-full flex flex-col items-center" style={{ background: 'linear-gradient(180deg, rgba(15,30,15,0.55) 0%, rgba(20,35,20,0.75) 50%, rgba(10,20,10,0.85) 100%)' }}>
+      <div
+        className="min-h-screen w-full flex flex-col items-center"
+        style={{
+          background:
+            "linear-gradient(180deg, rgba(15,30,15,0.55) 0%, rgba(20,35,20,0.75) 50%, rgba(10,20,10,0.85) 100%)",
+        }}
+      >
         <div className="w-full max-w-sm flex flex-col items-center">
           {/* Doctor Photo with Logo */}
           <DoctorCard />
@@ -23,8 +36,10 @@ const Index = () => {
               className="text-center animate-fade-in-up px-6 py-5 rounded-2xl border border-white/15"
               style={{
                 animationDelay: "0.4s",
-                background: "linear-gradient(145deg, hsla(75, 35%, 28%, 0.95) 0%, hsla(45, 30%, 40%, 0.92) 100%)",
-                boxShadow: "0 8px 32px -8px rgba(0,0,0,0.4), inset 0 1px 0 rgba(255,255,255,0.15)",
+                background:
+                  "linear-gradient(145deg, hsla(75, 35%, 28%, 0.95) 0%, hsla(45, 30%, 40%, 0.92) 100%)",
+                boxShadow:
+                  "0 8px 32px -8px rgba(0,0,0,0.4), inset 0 1px 0 rgba(255,255,255,0.15)",
               }}
             >
               <p className="flex items-start justify-center gap-2.5 text-white text-lg font-medium leading-relaxed drop-shadow-sm">
@@ -42,22 +57,23 @@ const Index = () => {
               className="text-center text-sm leading-relaxed animate-fade-in-up px-2 font-medium drop-shadow-md"
               style={{ animationDelay: "0.5s", color: "hsl(50, 40%, 90%)" }}
             >
-              Checklist médico para identificar sinais de anemia e ferro baixo em
-              vegetarianas e veganas.
+              Checklist médico para identificar sinais de anemia e ferro baixo
+              em vegetarianas e veganas.
             </p>
 
-            {/* CTA principal – Isca digital */}
             <div
               className="w-full animate-fade-in-up"
               style={{ animationDelay: "0.6s" }}
             >
               <LinkButton
-                href="https://hematoveg.my.canva.site/"
+                href="/ebook"
                 icon={<ClipboardCheck className="w-5 h-5" />}
                 variant="primary"
               >
                 <div className="flex flex-col items-center">
-                  <span className="font-semibold">Acessar checklist + mini-guia gratuito</span>
+                  <span className="font-semibold">
+                    Acessar checklist + mini-guia gratuito
+                  </span>
                 </div>
               </LinkButton>
             </div>
@@ -89,7 +105,7 @@ const Index = () => {
                   icon={<BookOpen className="w-4 h-4" />}
                   text="Mini-guia explicativo sobre anemia e falta de ferro"
                 />
-              <BenefitItem
+                <BenefitItem
                   icon={<Gift className="w-4 h-4" />}
                   text="Bônus: Curadoria de produtos veganos e cruelty-free"
                   bold
@@ -97,7 +113,10 @@ const Index = () => {
               </div>
             </div>
 
-            <p className="text-center text-sm leading-relaxed italic mt-4 px-2" style={{ color: "hsl(45, 25%, 78%)" }}>
+            <p
+              className="text-center text-sm leading-relaxed italic mt-4 px-2"
+              style={{ color: "hsl(45, 25%, 78%)" }}
+            >
               Material elaborado por médica hematologista, com foco em saúde do
               sangue sem abrir mão dos seus valores.
             </p>
@@ -110,12 +129,30 @@ const Index = () => {
           >
             {/* Separador visual */}
             <div className="flex items-center gap-3 mb-4">
-              <div className="flex-1 h-px" style={{ background: "linear-gradient(to right, transparent, hsl(45, 25%, 65%), transparent)" }} />
-              <Stethoscope className="w-4 h-4" style={{ color: "hsl(45, 25%, 70%)" }} />
-              <div className="flex-1 h-px" style={{ background: "linear-gradient(to right, transparent, hsl(45, 25%, 65%), transparent)" }} />
+              <div
+                className="flex-1 h-px"
+                style={{
+                  background:
+                    "linear-gradient(to right, transparent, hsl(45, 25%, 65%), transparent)",
+                }}
+              />
+              <Stethoscope
+                className="w-4 h-4"
+                style={{ color: "hsl(45, 25%, 70%)" }}
+              />
+              <div
+                className="flex-1 h-px"
+                style={{
+                  background:
+                    "linear-gradient(to right, transparent, hsl(45, 25%, 65%), transparent)",
+                }}
+              />
             </div>
 
-            <p className="text-center text-sm mb-3 font-medium" style={{ color: "hsl(45, 20%, 80%)" }}>
+            <p
+              className="text-center text-sm mb-3 font-medium"
+              style={{ color: "hsl(45, 20%, 80%)" }}
+            >
               Já decidiu que precisa de avaliação médica?
             </p>
 
@@ -138,7 +175,10 @@ const Index = () => {
             className="w-full px-4 pb-8 animate-fade-in"
             style={{ animationDelay: "1s" }}
           >
-            <p className="text-xs text-center leading-relaxed" style={{ color: "hsl(45, 15%, 65%)" }}>
+            <p
+              className="text-xs text-center leading-relaxed"
+              style={{ color: "hsl(45, 15%, 65%)" }}
+            >
               Dra. Marina Steffli – Médica hematologista
               <br />
               CRM-SC 22884 | RQE 18477
@@ -159,8 +199,17 @@ interface BenefitItemProps {
 
 const BenefitItem = ({ icon, text, bold }: BenefitItemProps) => (
   <div className="flex items-start gap-3">
-    <span className="mt-0.5 flex-shrink-0" style={{ color: "hsl(120, 45%, 65%)" }}>{icon}</span>
-    <span className={cn("text-white text-sm leading-snug", bold && "font-semibold")}>{text}</span>
+    <span
+      className="mt-0.5 flex-shrink-0"
+      style={{ color: "hsl(120, 45%, 65%)" }}
+    >
+      {icon}
+    </span>
+    <span
+      className={cn("text-white text-sm leading-snug", bold && "font-semibold")}
+    >
+      {text}
+    </span>
   </div>
 );
 
