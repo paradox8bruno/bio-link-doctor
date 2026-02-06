@@ -3,7 +3,7 @@
  <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Produtos Selecionados</title>
+  <title>Produtos Selecionados - Hematoveg</title>
   <script src="https://cdn.tailwindcss.com"></script>
   <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700&amp;family=Lato:wght@300;400;500;600;700&amp;display=swap" rel="stylesheet">
   <style>
@@ -22,113 +22,165 @@
     .font-display { font-family: 'Playfair Display', serif; }
     .font-body { font-family: 'Lato', sans-serif; }
     
-    .page {
-      /* aspect-ratio removed for scrolling standalone page */
-      max-width: 42rem; /* max-w-2xl */
-      width: 100%;
-      background: white;
-      box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.15);
-      border-radius: 0.5rem; /* rounded-lg */
-      margin: 0 auto;
+    .card-hover {
+        transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
     }
     
-    .checklist-item {
-      transition: all 0.2s ease;
+    .card-hover:hover {
+        transform: translateY(-4px);
+        box-shadow: 0 10px 25px -5px rgba(107, 142, 35, 0.15), 0 8px 10px -6px rgba(107, 142, 35, 0.1);
     }
-    
-    .checklist-item:hover {
-      background: rgba(156, 175, 136, 0.1);
+
+    .glass-header {
+        background: rgba(255, 255, 255, 0.8);
+        backdrop-filter: blur(8px);
     }
   </style>
  </head>
- <body class="h-full font-body bg-gradient-to-br from-stone-100 to-stone-200 overflow-auto">
-   <div class="w-full min-h-full flex flex-col items-center py-4 px-3 md:py-8 md:px-6">
+ <body class="h-full font-body bg-[#FAF8F5] text-stone-700">
+   
+   <!-- Decorative Background Elements -->
+   <div class="fixed inset-0 pointer-events-none overflow-hidden z-0">
+     <div class="absolute top-0 right-0 w-64 h-64 bg-green-100 rounded-full mix-blend-multiply filter blur-3xl opacity-30 transform translate-x-1/2 -translate-y-1/2"></div>
+     <div class="absolute bottom-0 left-0 w-64 h-64 bg-stone-200 rounded-full mix-blend-multiply filter blur-3xl opacity-30 transform -translate-x-1/2 translate-y-1/2"></div>
      
-    <div class="page p-6 md:p-8 overflow-y-auto" style="background: #FAF8F5;">
-      <div class="max-w-lg mx-auto">
-        <!-- Header -->
-        <div class="text-center mb-4">
-          <p class="text-xs uppercase tracking-[0.15em] mb-2" style="color: #9CAF88;">Seleção especial</p>
-          <h2 class="font-display text-xl md:text-2xl font-semibold mb-2" style="color: #3d3d3d;">Categorias de Produtos</h2>
-          <p class="text-xs mb-3" style="color: #666;">Escolha a categoria que você procura</p>
+     <!-- Leaf SVG Decoration -->
+     <svg class="absolute top-10 left-5 w-20 h-20 opacity-5" viewBox="0 0 100 100" fill="#6B8E23">
+         <path d="M50 10 Q60 30 50 50 Q40 30 50 10" />
+     </svg>
+   </div>
+
+   <div class="relative z-10 w-full min-h-full flex flex-col items-center">
+     
+    <!-- Header -->
+    <header class="w-full glass-header sticky top-0 z-50 border-b border-stone-100/50 shadow-sm">
+        <div class="max-w-4xl mx-auto px-6 py-4 flex flex-col items-center">
+            <div class="flex items-center gap-2 mb-1">
+                <span class="text-xs font-semibold tracking-widest text-[#6B8E23] uppercase">Hematoveg</span>
+            </div>
+            <h1 class="font-display text-2xl md:text-3xl font-bold text-stone-800">Seleção Especial</h1>
+        </div>
+    </header>
+
+    <main class="w-full max-w-4xl mx-auto px-4 py-8 md:py-12 flex-1">
+        
+        <div class="text-center mb-10 max-w-lg mx-auto">
+            <p class="text-stone-500 leading-relaxed text-lg">
+                Produtos veganos e cruelty-free selecionados com carinho para o seu autocuidado consciente.
+            </p>
+            <div class="w-16 h-1 bg-[#9CAF88] mx-auto mt-6 rounded-full opacity-60"></div>
         </div>
         
-        <!-- Product Categories -->
-        <div class="space-y-2">
-          <a href="https://mercadolivre.com/sec/1EWtp7f" 
-             target="_blank" 
-             rel="noopener noreferrer"
-             class="block p-3 rounded-xl text-center font-semibold text-sm transition-all hover:scale-105" 
-             style="background: linear-gradient(135deg, #D4C5B9 0%, #c4b5a9 100%); color: #3d3d3d; box-shadow: 0 2px 8px rgba(212, 197, 185, 0.4);">
-            💄 MAQUIAGEM
+        <!-- Grid Layout -->
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-6">
+          
+          <!-- Maquiagem -->
+          <a href="https://mercadolivre.com/sec/1EWtp7f" target="_blank" rel="noopener noreferrer" 
+             class="card-hover group bg-white rounded-2xl p-6 border border-stone-100 shadow-sm hover:border-[#D4C5B9] flex flex-col items-center text-center">
+             <div class="w-14 h-14 rounded-full bg-[#FAF5F0] flex items-center justify-center mb-4 text-2xl group-hover:scale-110 transition-transform duration-300">
+               💄
+             </div>
+             <h3 class="font-display font-semibold text-lg text-stone-800 mb-1 group-hover:text-[#6B8E23] transition-colors">Maquiagem</h3>
+             <p class="text-xs text-stone-400">Beleza consciente</p>
           </a>
           
-          <a href="https://mercadolivre.com/sec/1mXvpCt" 
-             target="_blank" 
-             rel="noopener noreferrer"
-             class="block p-3 rounded-xl text-center font-semibold text-sm transition-all hover:scale-105" 
-             style="background: linear-gradient(135deg, #d4a5a5 0%, #c49090 100%); color: #3d3d3d; box-shadow: 0 2px 8px rgba(212, 165, 165, 0.4);">
-            ✨ CUIDADOS COM A PELE
+          <!-- Cuidados com a Pele -->
+          <a href="https://mercadolivre.com/sec/1mXvpCt" target="_blank" rel="noopener noreferrer"
+             class="card-hover group bg-white rounded-2xl p-6 border border-stone-100 shadow-sm hover:border-[#D4a5a5] flex flex-col items-center text-center">
+             <div class="w-14 h-14 rounded-full bg-[#FFF0F0] flex items-center justify-center mb-4 text-2xl group-hover:scale-110 transition-transform duration-300">
+               ✨
+             </div>
+             <h3 class="font-display font-semibold text-lg text-stone-800 mb-1 group-hover:text-[#b46464] transition-colors">Cuidados com a Pele</h3>
+             <p class="text-xs text-stone-400">Skincare natural</p>
           </a>
           
-          <a href="https://mercadolivre.com/sec/2JgNAbV" 
-             target="_blank" 
-             rel="noopener noreferrer"
-             class="block p-3 rounded-xl text-center font-semibold text-sm transition-all hover:scale-105" 
-             style="background: linear-gradient(135deg, #D4C5B9 0%, #c4b5a9 100%); color: #3d3d3d; box-shadow: 0 2px 8px rgba(212, 197, 185, 0.4);">
-            🧼 HIGIENE PESSOAL
+          <!-- Higiene Pessoal -->
+          <a href="https://mercadolivre.com/sec/2JgNAbV" target="_blank" rel="noopener noreferrer"
+             class="card-hover group bg-white rounded-2xl p-6 border border-stone-100 shadow-sm hover:border-[#9CAF88] flex flex-col items-center text-center">
+             <div class="w-14 h-14 rounded-full bg-[#F0F5eb] flex items-center justify-center mb-4 text-2xl group-hover:scale-110 transition-transform duration-300">
+               🧼
+             </div>
+             <h3 class="font-display font-semibold text-lg text-stone-800 mb-1 group-hover:text-[#6B8E23] transition-colors">Higiene Pessoal</h3>
+             <p class="text-xs text-stone-400">Dia a dia sustentável</p>
           </a>
           
-          <a href="https://mercadolivre.com/sec/1wF9SdX" 
-             target="_blank" 
-             rel="noopener noreferrer"
-             class="block p-3 rounded-xl text-center font-semibold text-sm transition-all hover:scale-105" 
-             style="background: linear-gradient(135deg, #d4a5a5 0%, #c49090 100%); color: #3d3d3d; box-shadow: 0 2px 8px rgba(212, 165, 165, 0.4);">
-            👶 BEBÊS E CRIANÇAS
+          <!-- Bebês e Crianças -->
+          <a href="https://mercadolivre.com/sec/1wF9SdX" target="_blank" rel="noopener noreferrer"
+             class="card-hover group bg-white rounded-2xl p-6 border border-stone-100 shadow-sm hover:border-[#D4C5B9] flex flex-col items-center text-center">
+             <div class="w-14 h-14 rounded-full bg-[#FAF5F0] flex items-center justify-center mb-4 text-2xl group-hover:scale-110 transition-transform duration-300">
+               👶
+             </div>
+             <h3 class="font-display font-semibold text-lg text-stone-800 mb-1 group-hover:text-[#8B7355] transition-colors">Bebês e Crianças</h3>
+             <p class="text-xs text-stone-400">Cuidado delicado</p>
           </a>
           
-          <a href="https://mercadolivre.com/sec/1wxmCFP" 
-             target="_blank" 
-             rel="noopener noreferrer"
-             class="block p-3 rounded-xl text-center font-semibold text-sm transition-all hover:scale-105" 
-             style="background: linear-gradient(135deg, #D4C5B9 0%, #c4b5a9 100%); color: #3d3d3d; box-shadow: 0 2px 8px rgba(212, 197, 185, 0.4);">
-            💅 UNHAS E CABELOS
+          <!-- Unhas e Cabelos -->
+          <a href="https://mercadolivre.com/sec/1wxmCFP" target="_blank" rel="noopener noreferrer"
+             class="card-hover group bg-white rounded-2xl p-6 border border-stone-100 shadow-sm hover:border-[#D4C5B9] flex flex-col items-center text-center">
+             <div class="w-14 h-14 rounded-full bg-[#FAF5F0] flex items-center justify-center mb-4 text-2xl group-hover:scale-110 transition-transform duration-300">
+               💅
+             </div>
+             <h3 class="font-display font-semibold text-lg text-stone-800 mb-1 group-hover:text-[#8B7355] transition-colors">Unhas e Cabelos</h3>
+             <p class="text-xs text-stone-400">Beleza integral</p>
           </a>
           
-          <a href="https://mercadolivre.com/sec/16QXDXt" 
-             target="_blank" 
-             rel="noopener noreferrer"
-             class="block p-3 rounded-xl text-center font-semibold text-sm transition-all hover:scale-105" 
-             style="background: linear-gradient(135deg, #d4a5a5 0%, #c49090 100%); color: #3d3d3d; box-shadow: 0 2px 8px rgba(212, 165, 165, 0.4);">
-            🏠 CASA E LIMPEZA
+          <!-- Casa e Limpeza -->
+          <a href="https://mercadolivre.com/sec/16QXDXt" target="_blank" rel="noopener noreferrer"
+             class="card-hover group bg-white rounded-2xl p-6 border border-stone-100 shadow-sm hover:border-[#9CAF88] flex flex-col items-center text-center">
+             <div class="w-14 h-14 rounded-full bg-[#F0F5eb] flex items-center justify-center mb-4 text-2xl group-hover:scale-110 transition-transform duration-300">
+               🏠
+             </div>
+             <h3 class="font-display font-semibold text-lg text-stone-800 mb-1 group-hover:text-[#6B8E23] transition-colors">Casa e Limpeza</h3>
+             <p class="text-xs text-stone-400">Lar ecológico</p>
           </a>
           
-          <a href="https://mercadolivre.com/sec/2nHAJht" 
-             target="_blank" 
-             rel="noopener noreferrer"
-             class="block p-3 rounded-xl text-center font-semibold text-sm transition-all hover:scale-105" 
-             style="background: linear-gradient(135deg, #D4C5B9 0%, #c4b5a9 100%); color: #3d3d3d; box-shadow: 0 2px 8px rgba(212, 197, 185, 0.4);">
-            💊 SUPLEMENTOS E ALIMENTAÇÃO
+          <!-- Suplementos -->
+          <a href="https://mercadolivre.com/sec/2nHAJht" target="_blank" rel="noopener noreferrer"
+             class="card-hover group bg-white rounded-2xl p-6 border border-stone-100 shadow-sm hover:border-[#8B7355] flex flex-col items-center text-center">
+             <div class="w-14 h-14 rounded-full bg-[#F5F0EA] flex items-center justify-center mb-4 text-2xl group-hover:scale-110 transition-transform duration-300">
+               💊
+             </div>
+             <h3 class="font-display font-semibold text-lg text-stone-800 mb-1 group-hover:text-[#8B7355] transition-colors">Suplementos</h3>
+             <p class="text-xs text-stone-400">Nutrição e saúde</p>
           </a>
           
-          <a href="https://mercadolivre.com/sec/2FNmDHd" 
-             target="_blank" 
-             rel="noopener noreferrer"
-             class="block p-3 rounded-xl text-center font-semibold text-sm transition-all hover:scale-105" 
-             style="background: linear-gradient(135deg, #d4a5a5 0%, #c49090 100%); color: #3d3d3d; box-shadow: 0 2px 8px rgba(212, 165, 165, 0.4);">
-            🧘 AUTOCUIDADO
+          <!-- Autocuidado -->
+          <a href="https://mercadolivre.com/sec/2FNmDHd" target="_blank" rel="noopener noreferrer"
+             class="card-hover group bg-white rounded-2xl p-6 border border-stone-100 shadow-sm hover:border-[#D4a5a5] flex flex-col items-center text-center">
+             <div class="w-14 h-14 rounded-full bg-[#FFF0F0] flex items-center justify-center mb-4 text-2xl group-hover:scale-110 transition-transform duration-300">
+               🧘
+             </div>
+             <h3 class="font-display font-semibold text-lg text-stone-800 mb-1 group-hover:text-[#b46464] transition-colors">Autocuidado</h3>
+             <p class="text-xs text-stone-400">Bem-estar</p>
           </a>
           
-          <a href="https://mercadolivre.com/sec/2FxVXrR" 
-             target="_blank" 
-             rel="noopener noreferrer"
-             class="block p-3 rounded-xl text-center font-semibold text-sm transition-all hover:scale-105" 
-             style="background: linear-gradient(135deg, #D4C5B9 0%, #c4b5a9 100%); color: #3d3d3d; box-shadow: 0 2px 8px rgba(212, 197, 185, 0.4);">
-            👗 MODA E ACESSÓRIOS
+          <!-- Moda e Acessórios -->
+          <a href="https://mercadolivre.com/sec/2FxVXrR" target="_blank" rel="noopener noreferrer"
+             class="card-hover group bg-white rounded-2xl p-6 border border-stone-100 shadow-sm hover:border-[#D4C5B9] flex flex-col items-center text-center">
+             <div class="w-14 h-14 rounded-full bg-[#FAF5F0] flex items-center justify-center mb-4 text-2xl group-hover:scale-110 transition-transform duration-300">
+               👗
+             </div>
+             <h3 class="font-display font-semibold text-lg text-stone-800 mb-1 group-hover:text-[#8B7355] transition-colors">Moda e Acessórios</h3>
+             <p class="text-xs text-stone-400">Estilo ético</p>
           </a>
+
         </div>
-      </div>
-    </div>
+        
+        <!-- Bottom CTA -->
+        <div class="mt-16 text-center">
+             <a href="https://www.instagram.com/hematoveg/" target="_blank" rel="noopener noreferrer" 
+                class="inline-flex items-center gap-2 text-sm font-semibold text-[#6B8E23] hover:text-[#5a7a1e] transition-colors px-6 py-3 rounded-full bg-white shadow-sm border border-[#6B8E23]/20 hover:bg-[#FAF8F5]">
+                 <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
+                     <path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/>
+                 </svg>
+                 Dra. Marina Steffli
+             </a>
+             <div class="mt-8 text-xs text-stone-400">
+               © 2024 Hematoveg • CRM 22884 • RQE 18744
+             </div>
+        </div>
+
+    </main>
    </div>
  </body>
 </html>
