@@ -1,0 +1,1708 @@
+<!doctype html>
+<html lang="pt-BR" class="h-full">
+ <head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Guia Deficiência de Ferro para Vegetarianas</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700&amp;family=Lato:wght@300;400;500;600;700&amp;display=swap" rel="stylesheet">
+  <style>
+    body {
+      box-sizing: border-box;
+    }
+    
+    :root {
+      --olive: #6B8E23;
+      --sage: #9CAF88;
+      --beige: #D4C5B9;
+      --chocolate: #8B7355;
+      --cream: #FAF8F5;
+    }
+    
+    .font-display { font-family: 'Playfair Display', serif; }
+    .font-body { font-family: 'Lato', sans-serif; }
+    
+    .page {
+      aspect-ratio: 210 / 297;
+      max-height: 100%;
+      background: white;
+      box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.15);
+      overflow: hidden;
+    }
+    
+    .checkbox-custom {
+      appearance: none;
+      width: 20px;
+      height: 20px;
+      border: 2px solid var(--sage);
+      border-radius: 4px;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+    
+    .checkbox-custom:checked {
+      background: var(--olive);
+      border-color: var(--olive);
+    }
+    
+    .checkbox-custom:checked::after {
+      content: '✓';
+      color: white;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 14px;
+    }
+    
+    .btn-cta {
+      background: linear-gradient(135deg, var(--olive) 0%, #5a7a1e 100%);
+      transition: all 0.3s ease;
+    }
+    
+    .btn-cta:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 10px 25px rgba(107, 142, 35, 0.3);
+    }
+    
+    .leaf-pattern {
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100' opacity='0.05'%3E%3Cpath d='M50 10 Q60 30 50 50 Q40 30 50 10' fill='%236B8E23'/%3E%3C/svg%3E");
+    }
+    
+    .page-indicator {
+      transition: all 0.3s ease;
+    }
+    
+    .page-indicator.active {
+      background: var(--olive);
+      transform: scale(1.3);
+    }
+    
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(10px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    
+    .animate-fade {
+      animation: fadeIn 0.5s ease-out forwards;
+    }
+    
+    .progress-ring {
+      transform: rotate(-90deg);
+    }
+    
+    .checklist-item {
+      transition: all 0.2s ease;
+    }
+    
+    .checklist-item:hover {
+      background: rgba(156, 175, 136, 0.1);
+    }
+  </style>
+  <style>@view-transition { navigation: auto; }</style>
+  <script src="/_sdk/data_sdk.js" type="text/javascript"></script>
+  <script src="/_sdk/element_sdk.js" type="text/javascript"></script>
+ </head>
+ <body class="h-full font-body bg-gradient-to-br from-stone-100 to-stone-200 overflow-auto">
+  <div id="app" class="w-full min-h-full flex flex-col items-center py-4 px-3 md:py-8 md:px-6"><!-- Navigation Header -->
+   <div class="w-full max-w-2xl mb-4 flex items-center justify-between px-2"><button id="prevBtn" class="flex items-center gap-2 text-sm font-medium text-stone-500 hover:text-olive transition-colors disabled:opacity-30 disabled:cursor-not-allowed" style="color: #6B8E23;">
+     <svg class="w-5 h-5" fill="none" stroke="currentColor" viewbox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
+     </svg><span class="hidden sm:inline">Anterior</span> </button>
+    <div class="flex items-center gap-2"><span id="pageNum" class="text-sm font-semibold" style="color: #6B8E23;">1</span> <span class="text-stone-400">/</span> <span class="text-sm text-stone-500">17</span>
+    </div><button id="nextBtn" class="flex items-center gap-2 text-sm font-medium hover:text-olive transition-colors" style="color: #6B8E23;"> <span class="hidden sm:inline">Próxima</span>
+     <svg class="w-5 h-5" fill="none" stroke="currentColor" viewbox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
+     </svg></button>
+   </div><!-- Page Container -->
+   <div id="pageContainer" class="w-full max-w-2xl flex-1 flex items-start justify-center"><!-- Pages will be rendered here -->
+   </div><!-- Page Indicators -->
+   <div class="flex gap-2 mt-4 flex-wrap justify-center max-w-xs"><!-- Indicators rendered by JS -->
+   </div>
+  </div>
+  <script>
+    const defaultConfig = {
+      doctor_name: "Dra. Marina Steffli",
+      instagram_handle: "@hematoveg",
+      clinic_name: "Clínica Vitalidade Integral",
+      primary_color: "#6B8E23",
+      secondary_color: "#9CAF88",
+      background_color: "#FAF8F5",
+      text_color: "#3d3d3d",
+      accent_color: "#8B7355"
+    };
+
+    let config = { ...defaultConfig };
+    let currentPage = 1;
+    const totalPages = 17;
+
+    // Botanical SVG decorations
+    const leafSVG = `<svg viewBox="0 0 60 80" fill="none" xmlns="http://www.w3.org/2000/svg" class="w-12 h-16 opacity-20">
+      <path d="M30 5 Q45 25 40 50 Q35 70 30 75 Q25 70 20 50 Q15 25 30 5Z" fill="#9CAF88"/>
+      <path d="M30 15 L30 70" stroke="#6B8E23" stroke-width="1"/>
+      <path d="M30 25 Q38 30 35 40" stroke="#6B8E23" stroke-width="0.5" fill="none"/>
+      <path d="M30 35 Q22 40 25 50" stroke="#6B8E23" stroke-width="0.5" fill="none"/>
+    </svg>`;
+
+    const branchSVG = `<svg viewBox="0 0 120 40" fill="none" xmlns="http://www.w3.org/2000/svg" class="w-24 h-8 opacity-15">
+      <path d="M10 20 Q40 15 60 20 Q80 25 110 20" stroke="#9CAF88" stroke-width="1.5"/>
+      <ellipse cx="25" cy="18" rx="8" ry="4" fill="#9CAF88" transform="rotate(-20 25 18)"/>
+      <ellipse cx="45" cy="22" rx="7" ry="3.5" fill="#9CAF88" transform="rotate(15 45 22)"/>
+      <ellipse cx="75" cy="18" rx="8" ry="4" fill="#9CAF88" transform="rotate(-10 75 18)"/>
+      <ellipse cx="95" cy="22" rx="7" ry="3.5" fill="#9CAF88" transform="rotate(20 95 22)"/>
+    </svg>`;
+
+    // Food icons SVGs
+    const spinachSVG = `<svg viewBox="0 0 50 50" class="w-10 h-10"><ellipse cx="25" cy="25" rx="18" ry="12" fill="#6B8E23" transform="rotate(-30 25 25)"/><ellipse cx="25" cy="25" rx="15" ry="10" fill="#7BA428" transform="rotate(-30 25 25)"/><path d="M25 18 L25 35" stroke="#5a7a1e" stroke-width="1"/></svg>`;
+    
+    const lentilSVG = `<svg viewBox="0 0 50 50" class="w-10 h-10"><circle cx="18" cy="28" r="8" fill="#8B7355"/><circle cx="32" cy="28" r="8" fill="#9d8566"/><circle cx="25" cy="20" r="8" fill="#7a6548"/></svg>`;
+    
+    const tofuSVG = `<svg viewBox="0 0 50 50" class="w-10 h-10"><rect x="12" y="15" width="26" height="20" rx="3" fill="#F5F5DC"/><rect x="15" y="18" width="20" height="14" rx="2" fill="#FFFEF0" opacity="0.7"/></svg>`;
+
+    // Page content generators
+    function generatePage(pageNum) {
+      const pages = {
+        1: generateCoverPage,
+        2: generateIntroPage,
+        3: generateChecklist1,
+        4: generateChecklist2,
+        5: generateChecklist3,
+        6: generateEducational1,
+        7: generateEducational2,
+        8: generateEducational3,
+        9: generateEducational4,
+        10: generateTreatmentTypes,
+        11: generateLabTests,
+        12: generateWhenToSeek,
+        13: generateProductsIntro,
+        14: generateProductsPage,
+        15: generateAboutDoctor,
+        16: generateAboutHematology,
+        17: generateCTAPage
+      };
+      return pages[pageNum]();
+    }
+
+    function generateCoverPage() {
+      return `
+        <div class="page w-full h-full relative overflow-hidden" style="background: linear-gradient(180deg, #FAF8F5 0%, #f0ebe4 100%);">
+          <!-- Decorative elements -->
+          <div class="absolute top-0 right-0 w-32 h-32 opacity-10">
+            <svg viewBox="0 0 100 100" fill="none">
+              <circle cx="80" cy="20" r="60" fill="#9CAF88"/>
+            </svg>
+          </div>
+          <div class="absolute bottom-0 left-0 w-40 h-40 opacity-10">
+            <svg viewBox="0 0 100 100" fill="none">
+              <circle cx="20" cy="80" r="70" fill="#6B8E23"/>
+            </svg>
+          </div>
+          
+          <!-- Botanical corner decorations -->
+          <div class="absolute top-4 left-4">${leafSVG}</div>
+          <div class="absolute top-4 right-4 transform scale-x-[-1]">${leafSVG}</div>
+          <div class="absolute bottom-20 right-6 transform rotate-45 opacity-30">${branchSVG}</div>
+          
+          <!-- Main content -->
+          <div class="relative z-10 h-full flex flex-col justify-between p-6 md:p-10">
+            <!-- Top badge -->
+            <div class="flex justify-center">
+              <div class="inline-flex items-center gap-2 px-4 py-2 rounded-full text-xs font-medium tracking-wide" style="background: rgba(107, 142, 35, 0.1); color: #6B8E23;">
+                <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
+                  <path d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/>
+                </svg>
+                HEMATOVEG
+              </div>
+            </div>
+            
+            <!-- Center content -->
+            <div class="flex-1 flex flex-col items-center justify-center text-center px-4">
+              <div class="mb-6">
+                <svg viewBox="0 0 80 80" class="w-16 h-16 mx-auto mb-4" fill="none">
+                  <circle cx="40" cy="40" r="35" stroke="#6B8E23" stroke-width="2" fill="none"/>
+                  <path d="M40 20 Q55 35 50 50 Q45 60 40 62 Q35 60 30 50 Q25 35 40 20Z" fill="#9CAF88"/>
+                  <path d="M40 25 L40 58" stroke="#6B8E23" stroke-width="1.5"/>
+                  <circle cx="40" cy="40" r="6" fill="#6B8E23"/>
+                </svg>
+              </div>
+              
+              <h1 class="font-display text-2xl md:text-3xl lg:text-4xl font-semibold leading-tight mb-4" style="color: #3d3d3d;">
+                Guia para vegetarianas:<br/>
+                <span style="color: #6B8E23;">descubra se você pode<br/>ter falta de ferro ou anemia</span>
+              </h1>
+              
+              <div class="w-16 h-0.5 mx-auto my-4" style="background: linear-gradient(90deg, transparent, #9CAF88, transparent);"></div>
+              
+              <p class="text-base md:text-lg font-light max-w-md leading-relaxed" style="color: #666;">
+                Checklist de sintomas +<br/>
+                mini-guia para identificar ferro baixo ou anemia +<br/>
+                acesso a seleção de produtos veganos e/ou cruelty free
+              </p>
+            </div>
+            
+            <!-- Bottom signature -->
+            <div class="text-center">
+              <div class="inline-flex items-center gap-3 px-5 py-3 rounded-2xl" style="background: white; box-shadow: 0 4px 20px rgba(0,0,0,0.05);">
+                <div class="w-12 h-12 rounded-full flex items-center justify-center text-white font-display text-lg" style="background: linear-gradient(135deg, #6B8E23, #5a7a1e);">
+                  M
+                </div>
+                <div class="text-left">
+                  <p class="font-display font-medium" style="color: #3d3d3d;">${config.doctor_name}</p>
+                  <p class="text-xs" style="color: #8B7355;">Médica Hematologista • CRM 22884 • RQE 18744</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      `;
+    }
+
+    function generateIntroPage() {
+      return `
+        <div class="page w-full h-full p-6 md:p-8 overflow-y-auto" style="background: #FAF8F5;">
+          <div class="max-w-lg mx-auto">
+            <!-- Header -->
+            <div class="text-center mb-6">
+              <p class="text-xs uppercase tracking-[0.15em] mb-2" style="color: #9CAF88;">Página 02</p>
+              <h2 class="font-display text-2xl md:text-3xl font-semibold mb-2" style="color: #3d3d3d;">Como usar este guia</h2>
+              <div class="w-12 h-0.5 mx-auto" style="background: #6B8E23;"></div>
+            </div>
+            
+            <!-- Welcome message -->
+            <div class="rounded-2xl p-5 mb-6" style="background: white; box-shadow: 0 4px 15px rgba(0,0,0,0.03);">
+              <p class="text-sm leading-relaxed" style="color: #555;">
+                <span class="font-semibold" style="color: #6B8E23;">Olá!</span> Que bom ter você aqui. Este guia foi criado especialmente para mulheres vegetarianas que desejam entender melhor sua saúde e identificar possíveis sinais de deficiência de ferro.
+              </p>
+            </div>
+            
+            <!-- Steps -->
+            <div class="space-y-4 mb-6">
+              <div class="flex gap-4 items-start">
+                <div class="w-10 h-10 rounded-full flex items-center justify-center flex-shrink-0 text-white font-semibold" style="background: #6B8E23;">1</div>
+                <div>
+                  <h3 class="font-semibold mb-1" style="color: #3d3d3d;">Faça o checklist de sintomas</h3>
+                  <p class="text-sm" style="color: #666;">Marque os sintomas que você identifica em si mesma nas próximas páginas.</p>
+                </div>
+              </div>
+              
+              <div class="flex gap-4 items-start">
+                <div class="w-10 h-10 rounded-full flex items-center justify-center flex-shrink-0 text-white font-semibold" style="background: #9CAF88;">2</div>
+                <div>
+                  <h3 class="font-semibold mb-1" style="color: #3d3d3d;">Aprenda sobre o ferro</h3>
+                  <p class="text-sm" style="color: #666;">Entenda como funciona a absorção de ferro e sua importância.</p>
+                </div>
+              </div>
+              
+              <div class="flex gap-4 items-start">
+                <div class="w-10 h-10 rounded-full flex items-center justify-center flex-shrink-0 text-white font-semibold" style="background: #8B7355;">3</div>
+                <div>
+                  <h3 class="font-semibold mb-1" style="color: #3d3d3d;">Conheça as opções de tratamento</h3>
+                  <p class="text-sm" style="color: #666;">Explore diferentes formas de suplementação e tipos de terapia.</p>
+                </div>
+              </div>
+              
+              <div class="flex gap-4 items-start">
+                <div class="w-10 h-10 rounded-full flex items-center justify-center flex-shrink-0 text-white font-semibold" style="background: #D4C5B9; color: #3d3d3d;">4</div>
+                <div>
+                  <h3 class="font-semibold mb-1" style="color: #3d3d3d;">Explore produtos conscientes</h3>
+                  <p class="text-sm" style="color: #666;">Acesse nossa curadoria de produtos veganos e cruelty-free para consumo consciente.</p>
+                </div>
+              </div>
+              
+              <div class="flex gap-4 items-start">
+                <div class="w-10 h-10 rounded-full flex items-center justify-center flex-shrink-0 text-white font-semibold" style="background: #6B8E23;">5</div>
+                <div>
+                  <h3 class="font-semibold mb-1" style="color: #3d3d3d;">Busque orientação</h3>
+                  <p class="text-sm" style="color: #666;">Se necessário, procure um profissional para avaliação completa.</p>
+                </div>
+              </div>
+            </div>
+            
+            <!-- Important note -->
+            <div class="rounded-xl p-4 border-l-4" style="background: rgba(107, 142, 35, 0.08); border-color: #6B8E23;">
+              <div class="flex gap-3">
+                <svg class="w-5 h-5 flex-shrink-0 mt-0.5" fill="#6B8E23" viewBox="0 0 20 20">
+                  <path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z"/>
+                </svg>
+                <p class="text-xs" style="color: #555;">
+                  <strong>Importante:</strong> Este material é educativo e não substitui consulta médica. Sempre busque orientação profissional para diagnóstico e tratamento.
+                </p>
+              </div>
+            </div>
+            
+            <!-- Decoration -->
+            <div class="flex justify-center mt-6 opacity-30">
+              ${branchSVG}
+            </div>
+          </div>
+        </div>
+      `;
+    }
+
+    function generateChecklist1() {
+      return `
+        <div class="page w-full h-full p-6 md:p-8 overflow-y-auto" style="background: #FAF8F5;">
+          <div class="max-w-lg mx-auto">
+            <!-- Header -->
+            <div class="text-center mb-5">
+              <p class="text-xs uppercase tracking-[0.15em] mb-2" style="color: #9CAF88;">Checklist • Parte 1 de 3</p>
+              <h2 class="font-display text-2xl md:text-3xl font-semibold mb-2" style="color: #3d3d3d;">Sintomas Físicos</h2>
+              <p class="text-sm" style="color: #666;">Marque os sintomas que você experimenta</p>
+            </div>
+            
+            <!-- Checklist -->
+            <div class="space-y-3">
+              ${generateChecklistItem('Cansaço constante, mesmo após dormir bem', 'physical-1')}
+              ${generateChecklistItem('Palidez na pele, unhas ou mucosas', 'physical-2')}
+              ${generateChecklistItem('Falta de ar ao subir escadas', 'physical-3')}
+              ${generateChecklistItem('Coração acelerado sem motivo aparente', 'physical-4')}
+              ${generateChecklistItem('Dores de cabeça frequentes', 'physical-5')}
+              ${generateChecklistItem('Unhas quebradiças', 'physical-6')}
+              ${generateChecklistItem('Queda de cabelo além do normal', 'physical-7')}
+              ${generateChecklistItem('Língua inchada ou dolorida', 'physical-8')}
+              ${generateChecklistItem('Pele seca e rachaduras nos cantos da boca', 'physical-9')}
+            </div>
+            
+            <!-- Counter -->
+            <div class="mt-5 p-4 rounded-xl text-center" style="background: white;">
+              <p class="text-sm" style="color: #666;">Sintomas marcados: <span class="font-bold" style="color: #6B8E23;" id="counter-1">0</span>/9</p>
+            </div>
+            
+            <!-- Navigation hint -->
+            <div class="text-center mt-4">
+              <p class="text-xs" style="color: #9CAF88;">Continue para mais sintomas →</p>
+            </div>
+          </div>
+        </div>
+      `;
+    }
+
+    function generateChecklist2() {
+      return `
+        <div class="page w-full h-full p-6 md:p-8 overflow-y-auto" style="background: #FAF8F5;">
+          <div class="max-w-lg mx-auto">
+            <!-- Header -->
+            <div class="text-center mb-5">
+              <p class="text-xs uppercase tracking-[0.15em] mb-2" style="color: #9CAF88;">Checklist • Parte 2 de 3</p>
+              <h2 class="font-display text-2xl md:text-3xl font-semibold mb-2" style="color: #3d3d3d;">Sintomas Cognitivos e Emocionais</h2>
+              <p class="text-sm" style="color: #666;">Marque os sintomas que você experimenta</p>
+            </div>
+            
+            <!-- Checklist -->
+            <div class="space-y-3">
+              ${generateChecklistItem('Dificuldade de concentração', 'cognitive-1')}
+              ${generateChecklistItem('Esquecimentos frequentes', 'cognitive-2')}
+              ${generateChecklistItem('Irritabilidade sem causa aparente', 'cognitive-3')}
+              ${generateChecklistItem('Ansiedade ou inquietação', 'cognitive-4')}
+              ${generateChecklistItem('Sensação de "névoa mental"', 'cognitive-5')}
+              ${generateChecklistItem('Diminuição do rendimento no trabalho/estudos', 'cognitive-6')}
+              ${generateChecklistItem('Desânimo ou apatia persistente', 'cognitive-7')}
+              ${generateChecklistItem('Alterações de humor frequentes', 'cognitive-8')}
+            </div>
+            
+            <!-- Counter -->
+            <div class="mt-5 p-4 rounded-xl text-center" style="background: white;">
+              <p class="text-sm" style="color: #666;">Sintomas marcados: <span class="font-bold" style="color: #6B8E23;" id="counter-2">0</span>/8</p>
+            </div>
+            
+            <!-- Navigation hint -->
+            <div class="text-center mt-4">
+              <p class="text-xs" style="color: #9CAF88;">Continue para mais sintomas →</p>
+            </div>
+          </div>
+        </div>
+      `;
+    }
+
+    function generateChecklist3() {
+      return `
+        <div class="page w-full h-full p-6 md:p-8 overflow-y-auto" style="background: #FAF8F5;">
+          <div class="max-w-lg mx-auto">
+            <!-- Header -->
+            <div class="text-center mb-5">
+              <p class="text-xs uppercase tracking-[0.15em] mb-2" style="color: #9CAF88;">Checklist • Parte 3 de 3</p>
+              <h2 class="font-display text-2xl md:text-3xl font-semibold mb-2" style="color: #3d3d3d;">Fatores de Risco</h2>
+              <p class="text-sm" style="color: #666;">Marque os fatores que se aplicam a você</p>
+            </div>
+            
+            <!-- Checklist -->
+            <div class="space-y-3">
+              ${generateChecklistItem('Sou vegetariana há mais de 1 ano', 'risk-1')}
+              ${generateChecklistItem('Menstruação abundante', 'risk-2')}
+              ${generateChecklistItem('Já tive anemia anteriormente', 'risk-3')}
+              ${generateChecklistItem('Não consumo ou consumo pouca vitamina C', 'risk-4')}
+              ${generateChecklistItem('Consumo muito café ou chá junto às refeições', 'risk-5')}
+              ${generateChecklistItem('Pratico exercícios físicos intensos', 'risk-6')}
+              ${generateChecklistItem('Tenho problemas gastrointestinais', 'risk-7')}
+              ${generateChecklistItem('Estou grávida ou amamentando', 'risk-8')}
+            </div>
+            
+            <!-- Interpretation guide -->
+            <div class="mt-5 grid grid-cols-3 gap-2 text-center text-xs">
+              <div class="p-2 rounded-lg" style="background: rgba(156, 175, 136, 0.2);">
+                <p class="font-semibold" style="color: #6B8E23;">0-5</p>
+                <p style="color: #666;">Baixo risco</p>
+              </div>
+              <div class="p-2 rounded-lg" style="background: rgba(139, 115, 85, 0.2);">
+                <p class="font-semibold" style="color: #8B7355;">6-12</p>
+                <p style="color: #666;">Atenção</p>
+              </div>
+              <div class="p-2 rounded-lg" style="background: rgba(180, 100, 100, 0.2);">
+                <p class="font-semibold" style="color: #b46464;">13+</p>
+                <p style="color: #666;">Buscar ajuda</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      `;
+    }
+
+    function generateChecklistItem(text, id) {
+      return `
+        <label class="checklist-item flex items-center gap-3 p-3 rounded-xl cursor-pointer" style="background: white;">
+          <input type="checkbox" class="checkbox-custom" id="${id}" onchange="updateCounters()">
+          <span class="text-sm flex-1" style="color: #3d3d3d;">${text}</span>
+        </label>
+      `;
+    }
+
+    function generateEducational1() {
+      return `
+        <div class="page w-full h-full p-6 md:p-8 overflow-y-auto" style="background: #FAF8F5;">
+          <div class="max-w-lg mx-auto">
+            <!-- Header -->
+            <div class="text-center mb-5">
+              <p class="text-xs uppercase tracking-[0.15em] mb-2" style="color: #9CAF88;">Mini-guia educativo</p>
+              <h2 class="font-display text-xl md:text-2xl font-semibold mb-2" style="color: #3d3d3d;">O que é o ferro e por que precisamos dele?</h2>
+            </div>
+            
+            <!-- Main content -->
+            <div class="space-y-4">
+              <!-- Iron molecule illustration -->
+              <div class="flex justify-center mb-4">
+                <svg viewBox="0 0 120 80" class="w-32 h-20">
+                  <circle cx="60" cy="40" r="25" fill="#b46464" opacity="0.8"/>
+                  <circle cx="60" cy="40" r="15" fill="#d35f5f"/>
+                  <text x="60" y="45" text-anchor="middle" fill="white" font-size="12" font-weight="bold">Fe</text>
+                  <circle cx="30" cy="30" r="8" fill="#6B8E23" opacity="0.6"/>
+                  <circle cx="90" cy="30" r="8" fill="#6B8E23" opacity="0.6"/>
+                  <circle cx="35" cy="55" r="6" fill="#9CAF88" opacity="0.6"/>
+                  <circle cx="85" cy="55" r="6" fill="#9CAF88" opacity="0.6"/>
+                </svg>
+              </div>
+              
+              <div class="p-4 rounded-xl" style="background: white;">
+                <h3 class="font-semibold mb-2 flex items-center gap-2" style="color: #6B8E23;">
+                  <span>🔬</span> O ferro no corpo
+                </h3>
+                <p class="text-sm leading-relaxed" style="color: #555;">
+                  O ferro é um mineral essencial que faz parte da <strong>hemoglobina</strong>, proteína responsável por transportar oxigênio no sangue para todas as células do corpo.
+                </p>
+              </div>
+              
+              <div class="p-4 rounded-xl" style="background: white;">
+                <h3 class="font-semibold mb-2 flex items-center gap-2" style="color: #8B7355;">
+                  <span>⚡</span> Funções principais
+                </h3>
+                <ul class="text-sm space-y-2" style="color: #555;">
+                  <li class="flex items-start gap-2">
+                    <span style="color: #6B8E23;">•</span>
+                    <span>Transporte de oxigênio para músculos e órgãos</span>
+                  </li>
+                  <li class="flex items-start gap-2">
+                    <span style="color: #6B8E23;">•</span>
+                    <span>Produção de energia celular</span>
+                  </li>
+                  <li class="flex items-start gap-2">
+                    <span style="color: #6B8E23;">•</span>
+                    <span>Função cognitiva e memória</span>
+                  </li>
+                  <li class="flex items-start gap-2">
+                    <span style="color: #6B8E23;">•</span>
+                    <span>Sistema imunológico saudável</span>
+                  </li>
+                </ul>
+              </div>
+              
+              <!-- Stat box -->
+              <div class="p-4 rounded-xl text-center" style="background: linear-gradient(135deg, #6B8E23 0%, #5a7a1e 100%); color: white;">
+                <p class="text-3xl font-bold">70%</p>
+                <p class="text-sm opacity-90">do ferro do corpo está na hemoglobina</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      `;
+    }
+
+    function generateEducational2() {
+      return `
+        <div class="page w-full h-full p-6 md:p-8 overflow-y-auto" style="background: #FAF8F5;">
+          <div class="max-w-lg mx-auto">
+            <!-- Header -->
+            <div class="text-center mb-5">
+              <p class="text-xs uppercase tracking-[0.15em] mb-2" style="color: #9CAF88;">Mini-guia educativo</p>
+              <h2 class="font-display text-xl md:text-2xl font-semibold mb-2" style="color: #3d3d3d;">Os 3 estágios da deficiência</h2>
+            </div>
+            
+            <!-- Stages infographic -->
+            <div class="space-y-4">
+              <!-- Stage 1 -->
+              <div class="relative">
+                <div class="flex gap-4">
+                  <div class="flex flex-col items-center">
+                    <div class="w-12 h-12 rounded-full flex items-center justify-center text-white font-bold" style="background: #9CAF88;">1</div>
+                    <div class="w-0.5 h-full" style="background: #D4C5B9;"></div>
+                  </div>
+                  <div class="flex-1 pb-4">
+                    <div class="p-4 rounded-xl" style="background: white;">
+                      <h3 class="font-semibold mb-1" style="color: #9CAF88;">Depleção de Estoques</h3>
+                      <p class="text-xs mb-2" style="color: #666;">Ferritina baixa • Sem sintomas aparentes</p>
+                      <div class="flex items-center gap-2">
+                        <div class="flex-1 h-2 rounded-full" style="background: #e5e5e5;">
+                          <div class="h-full rounded-full" style="width: 30%; background: #9CAF88;"></div>
+                        </div>
+                        <span class="text-xs" style="color: #9CAF88;">Leve</span>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              
+              <!-- Stage 2 -->
+              <div class="relative">
+                <div class="flex gap-4">
+                  <div class="flex flex-col items-center">
+                    <div class="w-12 h-12 rounded-full flex items-center justify-center text-white font-bold" style="background: #8B7355;">2</div>
+                    <div class="w-0.5 h-full" style="background: #D4C5B9;"></div>
+                  </div>
+                  <div class="flex-1 pb-4">
+                    <div class="p-4 rounded-xl" style="background: white;">
+                      <h3 class="font-semibold mb-1" style="color: #8B7355;">Deficiência Funcional</h3>
+                      <p class="text-xs mb-2" style="color: #666;">Os sintomas iniciam</p>
+                      <div class="flex items-center gap-2">
+                        <div class="flex-1 h-2 rounded-full" style="background: #e5e5e5;">
+                          <div class="h-full rounded-full" style="width: 60%; background: #8B7355;"></div>
+                        </div>
+                        <span class="text-xs" style="color: #8B7355;">Moderada</span>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              
+              <!-- Stage 3 -->
+              <div class="relative">
+                <div class="flex gap-4">
+                  <div class="flex flex-col items-center">
+                    <div class="w-12 h-12 rounded-full flex items-center justify-center text-white font-bold" style="background: #b46464;">3</div>
+                  </div>
+                  <div class="flex-1">
+                    <div class="p-4 rounded-xl" style="background: white;">
+                      <h3 class="font-semibold mb-1" style="color: #b46464;">Anemia Ferropriva</h3>
+                      <p class="text-xs mb-2" style="color: #666;">Hemoglobina baixa • Sintomas mais importantes</p>
+                      <div class="flex items-center gap-2">
+                        <div class="flex-1 h-2 rounded-full" style="background: #e5e5e5;">
+                          <div class="h-full rounded-full" style="width: 100%; background: #b46464;"></div>
+                        </div>
+                        <span class="text-xs" style="color: #b46464;">Grave</span>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            
+            <!-- Key insight -->
+            <div class="mt-4 p-4 rounded-xl border-l-4" style="background: rgba(107, 142, 35, 0.08); border-color: #6B8E23;">
+              <p class="text-sm" style="color: #555;">
+                <strong style="color: #6B8E23;">💡 Importante:</strong> É possível ter deficiência de ferro SEM ter anemia. Por isso, é essencial avaliar a <strong>ferritina</strong> nos exames.
+              </p>
+            </div>
+          </div>
+        </div>
+      `;
+    }
+
+    function generateEducational3() {
+      return `
+        <div class="page w-full h-full p-6 md:p-8 overflow-y-auto" style="background: #FAF8F5;">
+          <div class="max-w-lg mx-auto">
+            <!-- Header -->
+            <div class="text-center mb-4">
+              <p class="text-xs uppercase tracking-[0.15em] mb-2" style="color: #9CAF88;">Mini-guia educativo</p>
+              <h2 class="font-display text-xl md:text-2xl font-semibold mb-2" style="color: #3d3d3d;">Fontes de Ferro Vegetarianas</h2>
+              <p class="text-xs" style="color: #666;">Valores de ferro por 100g de alimento</p>
+            </div>
+            
+            <!-- Leguminosas -->
+            <div class="mb-3">
+              <h3 class="text-sm font-semibold mb-2 flex items-center gap-2" style="color: #6B8E23;">
+                ${lentilSVG}
+                <span>Leguminosas (cozidas)</span>
+              </h3>
+              <div class="grid grid-cols-2 gap-2">
+                <div class="p-2 rounded-lg text-center" style="background: white;">
+                  <p class="text-xs font-semibold" style="color: #3d3d3d;">Lentilha</p>
+                  <p class="text-xs font-bold" style="color: #6B8E23;">3,3 mg</p>
+                </div>
+                <div class="p-2 rounded-lg text-center" style="background: white;">
+                  <p class="text-xs font-semibold" style="color: #3d3d3d;">Grão-de-bico</p>
+                  <p class="text-xs font-bold" style="color: #6B8E23;">2,9 mg</p>
+                </div>
+                <div class="p-2 rounded-lg text-center" style="background: white;">
+                  <p class="text-xs font-semibold" style="color: #3d3d3d;">Feijão preto</p>
+                  <p class="text-xs font-bold" style="color: #6B8E23;">2,1 mg</p>
+                </div>
+                <div class="p-2 rounded-lg text-center" style="background: white;">
+                  <p class="text-xs font-semibold" style="color: #3d3d3d;">Feijão carioca</p>
+                  <p class="text-xs font-bold" style="color: #6B8E23;">1,4 mg</p>
+                </div>
+                <div class="p-2 rounded-lg text-center" style="background: white;">
+                  <p class="text-xs font-semibold" style="color: #3d3d3d;">Ervilha</p>
+                  <p class="text-xs font-bold" style="color: #6B8E23;">1,5 mg</p>
+                </div>
+              </div>
+            </div>
+            
+            <!-- Soja e derivados -->
+            <div class="mb-3">
+              <h3 class="text-sm font-semibold mb-2 flex items-center gap-2" style="color: #8B7355;">
+                ${tofuSVG}
+                <span>Soja e derivados</span>
+              </h3>
+              <div class="grid grid-cols-3 gap-2">
+                <div class="p-2 rounded-lg text-center" style="background: white;">
+                  <p class="text-xs font-semibold" style="color: #3d3d3d;">Tofu firme</p>
+                  <p class="text-xs font-bold" style="color: #6B8E23;">5,4 mg</p>
+                </div>
+                <div class="p-2 rounded-lg text-center" style="background: white;">
+                  <p class="text-xs font-semibold" style="color: #3d3d3d;">Soja cozida</p>
+                  <p class="text-xs font-bold" style="color: #6B8E23;">5,1 mg</p>
+                </div>
+                <div class="p-2 rounded-lg text-center" style="background: white;">
+                  <p class="text-xs font-semibold" style="color: #3d3d3d;">Tempeh</p>
+                  <p class="text-xs font-bold" style="color: #6B8E23;">2,7 mg</p>
+                </div>
+              </div>
+            </div>
+            
+            <!-- Sementes e oleaginosas -->
+            <div class="mb-3">
+              <h3 class="text-sm font-semibold mb-2" style="color: #8B7355;">🌰 Sementes e oleaginosas</h3>
+              <div class="grid grid-cols-2 gap-2">
+                <div class="p-2 rounded-lg text-center" style="background: white;">
+                  <p class="text-xs font-semibold" style="color: #3d3d3d;">Gergelim</p>
+                  <p class="text-xs font-bold" style="color: #6B8E23;">14,6 mg</p>
+                </div>
+                <div class="p-2 rounded-lg text-center" style="background: white;">
+                  <p class="text-xs font-semibold" style="color: #3d3d3d;">Semente abóbora</p>
+                  <p class="text-xs font-bold" style="color: #6B8E23;">8,8 mg</p>
+                </div>
+                <div class="p-2 rounded-lg text-center" style="background: white;">
+                  <p class="text-xs font-semibold" style="color: #3d3d3d;">Castanha caju</p>
+                  <p class="text-xs font-bold" style="color: #6B8E23;">6,7 mg</p>
+                </div>
+                <div class="p-2 rounded-lg text-center" style="background: white;">
+                  <p class="text-xs font-semibold" style="color: #3d3d3d;">Amêndoas</p>
+                  <p class="text-xs font-bold" style="color: #6B8E23;">3,7 mg</p>
+                </div>
+              </div>
+            </div>
+            
+            <!-- Verduras -->
+            <div class="mb-3">
+              <h3 class="text-sm font-semibold mb-2 flex items-center gap-2" style="color: #6B8E23;">
+                ${spinachSVG}
+                <span>Verduras verde-escuras (cozidas)</span>
+              </h3>
+              <div class="grid grid-cols-3 gap-2">
+                <div class="p-2 rounded-lg text-center" style="background: white;">
+                  <p class="text-xs font-semibold" style="color: #3d3d3d;">Espinafre</p>
+                  <p class="text-xs font-bold" style="color: #6B8E23;">3,6 mg</p>
+                </div>
+                <div class="p-2 rounded-lg text-center" style="background: white;">
+                  <p class="text-xs font-semibold" style="color: #3d3d3d;">Couve</p>
+                  <p class="text-xs font-bold" style="color: #6B8E23;">2,5 mg</p>
+                </div>
+                <div class="p-2 rounded-lg text-center" style="background: white;">
+                  <p class="text-xs font-semibold" style="color: #3d3d3d;">Brócolis</p>
+                  <p class="text-xs font-bold" style="color: #6B8E23;">1,0 mg</p>
+                </div>
+              </div>
+            </div>
+            
+            <!-- Grãos e cereais -->
+            <div class="mb-3">
+              <h3 class="text-sm font-semibold mb-2" style="color: #8B7355;">🌾 Grãos e cereais</h3>
+              <div class="grid grid-cols-3 gap-2">
+                <div class="p-2 rounded-lg text-center" style="background: white;">
+                  <p class="text-xs font-semibold" style="color: #3d3d3d;">Aveia</p>
+                  <p class="text-xs font-bold" style="color: #6B8E23;">4,7 mg</p>
+                </div>
+                <div class="p-2 rounded-lg text-center" style="background: white;">
+                  <p class="text-xs font-semibold" style="color: #3d3d3d;">Quinoa</p>
+                  <p class="text-xs font-bold" style="color: #6B8E23;">1,5 mg</p>
+                </div>
+                <div class="p-2 rounded-lg text-center" style="background: white;">
+                  <p class="text-xs font-semibold" style="color: #3d3d3d;">Arroz integral</p>
+                  <p class="text-xs font-bold" style="color: #6B8E23;">1,5 mg</p>
+                </div>
+              </div>
+            </div>
+            
+            <!-- Comparação com fontes animais -->
+            <div class="mt-3 p-4 rounded-xl border-l-4" style="background: rgba(139, 139, 139, 0.08); border-color: #8B8B8B;">
+              <div class="flex gap-3">
+                <div class="flex-shrink-0">
+                  <div class="w-8 h-8 rounded-full flex items-center justify-center" style="background: rgba(139, 139, 139, 0.15);">
+                    <span style="font-size: 16px;">💡</span>
+                  </div>
+                </div>
+                <p class="text-xs leading-relaxed" style="color: #555;">
+                  A carne vermelha fornece em média 2,5–2,7 mg de ferro por 100 g, o frango cerca de 1,0 mg/100 g e os peixes 0,5–1,0 mg/100 g; nessas fontes, parte do ferro é do tipo heme, com absorção superior ao ferro não-heme presente nos alimentos vegetais.
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+      `;
+    }
+
+    function generateEducational4() {
+      return `
+        <div class="page w-full h-full p-6 md:p-8 overflow-y-auto" style="background: #FAF8F5;">
+          <div class="max-w-lg mx-auto">
+            <!-- Header -->
+            <div class="text-center mb-5">
+              <p class="text-xs uppercase tracking-[0.15em] mb-2" style="color: #9CAF88;">Mini-guia educativo</p>
+              <h2 class="font-display text-xl md:text-2xl font-semibold mb-2" style="color: #3d3d3d;">Maximizando a Absorção de Ferro</h2>
+            </div>
+            
+            <!-- Absorption tips -->
+            <div class="p-5 rounded-2xl mb-4" style="background: white; border: 2px solid rgba(107, 142, 35, 0.2);">
+              <h3 class="font-semibold mb-4 text-center flex items-center justify-center gap-2" style="color: #6B8E23;">
+                <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
+                  <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z"/>
+                </svg>
+                <span>Como aumentar a absorção</span>
+              </h3>
+              <div class="space-y-3">
+                <div class="flex items-start gap-3">
+                  <div class="w-8 h-8 rounded-full flex items-center justify-center flex-shrink-0" style="background: rgba(107, 142, 35, 0.15);">
+                    <span style="color: #6B8E23;">🍊</span>
+                  </div>
+                  <div>
+                    <p class="text-sm font-semibold mb-1" style="color: #3d3d3d;">Vitamina C é sua aliada</p>
+                    <p class="text-xs" style="color: #666;">Combine refeições ricas em ferro com frutas cítricas, tomate ou suco de limão. A vitamina C pode aumentar a absorção em até 3x.</p>
+                  </div>
+                </div>
+                
+                <div class="flex items-start gap-3">
+                  <div class="w-8 h-8 rounded-full flex items-center justify-center flex-shrink-0" style="background: rgba(107, 142, 35, 0.15);">
+                    <span style="color: #6B8E23;">💧</span>
+                  </div>
+                  <div>
+                    <p class="text-sm font-semibold mb-1" style="color: #3d3d3d;">Deixe grãos de molho</p>
+                    <p class="text-xs" style="color: #666;">Deixar leguminosas e grãos de molho por 8-12h reduz os fitatos que bloqueiam a absorção de ferro.</p>
+                  </div>
+                </div>
+                
+                <div class="flex items-start gap-3">
+                  <div class="w-8 h-8 rounded-full flex items-center justify-center flex-shrink-0" style="background: rgba(107, 142, 35, 0.15);">
+                    <span style="color: #6B8E23;">🍳</span>
+                  </div>
+                  <div>
+                    <p class="text-sm font-semibold mb-1" style="color: #3d3d3d;">Cozinhe em panela de ferro</p>
+                    <p class="text-xs" style="color: #666;">O uso de panela de ferro fundido pode adicionar até 20% mais ferro aos alimentos, especialmente em preparos com líquidos ácidos.</p>
+                  </div>
+                </div>
+                
+                <div class="flex items-start gap-3">
+                  <div class="w-8 h-8 rounded-full flex items-center justify-center flex-shrink-0" style="background: rgba(107, 142, 35, 0.15);">
+                    <span style="color: #6B8E23;">🥬</span>
+                  </div>
+                  <div>
+                    <p class="text-sm font-semibold mb-1" style="color: #3d3d3d;">Cozinhe as verduras</p>
+                    <p class="text-xs" style="color: #666;">O cozimento de vegetais facilita a liberação do ferro para absorção.</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+            
+            <!-- What to avoid -->
+            <div class="p-5 rounded-2xl" style="background: rgba(180, 100, 100, 0.08); border: 2px solid rgba(180, 100, 100, 0.2);">
+              <h3 class="font-semibold mb-4 text-center flex items-center justify-center gap-2" style="color: #b46464;">
+                <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
+                  <path fill-rule="evenodd" d="M13.477 14.89A6 6 0 015.11 6.524l8.367 8.368zm1.414-1.414L6.524 5.11a6 6 0 018.367 8.367zM18 10a8 8 0 11-16 0 8 8 0 0116 0z"/>
+                </svg>
+                <span>O que evitar nas refeições</span>
+              </h3>
+              <div class="space-y-3">
+                <div class="flex items-start gap-3">
+                  <div class="w-8 h-8 rounded-full flex items-center justify-center flex-shrink-0" style="background: rgba(180, 100, 100, 0.15);">
+                    <span style="color: #b46464;">☕</span>
+                  </div>
+                  <div>
+                    <p class="text-sm font-semibold mb-1" style="color: #3d3d3d;">Café e chá preto</p>
+                    <p class="text-xs" style="color: #666;">Contêm taninos que reduzem drasticamente a absorção de ferro. Espere pelo menos 1 hora após as refeições.</p>
+                  </div>
+                </div>
+                
+                <div class="flex items-start gap-3">
+                  <div class="w-8 h-8 rounded-full flex items-center justify-center flex-shrink-0" style="background: rgba(180, 100, 100, 0.15);">
+                    <span style="color: #b46464;">🥛</span>
+                  </div>
+                  <div>
+                    <p class="text-sm font-semibold mb-1" style="color: #3d3d3d;">Laticínios</p>
+                    <p class="text-xs" style="color: #666;">Evite consumir junto com refeições ricas em ferro.</p>
+                  </div>
+                </div>
+                
+                <div class="flex items-start gap-3">
+                  <div class="w-8 h-8 rounded-full flex items-center justify-center flex-shrink-0" style="background: rgba(180, 100, 100, 0.15);">
+                    <span style="color: #b46464;">💊</span>
+                  </div>
+                  <div>
+                    <p class="text-sm font-semibold mb-1" style="color: #3d3d3d;">Antiácidos e IBPs</p>
+                    <p class="text-xs" style="color: #666;">Medicamentos que reduzem a acidez estomacal diminuem significativamente a absorção de ferro.</p>
+                  </div>
+                </div>
+                
+                <div class="flex items-start gap-3">
+                  <div class="w-8 h-8 rounded-full flex items-center justify-center flex-shrink-0" style="background: rgba(180, 100, 100, 0.15);">
+                    <span style="color: #b46464;">🌾</span>
+                  </div>
+                  <div>
+                    <p class="text-sm font-semibold mb-1" style="color: #3d3d3d;">Excesso de fibras</p>
+                    <p class="text-xs" style="color: #666;">Fibras em excesso na mesma refeição podem reduzir a absorção. Equilibre o consumo ao longo do dia.</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      `;
+    }
+
+    function generateTreatmentTypes() {
+      return `
+        <div class="page w-full h-full p-6 md:p-8 overflow-y-auto" style="background: #FAF8F5;">
+          <div class="max-w-lg mx-auto">
+            <!-- Header -->
+            <div class="text-center mb-4">
+              <p class="text-xs uppercase tracking-[0.15em] mb-2" style="color: #9CAF88;">Tratamento</p>
+              <h2 class="font-display text-xl md:text-2xl font-semibold mb-2" style="color: #3d3d3d;">Tipos de Suplementação de Ferro</h2>
+            </div>
+            
+            <!-- Ferro Oral -->
+            <div class="mb-4 p-4 rounded-2xl" style="background: white; border: 2px solid rgba(107, 142, 35, 0.2);">
+              <div class="flex items-center gap-2 mb-3">
+                <div class="w-10 h-10 rounded-full flex items-center justify-center" style="background: rgba(107, 142, 35, 0.15);">
+                  <span style="color: #6B8E23; font-size: 20px;">💊</span>
+                </div>
+                <h3 class="font-semibold text-base" style="color: #6B8E23;">Ferro Oral</h3>
+              </div>
+              
+              <div class="space-y-2 mb-3">
+                <div>
+                  <p class="text-xs font-semibold mb-1" style="color: #3d3d3d;">Tipos principais:</p>
+                  <ul class="text-xs space-y-1" style="color: #666;">
+                    <li class="flex items-start gap-2">
+                      <span style="color: #6B8E23;">•</span>
+                      <span><strong>Sulfato ferroso:</strong> mais comum, eficaz, porém mais efeitos colaterais</span>
+                    </li>
+                    <li class="flex items-start gap-2">
+                      <span style="color: #6B8E23;">•</span>
+                      <span><strong>Ferro polimaltosado:</strong> melhor tolerado, menos efeitos colaterais</span>
+                    </li>
+                    <li class="flex items-start gap-2">
+                      <span style="color: #6B8E23;">•</span>
+                      <span><strong>Ferro quelado/bisglicinato:</strong> ótima absorção e tolerância</span>
+                    </li>
+                  </ul>
+                </div>
+              </div>
+              
+              <div class="p-3 rounded-lg mb-2" style="background: rgba(107, 142, 35, 0.05);">
+                <p class="text-xs font-semibold mb-1" style="color: #6B8E23;">✓ Indicações:</p>
+                <p class="text-xs" style="color: #666;">Deficiências leves a moderadas, ferritina baixa, preferência do paciente, tratamento de longo prazo</p>
+              </div>
+              
+              <div class="p-3 rounded-lg" style="background: rgba(180, 100, 100, 0.05);">
+                <p class="text-xs font-semibold mb-1" style="color: #b46464;">⚠ Possíveis efeitos adversos:</p>
+                <p class="text-xs" style="color: #666;">Náuseas, constipação ou diarreia, desconforto abdominal, fezes escurecidas (normal e esperado), gosto metálico</p>
+              </div>
+            </div>
+            
+            <!-- Ferro Endovenoso -->
+            <div class="p-4 rounded-2xl" style="background: white; border: 2px solid rgba(139, 115, 85, 0.3);">
+              <div class="flex items-center gap-2 mb-3">
+                <div class="w-10 h-10 rounded-full flex items-center justify-center" style="background: rgba(139, 115, 85, 0.15);">
+                  <span style="color: #8B7355; font-size: 20px;">💉</span>
+                </div>
+                <h3 class="font-semibold text-base" style="color: #8B7355;">Ferro Endovenoso (EV)</h3>
+              </div>
+              
+              <div class="space-y-2 mb-3">
+                <div>
+                  <p class="text-xs font-semibold mb-1" style="color: #3d3d3d;">Tipos principais:</p>
+                  <ul class="text-xs space-y-1" style="color: #666;">
+                    <li class="flex items-start gap-2">
+                      <span style="color: #8B7355;">•</span>
+                      <span><strong>Carboximaltose férrica:</strong> dose única alta, infusão rápida</span>
+                    </li>
+                    <li class="flex items-start gap-2">
+                      <span style="color: #8B7355;">•</span>
+                      <span><strong>Sacarato de hidróxido férrico:</strong> múltiplas doses menores</span>
+                    </li>
+                    <li class="flex items-start gap-2">
+                      <span style="color: #8B7355;">•</span>
+                      <span><strong>Isomaltosídeo férrico:</strong> dose única, bem tolerado</span>
+                    </li>
+                  </ul>
+                </div>
+              </div>
+              
+              <div class="p-3 rounded-lg mb-2" style="background: rgba(139, 115, 85, 0.08);">
+                <p class="text-xs font-semibold mb-1" style="color: #8B7355;">✓ Indicações:</p>
+                <p class="text-xs" style="color: #666;">Intolerância ao ferro oral, má absorção intestinal, necessidade de reposição rápida, anemia grave, doenças inflamatórias intestinais</p>
+              </div>
+              
+              <div class="p-3 rounded-lg" style="background: rgba(180, 100, 100, 0.05);">
+                <p class="text-xs font-semibold mb-1" style="color: #b46464;">⚠ Possíveis efeitos adversos:</p>
+                <p class="text-xs" style="color: #666;">Reações leves (dor no local, cefaleia, náusea), reações alérgicas (raras), alterações temporárias de pressão, manchas na pele (muito raras)</p>
+              </div>
+            </div>
+            
+            <!-- Important note -->
+            <div class="mt-4 p-3 rounded-xl border-l-4" style="background: rgba(107, 142, 35, 0.08); border-color: #6B8E23;">
+              <p class="text-xs" style="color: #555;">
+                <strong style="color: #6B8E23;">💡 Importante:</strong> A escolha do tipo de suplementação deve ser individualizada pelo médico, considerando o grau de deficiência, tolerância, condições clínicas e preferências do paciente.
+              </p>
+            </div>
+          </div>
+        </div>
+      `;
+    }
+
+    function generateLabTests() {
+      return `
+        <div class="page w-full h-full p-6 md:p-8 overflow-y-auto" style="background: #FAF8F5;">
+          <div class="max-w-lg mx-auto">
+            <!-- Header -->
+            <div class="text-center mb-4">
+              <p class="text-xs uppercase tracking-[0.15em] mb-2" style="color: #9CAF88;">Exames laboratoriais</p>
+              <h2 class="font-display text-xl md:text-2xl font-semibold mb-2" style="color: #3d3d3d;">Principais Exames e Valores</h2>
+            </div>
+            
+            <!-- Hemograma -->
+            <div class="mb-3 p-3 rounded-xl" style="background: white;">
+              <h3 class="font-semibold text-sm mb-2 flex items-center gap-2" style="color: #6B8E23;">
+                <span>🔬</span> Hemograma Completo
+              </h3>
+              <div class="space-y-2">
+                <div class="flex justify-between items-start">
+                  <div class="flex-1">
+                    <p class="text-xs font-semibold" style="color: #3d3d3d;">Hemoglobina (Hb)</p>
+                    <p class="text-xs" style="color: #666;">Transporta oxigênio no sangue</p>
+                  </div>
+                  <div class="text-right">
+                    <p class="text-xs font-bold" style="color: #6B8E23;">≥ 12 g/dL</p>
+                    <p class="text-xs" style="color: #999;">(mulheres)</p>
+                  </div>
+                </div>
+                <div class="flex justify-between items-start">
+                  <div class="flex-1">
+                    <p class="text-xs font-semibold" style="color: #3d3d3d;">Hematócrito (Ht)</p>
+                    <p class="text-xs" style="color: #666;">Concentração de células vermelhas</p>
+                  </div>
+                  <div class="text-right">
+                    <p class="text-xs font-bold" style="color: #6B8E23;">36-46%</p>
+                    <p class="text-xs" style="color: #999;">(mulheres)</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+            
+            <!-- Ferritina -->
+            <div class="mb-3 p-3 rounded-xl" style="background: white;">
+              <h3 class="font-semibold text-sm mb-2 flex items-center gap-2" style="color: #8B7355;">
+                <span>📊</span> Ferritina Sérica
+              </h3>
+              <p class="text-xs mb-2" style="color: #666;">Reflete os estoques de ferro no corpo. <strong>Exame mais importante para vegetarianos!</strong></p>
+              <div class="space-y-1">
+                <div class="flex justify-between">
+                  <p class="text-xs" style="color: #b46464;">Deficiente:</p>
+                  <p class="text-xs font-bold" style="color: #b46464;">&lt; 15 ng/mL</p>
+                </div>
+                <div class="flex justify-between">
+                  <p class="text-xs" style="color: #8B7355;">Inadequado:</p>
+                  <p class="text-xs font-bold" style="color: #8B7355;">15-30 ng/mL</p>
+                </div>
+                <div class="flex justify-between">
+                  <p class="text-xs" style="color: #6B8E23;">Ideal:</p>
+                  <p class="text-xs font-bold" style="color: #6B8E23;">≥ 50 ng/mL</p>
+                </div>
+              </div>
+            </div>
+            
+            <!-- Ferro e Saturação -->
+            <div class="mb-3 p-3 rounded-xl" style="background: white;">
+              <h3 class="font-semibold text-sm mb-2 flex items-center gap-2" style="color: #6B8E23;">
+                <span>⚗️</span> Ferro Sérico e Saturação
+              </h3>
+              <div class="space-y-2">
+                <div class="flex justify-between items-start">
+                  <div class="flex-1">
+                    <p class="text-xs font-semibold" style="color: #3d3d3d;">Ferro Sérico</p>
+                    <p class="text-xs" style="color: #666;">Ferro circulante no sangue</p>
+                  </div>
+                  <div class="text-right">
+                    <p class="text-xs font-bold" style="color: #6B8E23;">60-170 μg/dL</p>
+                  </div>
+                </div>
+                <div class="flex justify-between items-start">
+                  <div class="flex-1">
+                    <p class="text-xs font-semibold" style="color: #3d3d3d;">Saturação de Transferrina</p>
+                    <p class="text-xs" style="color: #666;">Porcentagem de ferro ligado</p>
+                  </div>
+                  <div class="text-right">
+                    <p class="text-xs font-bold" style="color: #6B8E23;">20-50%</p>
+                  </div>
+                </div>
+              </div>
+              <div class="mt-2 p-2 rounded" style="background: rgba(180, 100, 100, 0.05);">
+                <p class="text-xs" style="color: #666;"><strong>Atenção:</strong> Saturação &lt; 20% sugere deficiência de ferro</p>
+              </div>
+            </div>
+            
+            <!-- Vitamina B12 -->
+            <div class="mb-3 p-3 rounded-xl" style="background: white;">
+              <h3 class="font-semibold text-sm mb-2 flex items-center gap-2" style="color: #8B7355;">
+                <span>💉</span> Vitamina B12
+              </h3>
+              <p class="text-xs mb-2" style="color: #666;">Essencial para formação de células sanguíneas. <strong>Crucial em vegetarianos!</strong></p>
+              <div class="space-y-1">
+                <div class="flex justify-between">
+                  <p class="text-xs" style="color: #b46464;">Deficiente:</p>
+                  <p class="text-xs font-bold" style="color: #b46464;">&lt; 200 pg/mL</p>
+                </div>
+                <div class="flex justify-between">
+                  <p class="text-xs" style="color: #8B7355;">Limítrofe:</p>
+                  <p class="text-xs font-bold" style="color: #8B7355;">200-300 pg/mL</p>
+                </div>
+                <div class="flex justify-between">
+                  <p class="text-xs" style="color: #6B8E23;">Adequado:</p>
+                  <p class="text-xs font-bold" style="color: #6B8E23;">&gt; 300 pg/mL</p>
+                </div>
+              </div>
+            </div>
+            
+            <!-- Important note -->
+            <div class="p-3 rounded-xl border-l-4" style="background: rgba(107, 142, 35, 0.08); border-color: #6B8E23;">
+              <p class="text-xs" style="color: #555;">
+                <strong style="color: #6B8E23;">💡 Dica:</strong> Faça os exames em jejum de 8-12h para resultados mais precisos. A ferritina pode estar elevada falsamente em processos inflamatórios.
+              </p>
+            </div>
+          </div>
+        </div>
+      `;
+    }
+
+    function generateWhenToSeek() {
+      return `
+        <div class="page w-full h-full p-6 md:p-8 overflow-y-auto" style="background: #FAF8F5;">
+          <div class="max-w-lg mx-auto">
+            <!-- Header -->
+            <div class="text-center mb-5">
+              <p class="text-xs uppercase tracking-[0.15em] mb-2" style="color: #9CAF88;">Orientação médica</p>
+              <h2 class="font-display text-xl md:text-2xl font-semibold mb-2" style="color: #3d3d3d;">Quando procurar ajuda?</h2>
+            </div>
+            
+            <!-- Warning signs -->
+            <div class="p-5 rounded-2xl mb-4" style="background: linear-gradient(135deg, rgba(180, 100, 100, 0.1) 0%, rgba(180, 100, 100, 0.05) 100%); border: 1px solid rgba(180, 100, 100, 0.2);">
+              <h3 class="font-semibold mb-3 flex items-center gap-2" style="color: #b46464;">
+                <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
+                  <path fill-rule="evenodd" d="M8.257 3.099c.765-1.36 2.722-1.36 3.486 0l5.58 9.92c.75 1.334-.213 2.98-1.742 2.98H4.42c-1.53 0-2.493-1.646-1.743-2.98l5.58-9.92zM11 13a1 1 0 11-2 0 1 1 0 012 0zm-1-8a1 1 0 00-1 1v3a1 1 0 002 0V6a1 1 0 00-1-1z"/>
+                </svg>
+                Sinais de alerta
+              </h3>
+              <ul class="space-y-2 text-sm" style="color: #555;">
+                <li class="flex items-start gap-2">
+                  <span style="color: #b46464;">•</span>
+                  <span>Cansaço extremo que não melhora com descanso</span>
+                </li>
+                <li class="flex items-start gap-2">
+                  <span style="color: #b46464;">•</span>
+                  <span>Falta de ar durante atividades leves</span>
+                </li>
+                <li class="flex items-start gap-2">
+                  <span style="color: #b46464;">•</span>
+                  <span>Dor no peito ou palpitações frequentes</span>
+                </li>
+                <li class="flex items-start gap-2">
+                  <span style="color: #b46464;">•</span>
+                  <span>Palidez intensa ou tontura ao levantar</span>
+                </li>
+              </ul>
+            </div>
+            
+            <!-- Recommended tests -->
+            <div class="p-5 rounded-2xl mb-4" style="background: white;">
+              <h3 class="font-semibold mb-3 flex items-center gap-2" style="color: #6B8E23;">
+                <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
+                  <path d="M9 2a1 1 0 000 2h2a1 1 0 100-2H9z"/>
+                  <path fill-rule="evenodd" d="M4 5a2 2 0 012-2 3 3 0 003 3h2a3 3 0 003-3 2 2 0 012 2v11a2 2 0 01-2 2H6a2 2 0 01-2-2V5zm3 4a1 1 0 000 2h.01a1 1 0 100-2H7zm3 0a1 1 0 000 2h3a1 1 0 100-2h-3zm-3 4a1 1 0 100 2h.01a1 1 0 100-2H7zm3 0a1 1 0 100 2h3a1 1 0 100-2h-3z"/>
+                </svg>
+                Exames recomendados
+              </h3>
+              <div class="grid grid-cols-2 gap-2">
+                <div class="p-3 rounded-lg text-center" style="background: #FAF8F5;">
+                  <p class="font-semibold text-sm" style="color: #3d3d3d;">Hemograma</p>
+                  <p class="text-xs" style="color: #666;">Completo</p>
+                </div>
+                <div class="p-3 rounded-lg text-center" style="background: #FAF8F5;">
+                  <p class="font-semibold text-sm" style="color: #3d3d3d;">Ferritina</p>
+                  <p class="text-xs" style="color: #666;">Sérica</p>
+                </div>
+                <div class="p-3 rounded-lg text-center" style="background: #FAF8F5;">
+                  <p class="font-semibold text-sm" style="color: #3d3d3d;">Ferro sérico</p>
+                  <p class="text-xs" style="color: #666;">+ Saturação</p>
+                </div>
+                <div class="p-3 rounded-lg text-center" style="background: #FAF8F5;">
+                  <p class="font-semibold text-sm" style="color: #3d3d3d;">Vitamina B12</p>
+                  <p class="text-xs" style="color: #666;">+ Folato</p>
+                </div>
+              </div>
+            </div>
+            
+            <!-- Encouragement -->
+            <div class="p-4 rounded-xl text-center" style="background: linear-gradient(135deg, #6B8E23 0%, #5a7a1e 100%); color: white;">
+              <p class="text-sm">
+                ✨ Com o tratamento adequado, os níveis de ferro podem ser restaurados em <strong>3 a 6 meses</strong>
+              </p>
+            </div>
+            
+            <!-- CTA Button -->
+            <div class="mt-4 text-center">
+              <a href="https://www.instagram.com/hematoveg/" 
+                 target="_blank" 
+                 rel="noopener noreferrer"
+                 class="btn-cta inline-flex items-center gap-2 px-6 py-3 rounded-full text-white font-semibold text-sm">
+                <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
+                  <path d="M8 9a3 3 0 100-6 3 3 0 000 6zM8 11a6 6 0 016 6H2a6 6 0 016-6zM16 7a1 1 0 10-2 0v1h-1a1 1 0 100 2h1v1a1 1 0 102 0v-1h1a1 1 0 100-2h-1V7z"/>
+                </svg>
+                <span>Agendar consulta com especialista</span>
+              </a>
+            </div>
+          </div>
+        </div>
+      `;
+    }
+
+    function generateProductsIntro() {
+      return `
+        <div class="page w-full h-full p-6 md:p-8 overflow-y-auto" style="background: #FAF8F5;">
+          <div class="max-w-lg mx-auto">
+            <!-- Header -->
+            <div class="text-center mb-5">
+              <p class="text-xs uppercase tracking-[0.15em] mb-2" style="color: #9CAF88;">Consumo consciente</p>
+              <h2 class="font-display text-xl md:text-2xl font-semibold mb-2" style="color: #3d3d3d;">Produtos Veganos e Cruelty-Free</h2>
+              <p class="text-xs" style="color: #666;">Escolhas que respeitam todos os seres</p>
+            </div>
+            
+            <!-- Emotional CTA Box -->
+            <div class="mb-5 p-6 rounded-2xl relative overflow-hidden" style="background: linear-gradient(135deg, rgba(107, 142, 35, 0.12) 0%, rgba(156, 175, 136, 0.08) 100%); border: 2px solid rgba(107, 142, 35, 0.3);">
+              <div class="absolute top-0 right-0 w-24 h-24 opacity-5">
+                <svg viewBox="0 0 100 100" fill="#6B8E23">
+                  <circle cx="50" cy="50" r="40"/>
+                </svg>
+              </div>
+              
+              <div class="relative z-10 text-center">
+                <div class="w-16 h-16 mx-auto mb-4 rounded-full flex items-center justify-center" style="background: linear-gradient(135deg, #6B8E23 0%, #5a7a1e 100%); box-shadow: 0 6px 20px rgba(107, 142, 35, 0.3);">
+                  <span style="font-size: 28px;">💚</span>
+                </div>
+                
+                <h3 class="font-display text-lg font-semibold mb-3" style="color: #3d3d3d;">
+                  Suas escolhas têm poder
+                </h3>
+                
+                <p class="text-sm leading-relaxed mb-4" style="color: #555;">
+                  Cada produto que você compra é um voto pelos seus valores. Ao escolher produtos veganos e cruelty-free, você está <strong style="color: #6B8E23;">cuidando de si mesma</strong> e, ao mesmo tempo, <strong style="color: #6B8E23;">protegendo os animais</strong> e o planeta.
+                </p>
+                
+                <div class="flex items-center justify-center gap-4 mb-4">
+                  <div class="text-center">
+                    <div class="text-2xl mb-1">🌱</div>
+                    <p class="text-xs" style="color: #666;">Sua saúde</p>
+                  </div>
+                  <div class="text-2xl" style="color: #6B8E23;">+</div>
+                  <div class="text-center">
+                    <div class="text-2xl mb-1">🐰</div>
+                    <p class="text-xs" style="color: #666;">Animais</p>
+                  </div>
+                  <div class="text-2xl" style="color: #6B8E23;">+</div>
+                  <div class="text-center">
+                    <div class="text-2xl mb-1">🌍</div>
+                    <p class="text-xs" style="color: #666;">Planeta</p>
+                  </div>
+                </div>
+                
+                <div class="p-3 rounded-lg" style="background: rgba(255, 255, 255, 0.7);">
+                  <p class="text-xs italic" style="color: #555;">
+                    "Quando você alinha suas compras com seus valores, cada escolha se torna um ato de amor-próprio e compaixão."
+                  </p>
+                </div>
+              </div>
+            </div>
+            
+            <!-- Explanation boxes -->
+            <div class="grid grid-cols-1 gap-3 mb-4">
+              <!-- Vegano -->
+              <div class="p-4 rounded-xl" style="background: white; border: 2px solid rgba(107, 142, 35, 0.2);">
+                <div class="flex items-start gap-3">
+                  <div class="w-10 h-10 rounded-full flex items-center justify-center flex-shrink-0" style="background: rgba(107, 142, 35, 0.15);">
+                    <span style="font-size: 20px;">🌱</span>
+                  </div>
+                  <div class="flex-1">
+                    <h3 class="font-semibold text-sm mb-1" style="color: #6B8E23;">Produto Vegano</h3>
+                    <p class="text-xs leading-relaxed" style="color: #555;">
+                      Não contém <strong>nenhum ingrediente de origem animal</strong> em sua composição (sem mel, cera de abelha, lanolina, colágeno animal, etc.). Garante que o produto é 100% plant-based.
+                    </p>
+                  </div>
+                </div>
+              </div>
+              
+              <!-- Cruelty-Free -->
+              <div class="p-4 rounded-xl" style="background: white; border: 2px solid rgba(139, 115, 85, 0.3);">
+                <div class="flex items-start gap-3">
+                  <div class="w-10 h-10 rounded-full flex items-center justify-center flex-shrink-0" style="background: rgba(139, 115, 85, 0.15);">
+                    <span style="font-size: 20px;">🐰</span>
+                  </div>
+                  <div class="flex-1">
+                    <h3 class="font-semibold text-sm mb-1" style="color: #8B7355;">Produto Cruelty-Free</h3>
+                    <p class="text-xs leading-relaxed" style="color: #555;">
+                      <strong>Não foi testado em animais</strong> em nenhuma etapa de produção. O produto final e seus ingredientes não passaram por testes em animais. Pode ou não conter ingredientes de origem animal.
+                    </p>
+                  </div>
+                </div>
+              </div>
+            </div>
+            
+            <!-- Important note -->
+            <div class="p-3 rounded-lg border-l-4" style="background: rgba(107, 142, 35, 0.08); border-color: #6B8E23;">
+              <p class="text-xs" style="color: #555;">
+                <strong style="color: #6B8E23;">💡 Importante:</strong> Um produto pode ser cruelty-free mas não vegano (ex: contém mel mas não foi testado em animais). Vegano sempre implica em ingredientes vegetais, mas nem sempre garante ausência de testes.
+              </p>
+            </div>
+          </div>
+        </div>
+      `;
+    }
+
+    function generateProductsPage() {
+      return `
+        <div class="page w-full h-full p-6 md:p-8 overflow-y-auto" style="background: #FAF8F5;">
+          <div class="max-w-lg mx-auto">
+            <!-- Header -->
+            <div class="text-center mb-4">
+              <p class="text-xs uppercase tracking-[0.15em] mb-2" style="color: #9CAF88;">Seleção especial</p>
+              <h2 class="font-display text-xl md:text-2xl font-semibold mb-2" style="color: #3d3d3d;">Categorias de Produtos</h2>
+              <p class="text-xs mb-3" style="color: #666;">Escolha a categoria que você procura</p>
+            </div>
+            
+            <!-- Product Categories -->
+            <div class="space-y-2">
+              <a href="https://mercadolivre.com/sec/1EWtp7f" 
+                 target="_blank" 
+                 rel="noopener noreferrer"
+                 class="block p-3 rounded-xl text-center font-semibold text-sm transition-all hover:scale-105" 
+                 style="background: linear-gradient(135deg, #D4C5B9 0%, #c4b5a9 100%); color: #3d3d3d; box-shadow: 0 2px 8px rgba(212, 197, 185, 0.4);">
+                💄 MAQUIAGEM
+              </a>
+              
+              <a href="https://mercadolivre.com/sec/1mXvpCt" 
+                 target="_blank" 
+                 rel="noopener noreferrer"
+                 class="block p-3 rounded-xl text-center font-semibold text-sm transition-all hover:scale-105" 
+                 style="background: linear-gradient(135deg, #d4a5a5 0%, #c49090 100%); color: #3d3d3d; box-shadow: 0 2px 8px rgba(212, 165, 165, 0.4);">
+                ✨ CUIDADOS COM A PELE
+              </a>
+              
+              <a href="https://mercadolivre.com/sec/2JgNAbV" 
+                 target="_blank" 
+                 rel="noopener noreferrer"
+                 class="block p-3 rounded-xl text-center font-semibold text-sm transition-all hover:scale-105" 
+                 style="background: linear-gradient(135deg, #D4C5B9 0%, #c4b5a9 100%); color: #3d3d3d; box-shadow: 0 2px 8px rgba(212, 197, 185, 0.4);">
+                🧼 HIGIENE PESSOAL
+              </a>
+              
+              <a href="https://mercadolivre.com/sec/1wF9SdX" 
+                 target="_blank" 
+                 rel="noopener noreferrer"
+                 class="block p-3 rounded-xl text-center font-semibold text-sm transition-all hover:scale-105" 
+                 style="background: linear-gradient(135deg, #d4a5a5 0%, #c49090 100%); color: #3d3d3d; box-shadow: 0 2px 8px rgba(212, 165, 165, 0.4);">
+                👶 BEBÊS E CRIANÇAS
+              </a>
+              
+              <a href="https://mercadolivre.com/sec/1wxmCFP" 
+                 target="_blank" 
+                 rel="noopener noreferrer"
+                 class="block p-3 rounded-xl text-center font-semibold text-sm transition-all hover:scale-105" 
+                 style="background: linear-gradient(135deg, #D4C5B9 0%, #c4b5a9 100%); color: #3d3d3d; box-shadow: 0 2px 8px rgba(212, 197, 185, 0.4);">
+                💅 UNHAS E CABELOS
+              </a>
+              
+              <a href="https://mercadolivre.com/sec/16QXDXt" 
+                 target="_blank" 
+                 rel="noopener noreferrer"
+                 class="block p-3 rounded-xl text-center font-semibold text-sm transition-all hover:scale-105" 
+                 style="background: linear-gradient(135deg, #d4a5a5 0%, #c49090 100%); color: #3d3d3d; box-shadow: 0 2px 8px rgba(212, 165, 165, 0.4);">
+                🏠 CASA E LIMPEZA
+              </a>
+              
+              <a href="https://mercadolivre.com/sec/2nHAJht" 
+                 target="_blank" 
+                 rel="noopener noreferrer"
+                 class="block p-3 rounded-xl text-center font-semibold text-sm transition-all hover:scale-105" 
+                 style="background: linear-gradient(135deg, #D4C5B9 0%, #c4b5a9 100%); color: #3d3d3d; box-shadow: 0 2px 8px rgba(212, 197, 185, 0.4);">
+                💊 SUPLEMENTOS E ALIMENTAÇÃO
+              </a>
+              
+              <a href="https://mercadolivre.com/sec/2FNmDHd" 
+                 target="_blank" 
+                 rel="noopener noreferrer"
+                 class="block p-3 rounded-xl text-center font-semibold text-sm transition-all hover:scale-105" 
+                 style="background: linear-gradient(135deg, #d4a5a5 0%, #c49090 100%); color: #3d3d3d; box-shadow: 0 2px 8px rgba(212, 165, 165, 0.4);">
+                🧘 AUTOCUIDADO
+              </a>
+              
+              <a href="https://mercadolivre.com/sec/2FxVXrR" 
+                 target="_blank" 
+                 rel="noopener noreferrer"
+                 class="block p-3 rounded-xl text-center font-semibold text-sm transition-all hover:scale-105" 
+                 style="background: linear-gradient(135deg, #D4C5B9 0%, #c4b5a9 100%); color: #3d3d3d; box-shadow: 0 2px 8px rgba(212, 197, 185, 0.4);">
+                👗 MODA E ACESSÓRIOS
+              </a>
+            </div>
+          </div>
+        </div>
+      `;
+    }
+
+    function generateAboutDoctor() {
+      return `
+        <div class="page w-full h-full p-6 md:p-8 overflow-y-auto" style="background: #FAF8F5;">
+          <div class="max-w-lg mx-auto">
+            <!-- Header -->
+            <div class="text-center mb-5">
+              <p class="text-xs uppercase tracking-[0.15em] mb-2" style="color: #9CAF88;">Conheça sua especialista</p>
+              <h2 class="font-display text-xl md:text-2xl font-semibold" style="color: #3d3d3d;">${config.doctor_name}</h2>
+            </div>
+            
+            <!-- Photo placeholder -->
+            <div class="flex justify-center mb-5">
+              <div class="w-32 h-32 rounded-full flex items-center justify-center text-white font-display text-4xl" style="background: linear-gradient(135deg, #6B8E23 0%, #5a7a1e 100%); box-shadow: 0 10px 30px rgba(107, 142, 35, 0.3); border: 4px solid white;">
+                M
+              </div>
+            </div>
+            
+            <!-- Credentials -->
+            <div class="flex justify-center gap-3 mb-5 flex-wrap">
+              <span class="px-3 py-1 rounded-full text-xs font-medium tracking-wide" style="background: rgba(107, 142, 35, 0.15); color: #6B8E23;">Hematologista</span>
+              <span class="px-3 py-1 rounded-full text-xs font-medium tracking-wide" style="background: rgba(139, 115, 85, 0.15); color: #8B7355;">CRM 22884</span>
+              <span class="px-3 py-1 rounded-full text-xs font-medium tracking-wide" style="background: rgba(156, 175, 136, 0.15); color: #6B8E23;">RQE 18744</span>
+            </div>
+            
+            <!-- Bio -->
+            <div class="p-5 rounded-2xl mb-4" style="background: white;">
+              <p class="text-sm leading-relaxed mb-3" style="color: #555;">
+                Sou médica hematologista e hemoterapeuta, com atuação dedicada ao cuidado das doenças do sangue e à promoção da saúde de forma individualizada.
+              </p>
+              <p class="text-sm leading-relaxed" style="color: #555;">
+                Minha trajetória profissional é guiada pela busca constante por conhecimento, pela medicina baseada em evidências e pela compreensão de que cada paciente carrega uma história única. Tenho uma identificação pessoal com o vegetarianismo, o que despertou um interesse especial no acompanhamento de pacientes vegetarianos e veganos, por conhecer de perto suas dúvidas, desafios e necessidades ao longo da vida.
+              </p>
+            </div>
+            
+            <!-- Approach -->
+            <div class="p-4 rounded-xl" style="background: linear-gradient(135deg, rgba(107, 142, 35, 0.1) 0%, rgba(156, 175, 136, 0.05) 100%);">
+              <h3 class="font-semibold mb-2 text-center" style="color: #6B8E23;">Minha abordagem</h3>
+              <p class="text-xs leading-relaxed" style="color: #555;">
+                Acredito que a boa prática médica vai além da interpretação de exames ou da aplicação de protocolos padronizados. Meu atendimento é centrado na escuta atenta, na avaliação cuidadosa do contexto de vida e nas escolhas individuais de cada paciente. Busco oferecer orientações claras, seguras e personalizadas, construindo junto ao paciente decisões conscientes sobre sua saúde, com ética, acolhimento e responsabilidade.
+              </p>
+            </div>
+          </div>
+        </div>
+      `;
+    }
+
+    function generateAboutHematology() {
+      return `
+        <div class="page w-full h-full p-6 md:p-8 overflow-y-auto" style="background: #FAF8F5;">
+          <div class="max-w-lg mx-auto">
+            <!-- Header -->
+            <div class="text-center mb-5">
+              <p class="text-xs uppercase tracking-[0.15em] mb-2" style="color: #9CAF88;">Especialidade médica</p>
+              <h2 class="font-display text-xl md:text-2xl font-semibold mb-2" style="color: #3d3d3d;">O que é Hematologia?</h2>
+              <p class="text-sm" style="color: #666;">E por que isso é um diferencial no seu cuidado</p>
+            </div>
+            
+            <!-- What is Hematology -->
+            <div class="p-5 rounded-2xl mb-4" style="background: white; border: 2px solid rgba(107, 142, 35, 0.2);">
+              <div class="flex items-start gap-3 mb-3">
+                <div class="w-12 h-12 rounded-full flex items-center justify-center flex-shrink-0" style="background: rgba(107, 142, 35, 0.15);">
+                  <svg class="w-6 h-6" fill="#6B8E23" viewBox="0 0 20 20">
+                    <path d="M10.394 2.08a1 1 0 00-.788 0l-7 3a1 1 0 000 1.84L5.25 8.051a.999.999 0 01.356-.257l4-1.714a1 1 0 11.788 1.838L7.667 9.088l1.94.831a1 1 0 00.787 0l7-3a1 1 0 000-1.838l-7-3zM3.31 9.397L5 10.12v4.102a8.969 8.969 0 00-1.05-.174 1 1 0 01-.89-.89 11.115 11.115 0 01.25-3.762zM9.3 16.573A9.026 9.026 0 007 14.935v-3.957l1.818.78a3 3 0 002.364 0l5.508-2.361a11.026 11.026 0 01.25 3.762 1 1 0 01-.89.89 8.968 8.968 0 00-5.35 2.524 1 1 0 01-1.4 0zM6 18a1 1 0 001-1v-2.065a8.935 8.935 0 00-2-.712V17a1 1 0 001 1z"/>
+                  </svg>
+                </div>
+                <div class="flex-1">
+                  <h3 class="font-semibold mb-2" style="color: #6B8E23;">A especialidade do sangue</h3>
+                  <p class="text-sm leading-relaxed" style="color: #555;">
+                    Hematologia é a especialidade médica que estuda o sangue e seus componentes: glóbulos vermelhos, glóbulos brancos, plaquetas e os órgãos que os produzem (medula óssea, baço, linfonodos).
+                  </p>
+                </div>
+              </div>
+            </div>
+            
+            <!-- Why it matters -->
+            <div class="mb-4">
+              <h3 class="font-semibold mb-3 text-center" style="color: #3d3d3d;">Por que é um diferencial para você?</h3>
+              
+              <div class="space-y-3">
+                <div class="p-4 rounded-xl" style="background: white;">
+                  <div class="flex items-start gap-3">
+                    <div class="w-8 h-8 rounded-full flex items-center justify-center flex-shrink-0" style="background: rgba(107, 142, 35, 0.15);">
+                      <span style="color: #6B8E23;">🎯</span>
+                    </div>
+                    <div>
+                      <p class="text-sm font-semibold mb-1" style="color: #3d3d3d;">Expertise profunda em ferro e anemia</p>
+                      <p class="text-xs" style="color: #666;">Hematologistas são especialistas em diagnosticar e tratar todos os tipos de anemia, incluindo as mais complexas e suas causas subjacentes.</p>
+                    </div>
+                  </div>
+                </div>
+                
+                <div class="p-4 rounded-xl" style="background: white;">
+                  <div class="flex items-start gap-3">
+                    <div class="w-8 h-8 rounded-full flex items-center justify-center flex-shrink-0" style="background: rgba(107, 142, 35, 0.15);">
+                      <span style="color: #6B8E23;">🔬</span>
+                    </div>
+                    <div>
+                      <p class="text-sm font-semibold mb-1" style="color: #3d3d3d;">Interpretação precisa de exames</p>
+                      <p class="text-xs" style="color: #666;">Capacidade de analisar hemogramas, ferritina, e outros marcadores de forma detalhada, identificando alterações sutis que outros profissionais podem não perceber.</p>
+                    </div>
+                  </div>
+                </div>
+                
+                <div class="p-4 rounded-xl" style="background: white;">
+                  <div class="flex items-start gap-3">
+                    <div class="w-8 h-8 rounded-full flex items-center justify-center flex-shrink-0" style="background: rgba(107, 142, 35, 0.15);">
+                      <span style="color: #6B8E23;">💊</span>
+                    </div>
+                    <div>
+                      <p class="text-sm font-semibold mb-1" style="color: #3d3d3d;">Tratamentos personalizados</p>
+                      <p class="text-xs" style="color: #666;">Conhecimento especializado sobre diferentes tipos de suplementação (oral e endovenosa), doses adequadas e manejo de efeitos colaterais.</p>
+                    </div>
+                  </div>
+                </div>
+                
+              </div>
+            </div>
+            
+            <!-- Bottom highlight -->
+            <div class="p-4 rounded-xl text-center" style="background: linear-gradient(135deg, #6B8E23 0%, #5a7a1e 100%); color: white;">
+              <p class="text-sm font-semibold mb-1">Cuidado especializado faz toda a diferença</p>
+              <p class="text-xs opacity-90">Um hematologista oferece o olhar mais preciso e completo para questões relacionadas ao ferro e anemia</p>
+            </div>
+          </div>
+        </div>
+      `;
+    }
+
+    function generateCTAPage() {
+      return `
+        <div class="page w-full h-full relative overflow-hidden" style="background: linear-gradient(180deg, #FAF8F5 0%, #e8e2da 100%);">
+          <!-- Decorative elements -->
+          <div class="absolute top-0 left-0 w-full h-32 opacity-10">
+            <svg viewBox="0 0 400 100" preserveAspectRatio="none" class="w-full h-full">
+              <path d="M0,50 Q100,0 200,50 T400,50 L400,0 L0,0 Z" fill="#6B8E23"/>
+            </svg>
+          </div>
+          <div class="absolute bottom-0 left-0 right-0">${branchSVG}</div>
+          
+          <!-- Content -->
+          <div class="relative z-10 h-full flex flex-col justify-center p-6 md:p-8">
+            <div class="max-w-lg mx-auto text-center">
+              <!-- Icon -->
+              <div class="w-20 h-20 mx-auto mb-5 rounded-full flex items-center justify-center" style="background: linear-gradient(135deg, #6B8E23 0%, #5a7a1e 100%); box-shadow: 0 10px 30px rgba(107, 142, 35, 0.3);">
+                <svg class="w-10 h-10" fill="white" viewBox="0 0 20 20">
+                  <path fill-rule="evenodd" d="M3.172 5.172a4 4 0 015.656 0L10 6.343l1.172-1.171a4 4 0 115.656 5.656L10 17.657l-6.828-6.829a4 4 0 010-5.656z"/>
+                </svg>
+              </div>
+              
+              <!-- Message -->
+              <h2 class="font-display text-2xl md:text-3xl font-semibold mb-3" style="color: #3d3d3d;">
+                Pronta para cuidar da sua saúde<br/>
+                <span style="color: #6B8E23;">de forma especializada?</span>
+              </h2>
+              
+              <p class="text-sm mb-6 max-w-sm mx-auto" style="color: #666;">
+                Se você se identificou com os sintomas deste guia, o próximo passo é buscar uma avaliação personalizada.
+              </p>
+              
+              <!-- CTA Button -->
+              <a href="https://www.instagram.com/hematoveg/" 
+                 target="_blank" 
+                 rel="noopener noreferrer"
+                 class="btn-cta inline-flex items-center gap-3 px-8 py-4 rounded-full text-white font-semibold text-base">
+                <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24">
+                  <path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/>
+                </svg>
+                <span>Siga no Instagram</span>
+              </a>
+              
+              <p class="mt-3 text-sm font-medium" style="color: #6B8E23;">${config.instagram_handle}</p>
+              
+              <!-- Secondary info -->
+              <div class="mt-6 pt-6 border-t" style="border-color: rgba(107, 142, 35, 0.2);">
+                <p class="text-xs mb-2" style="color: #666;">Atendimento online para todo Brasil</p>
+                <p class="text-sm font-semibold" style="color: #3d3d3d;">Hematoveg</p>
+              </div>
+              
+              <!-- Footer -->
+              <div class="mt-8">
+                <p class="text-xs" style="color: #999;">© 2024 ${config.doctor_name}. Todos os direitos reservados.</p>
+                <p class="text-xs mt-1" style="color: #999;">Este material é educativo e não substitui consulta médica.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      `;
+    }
+
+    // Navigation and rendering functions
+    function renderPage() {
+      const container = document.getElementById('pageContainer');
+      container.innerHTML = generatePage(currentPage);
+      document.getElementById('pageNum').textContent = currentPage;
+      
+      // Update navigation buttons
+      document.getElementById('prevBtn').disabled = currentPage === 1;
+      document.getElementById('nextBtn').disabled = currentPage === totalPages;
+      
+      // Update indicators
+      renderIndicators();
+      
+      // Re-attach checkbox listeners if on checklist pages
+      if (currentPage >= 3 && currentPage <= 5) {
+        updateCounters();
+      }
+    }
+
+    function renderIndicators() {
+      const indicatorContainer = document.querySelector('.flex.gap-2.mt-4');
+      indicatorContainer.innerHTML = '';
+      
+      for (let i = 1; i <= totalPages; i++) {
+        const indicator = document.createElement('button');
+        indicator.className = `page-indicator w-2 h-2 rounded-full transition-all ${i === currentPage ? 'active' : ''}`;
+        indicator.style.background = i === currentPage ? '#6B8E23' : '#D4C5B9';
+        indicator.onclick = () => goToPage(i);
+        indicatorContainer.appendChild(indicator);
+      }
+    }
+
+    function goToPage(page) {
+      currentPage = page;
+      renderPage();
+    }
+
+    function nextPage() {
+      if (currentPage < totalPages) {
+        currentPage++;
+        renderPage();
+      }
+    }
+
+    function prevPage() {
+      if (currentPage > 1) {
+        currentPage--;
+        renderPage();
+      }
+    }
+
+    function updateCounters() {
+      // Count checkboxes for each category
+      const physical = document.querySelectorAll('[id^="physical-"]:checked').length;
+      const cognitive = document.querySelectorAll('[id^="cognitive-"]:checked').length;
+      const risk = document.querySelectorAll('[id^="risk-"]:checked').length;
+      
+      // Update individual counters
+      const counter1 = document.getElementById('counter-1');
+      const counter2 = document.getElementById('counter-2');
+      const totalScore = document.getElementById('total-score');
+      const scoreMessage = document.getElementById('score-message');
+      
+      if (counter1) counter1.textContent = physical;
+      if (counter2) counter2.textContent = cognitive;
+      
+      const total = physical + cognitive + risk;
+      if (totalScore) totalScore.textContent = total;
+      
+      if (scoreMessage) {
+        if (total === 0) {
+          scoreMessage.textContent = 'Continue marcando seus sintomas';
+        } else if (total <= 5) {
+          scoreMessage.textContent = 'Risco baixo - mantenha atenção à dieta';
+        } else if (total <= 12) {
+          scoreMessage.textContent = 'Atenção - considere fazer exames';
+        } else {
+          scoreMessage.textContent = 'Recomendado buscar avaliação médica';
+        }
+      }
+    }
+
+    // Event listeners
+    document.getElementById('nextBtn').addEventListener('click', nextPage);
+    document.getElementById('prevBtn').addEventListener('click', prevPage);
+
+    // Keyboard navigation
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'ArrowRight' || e.key === ' ') {
+        e.preventDefault();
+        nextPage();
+      } else if (e.key === 'ArrowLeft') {
+        prevPage();
+      }
+    });
+
+    // Touch swipe support
+    let touchStartX = 0;
+    let touchEndX = 0;
+
+    document.addEventListener('touchstart', (e) => {
+      touchStartX = e.changedTouches[0].screenX;
+    });
+
+    document.addEventListener('touchend', (e) => {
+      touchEndX = e.changedTouches[0].screenX;
+      handleSwipe();
+    });
+
+    function handleSwipe() {
+      const swipeThreshold = 50;
+      const diff = touchStartX - touchEndX;
+      
+      if (Math.abs(diff) > swipeThreshold) {
+        if (diff > 0) {
+          nextPage();
+        } else {
+          prevPage();
+        }
+      }
+    }
+
+    // Initial render
+    renderPage();
+  </script>
+ <script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'9c94595fa3061719',t:'MTc3MDMxNDg2NC4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+</html>
+
