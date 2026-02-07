@@ -1650,6 +1650,34 @@
 
     // Navigation and rendering functions
     function renderPage() {
+      // Update Hash and Track
+      const newHash = 'pagina' + currentPage;
+      
+      // Only update hash/track if it changed or if it's missing (initial load handling)
+      // Check if hash matches current page
+      const currentHashNum = parseInt(window.location.hash.replace('#pagina', ''));
+      
+      if (window.location.hash !== '#' + newHash) {
+          // If the hash is different (or empty), update it and track
+          // Note: If user navigated via back button, hash changes *before* we render? 
+          // No, we render *after* we detect hash change if we use hashchange event.
+          // But here we drive navigation via buttons -> functions -> renderPage.
+          // So we push the hash here.
+          
+          /* Prevent infinite loop if renderPage is called from hash change handler */
+          if (currentHashNum !== currentPage) {
+             window.location.hash = newHash;
+             
+             // Tracking
+             if (window.op) {
+                window.op('track', 'ebook_page_view', { page: currentPage, title: 'Página ' + currentPage });
+             }
+             if (window.fbq) {
+                fbq('trackCustom', 'EbookPageView', { page: currentPage });
+             }
+          }
+      }
+
       const container = document.getElementById('pageContainer');
       container.innerHTML = generatePage(currentPage);
       document.getElementById('pageNum').textContent = currentPage;
@@ -1771,7 +1799,28 @@
     }
 
     // Initial render
+    // Initial render and hash handling
+    const initialHash = window.location.hash;
+    if (initialHash && initialHash.startsWith('#pagina')) {
+        const pageNum = parseInt(initialHash.replace('#pagina', ''));
+        if (!isNaN(pageNum) && pageNum >= 1 && pageNum <= totalPages) {
+            currentPage = pageNum;
+        }
+    }
+    
     renderPage();
+    
+    // Listen for hash changes (e.g. back button)
+    window.addEventListener('hashchange', () => {
+        const hash = window.location.hash;
+        if (hash && hash.startsWith('#pagina')) {
+            const pageNum = parseInt(hash.replace('#pagina', ''));
+            if (!isNaN(pageNum) && pageNum >= 1 && pageNum <= totalPages && pageNum !== currentPage) {
+                currentPage = pageNum;
+                renderPage();
+            }
+        }
+    });
   </script>
  <script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'9c94595fa3061719',t:'MTc3MDMxNDg2NC4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
 </html>
