@@ -114,18 +114,6 @@
   fbq('track', 'PageView');
   </script>
   <!-- End Meta Pixel Code -->
-
-  <!-- OpenPanel Analytics -->
-  <script>
-    window.op = window.op || function () { var n = []; return new Proxy(function () { arguments.length && n.push([].slice.call(arguments)) }, { get: function (t, r) { return "q" === r ? n : function () { n.push([r].concat([].slice.call(arguments))) } }, has: function (t, r) { return "q" === r } }) }();
-    window.op('init', {
-      clientId: '3ab6e0f6-618f-436e-98c5-4f1b4fd8826c',
-      trackScreenViews: true,
-      trackOutgoingLinks: true,
-      trackAttributes: true,
-    });
-  </script>
-  <script src="https://openpanel.dev/op1.js" defer async></script>
  </head>
  <body class="h-full font-body bg-gradient-to-br from-emerald-50 via-stone-50 to-amber-50">
    <!-- Meta Pixel Noscript -->
