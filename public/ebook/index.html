@@ -2303,41 +2303,41 @@
     }
 
     function generateIndexPage() {
-      const createLink = (page, text) => `
+      const createSection = (page, icon, title, desc) => `
         <div onclick="document.getElementById('page-${page}').scrollIntoView({behavior: 'smooth'})" 
-             class="flex items-center justify-between p-3 border-b border-gray-200 cursor-pointer hover:bg-gray-50 transition-colors">
-          <span class="font-medium text-sm" style="color: #3d3d3d;">${text}</span>
-          <span class="text-xs font-bold" style="color: #6B8E23;">${String(page).padStart(2, '0')}</span>
+             class="flex items-center gap-4 p-4 bg-white rounded-xl shadow-sm border border-gray-100 cursor-pointer hover:shadow-md hover:scale-[1.02] transition-all">
+          <div class="w-12 h-12 rounded-full flex items-center justify-center flex-shrink-0 text-2xl" style="background: rgba(107, 142, 35, 0.1);">
+            ${icon}
+          </div>
+          <div class="flex-1">
+            <h3 class="font-semibold text-base leading-tight mb-1" style="color: #3d3d3d;">${title}</h3>
+            <p class="text-xs font-medium" style="color: #888;">${desc}</p>
+          </div>
+           <div class="w-8 h-8 rounded-full flex items-center justify-center bg-gray-50 text-gray-400">
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path></svg>
+          </div>
         </div>
       `;
 
       return `
         <div class="page w-full h-full p-6 md:p-8 overflow-y-auto" style="background: #FAF8F5;">
-          <div class="max-w-lg mx-auto">
-            <!-- Header -->
-            <div class="text-center mb-6">
-              <p class="text-xs uppercase tracking-[0.15em] mb-2" style="color: #9CAF88;">Navegação</p>
+          <div class="max-w-lg mx-auto h-full flex flex-col justify-center">
+            <div class="text-center mb-8">
+              <p class="text-xs uppercase tracking-[0.15em] mb-2" style="color: #9CAF88;">Navegação Rápida</p>
               <h2 class="font-display text-2xl md:text-3xl font-semibold mb-2" style="color: #3d3d3d;">Índice</h2>
               <div class="w-12 h-0.5 mx-auto" style="background: #6B8E23;"></div>
             </div>
             
-            <!-- Index Items -->
-            <div class="space-y-2">
-              ${createLink(3, 'Introdução e Como Usar')}
-              ${createLink(4, 'Checklist de Sintomas')}
-              ${createLink(7, 'O que é o Ferro')}
-              ${createLink(8, 'Os 3 Estágios da Deficiência')}
-              ${createLink(9, 'Ferro Heme vs Não-Heme')}
-              ${createLink(10, 'Fontes de Ferro Vegetarianas')}
-              ${createLink(11, 'Potencializadores de Absorção')}
-              ${createLink(12, 'Exemplos de Refeições')}
-              ${createLink(13, 'Mitos e Verdades')}
-              ${createLink(14, 'Tratamento e Suplementação')}
-              ${createLink(15, 'Exames Laboratoriais')}
-              ${createLink(16, 'Sinais de Alerta')}
-              ${createLink(17, 'Produtos Conscientes')}
-              ${createLink(19, 'Sobre a Especialista')}
+            <div class="grid gap-3">
+              ${createSection(4, '📝', 'Checklist de Sintomas', 'Faça sua autoanálise')}
+              ${createSection(7, '📚', 'Entenda a Deficiência', 'O que é e tipos de ferro')}
+              ${createSection(10, '🥦', 'Guia Alimentar', 'Fontes principais')}
+              ${createSection(14, '💊', 'Tratamento', 'Suplementação e exames')}
+              ${createSection(17, '🛍️', 'Produtos Indicados', 'Curadoria de suplementos')}
+              ${createSection(19, '👩‍⚕️', 'Sobre a Especialista', 'Conheça a Dra. Marina')}
             </div>
+            
+            <p class="text-center text-xs mt-6 text-gray-400">Toque em um item para navegar</p>
           </div>
         </div>
       `;
