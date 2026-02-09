@@ -157,7 +157,7 @@ const Index = () => {
             </p>
 
             <LinkButton
-              href="https://www.doctoralia.com.br/z/UL6TuH"
+              href="https://www.doctoralia.com.br/marina-steffli-machado/hematologista/sao-jose"
               icon={<Calendar className="w-5 h-5" />}
               variant="nude"
             >
@@ -183,6 +183,11 @@ const Index = () => {
               <br />
               CRM-SC 22884 | RQE 18477
             </p>
+            <div className="flex justify-center gap-4 mt-4 text-[10px]" style={{ color: "hsl(45, 15%, 75%)" }}>
+              <a href="/termos.html" className="hover:underline">Termos de Uso</a>
+              <span>•</span>
+              <a href="/termos.html" className="hover:underline">Política de Privacidade</a>
+            </div>
           </div>
         </div>
       </div>

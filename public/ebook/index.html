@@ -385,8 +385,8 @@
             <!-- Bottom signature -->
             <div class="text-center">
               <div class="inline-flex items-center gap-3 px-5 py-3 rounded-2xl" style="background: white; box-shadow: 0 4px 20px rgba(0,0,0,0.05);">
-                <div class="w-12 h-12 rounded-full flex items-center justify-center text-white font-display text-lg" style="background: linear-gradient(135deg, #6B8E23, #5a7a1e);">
-                  M
+                <div class="w-12 h-12 rounded-full flex items-center justify-center overflow-hidden border-2 border-white shadow-sm" style="background: linear-gradient(135deg, #6B8E23, #5a7a1e);">
+                  <img src="doctor-photo.png" alt="Dra. Marina Steffli" class="w-full h-full object-cover">
                 </div>
                 <div class="text-left">
                   <p class="font-display font-medium" style="color: #3d3d3d;">${config.doctor_name}</p>
@@ -2125,8 +2125,8 @@
             
             <!-- Photo placeholder -->
             <div class="flex justify-center mb-5">
-              <div class="w-32 h-32 rounded-full flex items-center justify-center text-white font-display text-4xl" style="background: linear-gradient(135deg, #6B8E23 0%, #5a7a1e 100%); box-shadow: 0 10px 30px rgba(107, 142, 35, 0.3); border: 4px solid white;">
-                M
+              <div class="w-32 h-32 rounded-full flex items-center justify-center overflow-hidden" style="background: linear-gradient(135deg, #6B8E23 0%, #5a7a1e 100%); box-shadow: 0 10px 30px rgba(107, 142, 35, 0.3); border: 4px solid white;">
+                <img src="doctor-photo.png" alt="Dra. Marina Steffli" class="w-full h-full object-cover">
               </div>
             </div>
             
@@ -2273,7 +2273,7 @@
               </p>
               
               <!-- CTA Button -->
-              <a href="https://www.instagram.com/hematoveg/" 
+              <a href="https://www.doctoralia.com.br/marina-steffli-machado/hematologista/sao-jose" 
                  target="_blank" 
                  rel="noopener noreferrer"
                  class="btn-cta inline-flex items-center gap-3 px-8 py-4 rounded-full text-white font-semibold text-base">
@@ -2293,8 +2293,13 @@
               
               <!-- Footer -->
               <div class="mt-8">
-                <p class="text-xs" style="color: #999;">© 2024 ${config.doctor_name}. Todos os direitos reservados.</p>
-                <p class="text-xs mt-1" style="color: #999;">Este material é educativo e não substitui consulta médica.</p>
+                <p class="text-xs" style="color: #999;">© 2026 ${config.doctor_name}. Todos os direitos reservados.</p>
+                <div class="flex justify-center gap-4 mt-2 text-[10px]" style="color: #999;">
+                  <a href="../termos.html" target="_blank" class="hover:underline">Termos de Uso</a>
+                  <span>•</span>
+                  <a href="../termos.html" target="_blank" class="hover:underline">Política de Privacidade</a>
+                </div>
+                <p class="text-xs mt-2" style="color: #999;">Este material é educativo e não substitui consulta médica.</p>
               </div>
             </div>
           </div>
@@ -2345,22 +2350,27 @@
 
     function generateFooter() {
       return `
-        <div class="mt-8 pt-4 border-t border-gray-100 flex items-center justify-between">
-          <div class="flex items-center gap-2">
-            <div class="w-8 h-8 rounded-full flex items-center justify-center text-white font-display text-xs" style="background: linear-gradient(135deg, #6B8E23, #5a7a1e);">
-              M
+        <div class="mt-8 pt-4 border-t border-gray-100 flex flex-col items-center gap-4">
+          <div class="w-full flex items-center justify-between">
+            <div class="flex items-center gap-2">
+              <div class="w-8 h-8 rounded-full flex items-center justify-center overflow-hidden border border-gray-200" style="background: linear-gradient(135deg, #6B8E23, #5a7a1e);">
+                <img src="doctor-photo.png" alt="Dra. Marina" class="w-full h-full object-cover">
+              </div>
+              <div>
+                <p class="font-display font-medium text-xs" style="color: #3d3d3d;">${config.doctor_name}</p>
+                <p class="text-[10px]" style="color: #8B7355;">Hematologista • CRM 22884</p>
+              </div>
             </div>
-            <div>
-              <p class="font-display font-medium text-xs" style="color: #3d3d3d;">${config.doctor_name}</p>
-              <p class="text-[10px]" style="color: #8B7355;">Hematologista • CRM 22884</p>
-            </div>
+            <a href="https://www.doctoralia.com.br/marina-steffli-machado/hematologista/sao-jose" 
+               target="_blank"
+               class="px-3 py-1.5 rounded-full text-xs font-medium text-white transition-all hover:scale-105" 
+               style="background: #6B8E23;">
+              Marcar Consulta
+            </a>
           </div>
-          <a href="https://www.instagram.com/hematoveg/" 
-             target="_blank"
-             class="px-3 py-1.5 rounded-full text-xs font-medium text-white transition-all hover:scale-105" 
-             style="background: #6B8E23;">
-            Marcar Consulta
-          </a>
+          <div class="flex items-center gap-3 text-[10px]" style="color: #999;">
+            <a href="../termos.html" target="_blank" class="hover:underline">Termos e Privacidade</a>
+          </div>
         </div>
       `;
     }
