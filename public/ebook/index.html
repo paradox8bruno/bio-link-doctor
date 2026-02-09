@@ -235,7 +235,7 @@
 
     let config = { ...defaultConfig };
     let currentPage = 1;
-    const totalPages = 20;
+    const totalPages = 21;
 
     // Botanical SVG decorations
     const leafSVG = `<svg viewBox="0 0 60 80" fill="none" xmlns="http://www.w3.org/2000/svg" class="w-12 h-16 opacity-20">
@@ -261,30 +261,52 @@
     const tofuSVG = `<svg viewBox="0 0 50 50" class="w-10 h-10"><rect x="12" y="15" width="26" height="20" rx="3" fill="#F5F5DC"/><rect x="15" y="18" width="20" height="14" rx="2" fill="#FFFEF0" opacity="0.7"/></svg>`;
 
     // Page content generators
+    // Page content generators
     function generatePage(pageNum) {
       const pages = {
         1: generateCoverPage,
-        2: generateIntroPage,
-        3: generateChecklist1,
-        4: generateChecklist2,
-        5: generateChecklist3,
-        6: generateEducational1,
-        7: generateEducational2,
-        8: generateHemeVsNonHeme,
-        9: generateEducational3,
-        10: generateEducational4,
-        11: generateMealExamples,
-        12: generateMythsAndTruths,
-        13: generateTreatmentTypes,
-        14: generateLabTests,
-        15: generateWhenToSeek,
-        16: generateProductsIntro,
-        17: generateProductsPage,
-        18: generateAboutDoctor,
-        19: generateAboutHematology,
-        20: generateCTAPage
+        2: generateIndexPage, // NEW
+        3: generateIntroPage,
+        4: generateChecklist1,
+        5: generateChecklist2,
+        6: generateChecklist3,
+        7: generateEducational1,
+        8: generateEducational2,
+        9: generateHemeVsNonHeme,
+        10: generateEducational3,
+        11: generateEducational4,
+        12: generateMealExamples,
+        13: generateMythsAndTruths,
+        14: generateTreatmentTypes,
+        15: generateLabTests,
+        16: generateWhenToSeek,
+        17: generateProductsIntro,
+        18: generateProductsPage,
+        19: generateAboutDoctor,
+        20: generateAboutHematology,
+        21: generateCTAPage
       };
-      return pages[pageNum]();
+      
+      let content = pages[pageNum]();
+      
+      // Add Footer to all pages except Cover (1) and CTA (21)
+      // CTA page acts as a footer itself.
+      if (pageNum > 1 && pageNum < 21) {
+        // Look for the closing div of the content wrapper (usually the second to last div)
+        // A safer way is to replace the last closing div of the .page wrapper
+        // The structure is usually <div class="page ..."><div class="max-w-lg ...">...</div></div>
+        
+        // Let's inject it at the end of the max-w-lg container
+        const footer = generateFooter();
+        const lastDivIndex = content.lastIndexOf('</div>');
+        const secondLastDivIndex = content.lastIndexOf('</div>', lastDivIndex - 1);
+        
+        if (secondLastDivIndex !== -1) {
+          content = content.substring(0, secondLastDivIndex) + footer + content.substring(secondLastDivIndex);
+        }
+      }
+      
+      return content;
     }
 
     function generateCoverPage() {
@@ -332,7 +354,7 @@
               
               <h1 class="font-display text-2xl md:text-3xl lg:text-4xl font-semibold leading-tight mb-4" style="color: #3d3d3d;">
                 Guia para vegetarianas<br/>
-                <span style="color: #6B8E23;">descubra se você pode<br/>ter falta de ferro ou anemia</span>
+                <span style="color: #6B8E23;">Descubra se você pode<br/>ter falta de ferro ou anemia</span>
               </h1>
               
               <div class="w-16 h-0.5 mx-auto my-4" style="background: linear-gradient(90deg, transparent, #9CAF88, transparent);"></div>
@@ -383,7 +405,7 @@
           <div class="max-w-lg mx-auto">
             <!-- Header -->
             <div class="text-center mb-6">
-              <p class="text-xs uppercase tracking-[0.15em] mb-2" style="color: #9CAF88;">Página 02</p>
+              <p class="text-xs uppercase tracking-[0.15em] mb-2" style="color: #9CAF88;">Página 03</p>
               <h2 class="font-display text-2xl md:text-3xl font-semibold mb-2" style="color: #3d3d3d;">Como usar este guia</h2>
               <div class="w-12 h-0.5 mx-auto" style="background: #6B8E23;"></div>
             </div>
@@ -555,6 +577,13 @@
               ${generateChecklistItem('Pratico exercícios físicos intensos', 'risk-6')}
               ${generateChecklistItem('Tenho problemas gastrointestinais', 'risk-7')}
               ${generateChecklistItem('Estou grávida ou amamentando', 'risk-8')}
+            </div>
+            
+            <!-- Score Display -->
+            <div class="mt-6 mb-4 p-4 rounded-xl text-center shadow-sm" style="background: linear-gradient(135deg, #6B8E23 0%, #5a7a1e 100%); color: white;">
+              <p class="text-xs opacity-90 mb-1">Resultado Final</p>
+              <h3 class="text-2xl font-bold mb-1">SEU TOTAL: <span id="total-score">0</span></h3>
+              <p class="text-xs opacity-90" id="score-message">Continue marcando seus sintomas</p>
             </div>
             
             <!-- Interpretation guide -->
@@ -2273,6 +2302,69 @@
       `;
     }
 
+    function generateIndexPage() {
+      const createLink = (page, text) => `
+        <div onclick="document.getElementById('page-${page}').scrollIntoView({behavior: 'smooth'})" 
+             class="flex items-center justify-between p-3 border-b border-gray-200 cursor-pointer hover:bg-gray-50 transition-colors">
+          <span class="font-medium text-sm" style="color: #3d3d3d;">${text}</span>
+          <span class="text-xs font-bold" style="color: #6B8E23;">${String(page).padStart(2, '0')}</span>
+        </div>
+      `;
+
+      return `
+        <div class="page w-full h-full p-6 md:p-8 overflow-y-auto" style="background: #FAF8F5;">
+          <div class="max-w-lg mx-auto">
+            <!-- Header -->
+            <div class="text-center mb-6">
+              <p class="text-xs uppercase tracking-[0.15em] mb-2" style="color: #9CAF88;">Navegação</p>
+              <h2 class="font-display text-2xl md:text-3xl font-semibold mb-2" style="color: #3d3d3d;">Índice</h2>
+              <div class="w-12 h-0.5 mx-auto" style="background: #6B8E23;"></div>
+            </div>
+            
+            <!-- Index Items -->
+            <div class="space-y-2">
+              ${createLink(3, 'Introdução e Como Usar')}
+              ${createLink(4, 'Checklist de Sintomas')}
+              ${createLink(7, 'O que é o Ferro')}
+              ${createLink(8, 'Os 3 Estágios da Deficiência')}
+              ${createLink(9, 'Ferro Heme vs Não-Heme')}
+              ${createLink(10, 'Fontes de Ferro Vegetarianas')}
+              ${createLink(11, 'Potencializadores de Absorção')}
+              ${createLink(12, 'Exemplos de Refeições')}
+              ${createLink(13, 'Mitos e Verdades')}
+              ${createLink(14, 'Tratamento e Suplementação')}
+              ${createLink(15, 'Exames Laboratoriais')}
+              ${createLink(16, 'Sinais de Alerta')}
+              ${createLink(17, 'Produtos Conscientes')}
+              ${createLink(19, 'Sobre a Especialista')}
+            </div>
+          </div>
+        </div>
+      `;
+    }
+
+    function generateFooter() {
+      return `
+        <div class="mt-8 pt-4 border-t border-gray-100 flex items-center justify-between">
+          <div class="flex items-center gap-2">
+            <div class="w-8 h-8 rounded-full flex items-center justify-center text-white font-display text-xs" style="background: linear-gradient(135deg, #6B8E23, #5a7a1e);">
+              M
+            </div>
+            <div>
+              <p class="font-display font-medium text-xs" style="color: #3d3d3d;">${config.doctor_name}</p>
+              <p class="text-[10px]" style="color: #8B7355;">Hematologista • CRM 22884</p>
+            </div>
+          </div>
+          <a href="https://www.instagram.com/hematoveg/" 
+             target="_blank"
+             class="px-3 py-1.5 rounded-full text-xs font-medium text-white transition-all hover:scale-105" 
+             style="background: #6B8E23;">
+            Marcar Consulta
+          </a>
+        </div>
+      `;
+    }
+
 
     // Render all pages function - optimized to run only once
     let pagesRendered = false;
@@ -2290,6 +2382,7 @@
       for (let i = 1; i <= totalPages; i++) {
         const pageWrapper = document.createElement('div');
         pageWrapper.className = 'page-section';
+        pageWrapper.id = 'page-' + i;
         pageWrapper.innerHTML = generatePage(i);
         fragment.appendChild(pageWrapper);
       }
