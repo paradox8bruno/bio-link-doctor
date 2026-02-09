@@ -204,7 +204,7 @@
 
     let config = { ...defaultConfig };
     let currentPage = 1;
-    const totalPages = 17;
+    const totalPages = 20;
 
     // Botanical SVG decorations
     const leafSVG = `<svg viewBox="0 0 60 80" fill="none" xmlns="http://www.w3.org/2000/svg" class="w-12 h-16 opacity-20">
@@ -239,16 +239,19 @@
         5: generateChecklist3,
         6: generateEducational1,
         7: generateEducational2,
-        8: generateEducational3,
-        9: generateEducational4,
-        10: generateTreatmentTypes,
-        11: generateLabTests,
-        12: generateWhenToSeek,
-        13: generateProductsIntro,
-        14: generateProductsPage,
-        15: generateAboutDoctor,
-        16: generateAboutHematology,
-        17: generateCTAPage
+        8: generateHemeVsNonHeme,
+        9: generateEducational3,
+        10: generateEducational4,
+        11: generateMealExamples,
+        12: generateMythsAndTruths,
+        13: generateTreatmentTypes,
+        14: generateLabTests,
+        15: generateWhenToSeek,
+        16: generateProductsIntro,
+        17: generateProductsPage,
+        18: generateAboutDoctor,
+        19: generateAboutHematology,
+        20: generateCTAPage
       };
       return pages[pageNum]();
     }
@@ -617,6 +620,111 @@
       `;
     }
 
+    function generateHemeVsNonHeme() {
+      return `
+        <div class="page w-full h-full p-6 md:p-8 overflow-y-auto" style="background: #FAF8F5;">
+          <div class="max-w-lg mx-auto">
+            <!-- Header -->
+            <div class="text-center mb-4">
+              <p class="text-xs uppercase tracking-[0.15em] mb-2" style="color: #9CAF88;">Mini-guia educativo</p>
+              <h2 class="font-display text-xl md:text-2xl font-semibold mb-2" style="color: #3d3d3d;">Ferro Heme vs Não-Heme</h2>
+              <p class="text-xs" style="color: #666;">Por que vegetarianos precisam de mais atenção</p>
+            </div>
+            
+            <!-- Intro Box -->
+            <div class="p-4 rounded-xl mb-4" style="background: linear-gradient(135deg, rgba(107, 142, 35, 0.1) 0%, rgba(156, 175, 136, 0.05) 100%); border: 2px solid rgba(107, 142, 35, 0.2);">
+              <p class="text-sm leading-relaxed" style="color: #555;">
+                <strong style="color: #6B8E23;">Nem todo ferro é igual!</strong> Existem dois tipos de ferro nos alimentos, e entender a diferença é <strong>essencial</strong> para vegetarianos.
+              </p>
+            </div>
+            
+            <!-- Comparison Cards -->
+            <div class="grid grid-cols-1 gap-3 mb-4">
+              <!-- Ferro Heme -->
+              <div class="p-4 rounded-2xl" style="background: linear-gradient(135deg, rgba(180, 100, 100, 0.15) 0%, rgba(180, 100, 100, 0.08) 100%); border: 2px solid rgba(180, 100, 100, 0.3);">
+                <div class="flex items-center gap-2 mb-3">
+                  <div class="w-10 h-10 rounded-full flex items-center justify-center" style="background: rgba(180, 100, 100, 0.2);">
+                    <span style="font-size: 20px;">🥩</span>
+                  </div>
+                  <h3 class="font-semibold text-base" style="color: #b46464;">Ferro Heme</h3>
+                </div>
+                
+                <div class="space-y-2 mb-3">
+                  <div class="flex items-start gap-2">
+                    <span style="color: #b46464; font-size: 12px;">📍</span>
+                    <p class="text-xs" style="color: #555;"><strong>Fonte:</strong> Apenas em alimentos de origem animal (carnes, peixes)</p>
+                  </div>
+                  <div class="flex items-start gap-2">
+                    <span style="color: #b46464; font-size: 12px;">⚡</span>
+                    <p class="text-xs" style="color: #555;"><strong>Absorção:</strong> 15-35% (alta)</p>
+                  </div>
+                  <div class="flex items-start gap-2">
+                    <span style="color: #b46464; font-size: 12px;">🎯</span>
+                    <p class="text-xs" style="color: #555;"><strong>Característica:</strong> Não é afetado por outros alimentos</p>
+                  </div>
+                </div>
+                
+                <div class="h-3 rounded-full" style="background: rgba(180, 100, 100, 0.15);">
+                  <div class="h-full rounded-full" style="width: 35%; background: #b46464;"></div>
+                </div>
+                <p class="text-xs text-center mt-1" style="color: #b46464;">Até 35% absorvido</p>
+              </div>
+              
+              <!-- Ferro Não-Heme -->
+              <div class="p-4 rounded-2xl" style="background: linear-gradient(135deg, rgba(107, 142, 35, 0.15) 0%, rgba(107, 142, 35, 0.08) 100%); border: 2px solid rgba(107, 142, 35, 0.3);">
+                <div class="flex items-center gap-2 mb-3">
+                  <div class="w-10 h-10 rounded-full flex items-center justify-center" style="background: rgba(107, 142, 35, 0.2);">
+                    <span style="font-size: 20px;">🌱</span>
+                  </div>
+                  <h3 class="font-semibold text-base" style="color: #6B8E23;">Ferro Não-Heme</h3>
+                </div>
+                
+                <div class="space-y-2 mb-3">
+                  <div class="flex items-start gap-2">
+                    <span style="color: #6B8E23; font-size: 12px;">📍</span>
+                    <p class="text-xs" style="color: #555;"><strong>Fonte:</strong> Alimentos vegetais (leguminosas, verduras, grãos)</p>
+                  </div>
+                  <div class="flex items-start gap-2">
+                    <span style="color: #6B8E23; font-size: 12px;">⚡</span>
+                    <p class="text-xs" style="color: #555;"><strong>Absorção:</strong> 2-20% (variável)</p>
+                  </div>
+                  <div class="flex items-start gap-2">
+                    <span style="color: #6B8E23; font-size: 12px;">🎯</span>
+                    <p class="text-xs" style="color: #555;"><strong>Característica:</strong> Muito influenciado por outros alimentos</p>
+                  </div>
+                </div>
+                
+                <div class="h-3 rounded-full" style="background: rgba(107, 142, 35, 0.15);">
+                  <div class="h-full rounded-full" style="width: 20%; background: #6B8E23;"></div>
+                </div>
+                <p class="text-xs text-center mt-1" style="color: #6B8E23;">Apenas 2-20% absorvido</p>
+              </div>
+            </div>
+            
+            <!-- Key Insight -->
+            <div class="p-4 rounded-xl mb-3" style="background: linear-gradient(135deg, #8B7355 0%, #7a6548 100%); color: white;">
+              <div class="flex items-start gap-3">
+                <div class="text-2xl flex-shrink-0">💡</div>
+                <div>
+                  <p class="font-semibold text-sm mb-1">Por isso vegetarianos precisam de 1,8x mais ferro!</p>
+                  <p class="text-xs opacity-90 leading-relaxed">
+                    A recomendação oficial é de <strong>18 mg/dia</strong> para mulheres não-vegetarianas e <strong>32 mg/dia</strong> para vegetarianas, justamente pela menor biodisponibilidade do ferro não-heme.
+                  </p>
+                </div>
+              </div>
+            </div>
+            
+            <!-- Strategy -->
+            <div class="p-3 rounded-xl border-l-4" style="background: rgba(107, 142, 35, 0.08); border-color: #6B8E23;">
+              <p class="text-xs" style="color: #555;">
+                <strong style="color: #6B8E23;">🎯 Estratégia:</strong> Como vegetariana, você pode compensar a menor absorção combinando alimentos ricos em ferro com vitamina C e evitando inibidores (café, chá) nas refeições principais.
+              </p>
+            </div>
+          </div>
+        </div>
+      `;
+    }
+
     function generateEducational2() {
       return `
         <div class="page w-full h-full p-6 md:p-8 overflow-y-auto" style="background: #FAF8F5;">
@@ -961,6 +1069,297 @@
                   </div>
                 </div>
               </div>
+            </div>
+          </div>
+        </div>
+      `;
+    }
+
+    function generateMealExamples() {
+      return `
+        <div class="page w-full h-full p-6 md:p-8 overflow-y-auto" style="background: #FAF8F5;">
+          <div class="max-w-lg mx-auto">
+            <!-- Header -->
+            <div class="text-center mb-4">
+              <p class="text-xs uppercase tracking-[0.15em] mb-2" style="color: #9CAF88;">Nutrição prática</p>
+              <h2 class="font-display text-xl md:text-2xl font-semibold mb-2" style="color: #3d3d3d;">Exemplos de Refeições Balanceadas</h2>
+              <p class="text-xs" style="color: #666;">Coloque o conhecimento em prática!</p>
+            </div>
+            
+            <!-- Breakfast -->
+            <div class="mb-3 p-4 rounded-2xl" style="background: white; border: 2px solid rgba(107, 142, 35, 0.2);">
+              <div class="flex items-center gap-2 mb-3">
+                <div class="w-10 h-10 rounded-full flex items-center justify-center" style="background: rgba(107, 142, 35, 0.15);">
+                  <span style="font-size: 20px;">☀️</span>
+                </div>
+                <div>
+                  <h3 class="font-semibold text-sm" style="color: #6B8E23;">Café da Manhã</h3>
+                  <p class="text-xs font-bold" style="color: #b46464;">~5,8 mg de ferro</p>
+                </div>
+              </div>
+              
+              <div class="space-y-2">
+                <div class="flex items-start gap-2">
+                  <span style="color: #6B8E23;">✓</span>
+                  <div class="flex-1">
+                    <p class="text-xs" style="color: #3d3d3d;"><strong>Aveia com sementes</strong></p>
+                    <p class="text-xs" style="color: #666;">40g aveia (1,9mg) + 15g sementes de abóbora (1,3mg)</p>
+                  </div>
+                </div>
+                <div class="flex items-start gap-2">
+                  <span style="color: #6B8E23;">✓</span>
+                  <div class="flex-1">
+                    <p class="text-xs" style="color: #3d3d3d;"><strong>Pão integral com tahine</strong></p>
+                    <p class="text-xs" style="color: #666;">2 fatias (1,1mg) + 1 colher tahine (1,2mg)</p>
+                  </div>
+                </div>
+                <div class="flex items-start gap-2">
+                  <span style="color: #FFA500;">🍊</span>
+                  <div class="flex-1">
+                    <p class="text-xs font-semibold" style="color: #3d3d3d;">Suco de laranja natural</p>
+                    <p class="text-xs" style="color: #666;">Vitamina C aumenta absorção!</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+            
+            <!-- Lunch -->
+            <div class="mb-3 p-4 rounded-2xl" style="background: white; border: 2px solid rgba(139, 115, 85, 0.3);">
+              <div class="flex items-center gap-2 mb-3">
+                <div class="w-10 h-10 rounded-full flex items-center justify-center" style="background: rgba(139, 115, 85, 0.15);">
+                  <span style="font-size: 20px;">🍴</span>
+                </div>
+                <div>
+                  <h3 class="font-semibold text-sm" style="color: #8B7355;">Almoço</h3>
+                  <p class="text-xs font-bold" style="color: #b46464;">~8,2 mg de ferro</p>
+                </div>
+              </div>
+              
+              <div class="space-y-2">
+                <div class="flex items-start gap-2">
+                  <span style="color: #8B7355;">✓</span>
+                  <div class="flex-1">
+                    <p class="text-xs" style="color: #3d3d3d;"><strong>Salada de folhas verdes</strong></p>
+                    <p class="text-xs" style="color: #666;">Rúcula + espinafre cru (0,8mg)</p>
+                  </div>
+                </div>
+                <div class="flex items-start gap-2">
+                  <span style="color: #8B7355;">✓</span>
+                  <div class="flex-1">
+                    <p class="text-xs" style="color: #3d3d3d;"><strong>Grão-de-bico refogado com tomate</strong></p>
+                    <p class="text-xs" style="color: #666;">150g grão-de-bico (4,4mg) + tomate fresco (vit. C)</p>
+                  </div>
+                </div>
+                <div class="flex items-start gap-2">
+                  <span style="color: #8B7355;">✓</span>
+                  <div class="flex-1">
+                    <p class="text-xs" style="color: #3d3d3d;"><strong>Arroz integral</strong></p>
+                    <p class="text-xs" style="color: #666;">100g cozido (0,6mg)</p>
+                  </div>
+                </div>
+                <div class="flex items-start gap-2">
+                  <span style="color: #8B7355;">✓</span>
+                  <div class="flex-1">
+                    <p class="text-xs" style="color: #3d3d3d;"><strong>Brócolis no vapor</strong></p>
+                    <p class="text-xs" style="color: #666;">100g (1,0mg) + algumas gotas de limão</p>
+                  </div>
+                </div>
+              </div>
+              
+              <div class="mt-3 p-2 rounded-lg" style="background: rgba(180, 100, 100, 0.08);">
+                <p class="text-xs" style="color: #555;"><strong>⚠️ Evite:</strong> Café ou chá logo após. Espere pelo menos 1 hora!</p>
+              </div>
+            </div>
+            
+            <!-- Snack -->
+            <div class="mb-3 p-3 rounded-xl" style="background: white;">
+              <div class="flex items-center gap-2 mb-2">
+                <span style="font-size: 18px;">🥤</span>
+                <div>
+                  <h3 class="font-semibold text-sm" style="color: #6B8E23;">Lanche da Tarde</h3>
+                  <p class="text-xs font-bold" style="color: #b46464;">~3,5 mg de ferro</p>
+                </div>
+              </div>
+              <div class="flex items-start gap-2">
+                <span style="color: #6B8E23;">✓</span>
+                <p class="text-xs" style="color: #555;">Mix de castanhas (30g) + frutas vermelhas (vitamina C)</p>
+              </div>
+            </div>
+            
+            <!-- Dinner -->
+            <div class="mb-3 p-4 rounded-2xl" style="background: white; border: 2px solid rgba(107, 142, 35, 0.2);">
+              <div class="flex items-center gap-2 mb-3">
+                <div class="w-10 h-10 rounded-full flex items-center justify-center" style="background: rgba(107, 142, 35, 0.15);">
+                  <span style="font-size: 20px;">🌙</span>
+                </div>
+                <div>
+                  <h3 class="font-semibold text-sm" style="color: #6B8E23;">Jantar</h3>
+                  <p class="text-xs font-bold" style="color: #b46464;">~6,5 mg de ferro</p>
+                </div>
+              </div>
+              
+              <div class="space-y-2">
+                <div class="flex items-start gap-2">
+                  <span style="color: #6B8E23;">✓</span>
+                  <div class="flex-1">
+                    <p class="text-xs" style="color: #3d3d3d;"><strong>Tofu grelhado</strong></p>
+                    <p class="text-xs" style="color: #666;">150g (8,1mg de ferro!)</p>
+                  </div>
+                </div>
+                <div class="flex items-start gap-2">
+                  <span style="color: #6B8E23;">✓</span>
+                  <div class="flex-1">
+                    <p class="text-xs" style="color: #3d3d3d;"><strong>Quinoa</strong></p>
+                    <p class="text-xs" style="color: #666;">100g cozida (1,5mg) + pimentão</p>
+                  </div>
+                </div>
+                <div class="flex items-start gap-2">
+                  <span style="color: #6B8E23;">✓</span>
+                  <div class="flex-1">
+                    <p class="text-xs" style="color: #3d3d3d;"><strong>Couve refogada</strong></p>
+                    <p class="text-xs" style="color: #666;">100g (2,5mg)</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+            
+            <!-- Total -->
+            <div class="p-4 rounded-xl text-center" style="background: linear-gradient(135deg, #6B8E23 0%, #5a7a1e 100%); color: white;">
+              <p class="text-xs mb-1 opacity-90">Total do dia</p>
+              <p class="text-2xl font-bold">~24 mg</p>
+              <p class="text-xs opacity-90">Próximo da meta de 32mg para vegetarianas!</p>
+            </div>
+          </div>
+        </div>
+      `;
+    }
+
+    function generateMythsAndTruths() {
+      return `
+        <div class="page w-full h-full p-6 md:p-8 overflow-y-auto" style="background: #FAF8F5;">
+          <div class="max-w-lg mx-auto">
+            <!-- Header -->
+            <div class="text-center mb-4">
+              <p class="text-xs uppercase tracking-[0.15em] mb-2" style="color: #9CAF88;">Esclarecimentos</p>
+              <h2 class="font-display text-xl md:text-2xl font-semibold mb-2" style="color: #3d3d3d;">Mitos e Verdades sobre Ferro</h2>
+              <p class="text-xs" style="color: #666;">Desmistificando crenças comuns</p>
+            </div>
+            
+            <!-- Myth 1 -->
+            <div class="mb-3 p-4 rounded-2xl" style="background: white; border-l-4 solid #b46464; border-left-color: #b46464;">
+              <div class="flex items-start gap-3 mb-2">
+                <div class="w-8 h-8 rounded-full flex items-center justify-center flex-shrink-0" style="background: rgba(180, 100, 100, 0.15);">
+                  <span style="color: #b46464; font-size: 16px;">❌</span>
+                </div>
+                <div>
+                  <p class="text-sm font-semibold" style="color: #b46464;">MITO</p>
+                  <p class="text-xs" style="color: #3d3d3d;">"Espinafre é a melhor fonte de ferro"</p>
+                </div>
+              </div>
+              <div class="flex items-start gap-3">
+                <div class="w-8 h-8 rounded-full flex items-center justify-center flex-shrink-0" style="background: rgba(107, 142, 35, 0.15);">
+                  <span style="color: #6B8E23; font-size: 16px;">✓</span>
+                </div>
+                <div>
+                  <p class="text-sm font-semibold" style="color: #6B8E23;">VERDADE</p>
+                  <p class="text-xs leading-relaxed" style="color: #555;">Espinafre tem ferro, mas também muito <strong>ácido oxálico e fitatos</strong> que bloqueiam a absorção. Leguminosas (lentilha, grão-de-bico) e sementes (gergelim, abóbora) são fontes melhores e mais biodisponíveis.</p>
+                </div>
+              </div>
+            </div>
+            
+            <!-- Myth 2 -->
+            <div class="mb-3 p-4 rounded-2xl" style="background: white; border-l-4 solid #b46464; border-left-color: #b46464;">
+              <div class="flex items-start gap-3 mb-2">
+                <div class="w-8 h-8 rounded-full flex items-center justify-center flex-shrink-0" style="background: rgba(180, 100, 100, 0.15);">
+                  <span style="color: #b46464; font-size: 16px;">❌</span>
+                </div>
+                <div>
+                  <p class="text-sm font-semibold" style="color: #b46464;">MITO</p>
+                  <p class="text-xs" style="color: #3d3d3d;">"Vegetarianos sempre têm anemia"</p>
+                </div>
+              </div>
+              <div class="flex items-start gap-3">
+                <div class="w-8 h-8 rounded-full flex items-center justify-center flex-shrink-0" style="background: rgba(107, 142, 35, 0.15);">
+                  <span style="color: #6B8E23; font-size: 16px;">✓</span>
+                </div>
+                <div>
+                  <p class="text-sm font-semibold" style="color: #6B8E23;">VERDADE</p>
+                  <p class="text-xs leading-relaxed" style="color: #555;">Com <strong>planejamento nutricional adequado</strong> e atenção aos combinadores de ferro, vegetarianos podem ter níveis normais. O que importa é o conhecimento sobre fontes vegetais ricas em ferro e estratégias de absorção.</p>
+                </div>
+              </div>
+            </div>
+            
+            <!-- Myth 3 -->
+            <div class="mb-3 p-4 rounded-2xl" style="background: white; border-l-4 solid #b46464; border-left-color: #b46464;">
+              <div class="flex items-start gap-3 mb-2">
+                <div class="w-8 h-8 rounded-full flex items-center justify-center flex-shrink-0" style="background: rgba(180, 100, 100, 0.15);">
+                  <span style="color: #b46464; font-size: 16px;">❌</span>
+                </div>
+                <div>
+                  <p class="text-sm font-semibold" style="color: #b46464;">MITO</p>
+                  <p class="text-xs" style="color: #3d3d3d;">"Posso tomar suplemento de ferro com qualquer bebida"</p>
+                </div>
+              </div>
+              <div class="flex items-start gap-3">
+                <div class="w-8 h-8 rounded-full flex items-center justify-center flex-shrink-0" style="background: rgba(107, 142, 35, 0.15);">
+                  <span style="color: #6B8E23; font-size: 16px;">✓</span>
+                </div>
+                <div>
+                  <p class="text-sm font-semibold" style="color: #6B8E23;">VERDADE</p>
+                  <p class="text-xs leading-relaxed" style="color: #555;"><strong>Café, chá preto e leite bloqueiam drasticamente</strong> a absorção de ferro. O ideal é tomar com água ou suco de laranja (vitamina C potencializa). <strong>Nunca</strong> com café!</p>
+                </div>
+              </div>
+            </div>
+            
+            <!-- Myth 4 -->
+            <div class="mb-3 p-4 rounded-2xl" style="background: white; border-l-4 solid #b46464; border-left-color: #b46464;">
+              <div class="flex items-start gap-3 mb-2">
+                <div class="w-8 h-8 rounded-full flex items-center justify-center flex-shrink-0" style="background: rgba(180, 100, 100, 0.15);">
+                  <span style="color: #b46464; font-size: 16px;">❌</span>
+                </div>
+                <div>
+                  <p class="text-sm font-semibold" style="color: #b46464;">MITO</p>
+                  <p class="text-xs" style="color: #3d3d3d;">"Se meu hemograma está normal, não tenho deficiência de ferro"</p>
+                </div>
+              </div>
+              <div class="flex items-start gap-3">
+                <div class="w-8 h-8 rounded-full flex items-center justify-center flex-shrink-0" style="background: rgba(107, 142, 35, 0.15);">
+                  <span style="color: #6B8E23; font-size: 16px;">✓</span>
+                </div>
+                <div>
+                  <p class="text-sm font-semibold" style="color: #6B8E23;">VERDADE</p>
+                  <p class="text-xs leading-relaxed" style="color: #555;">A hemoglobina só cai no <strong>estágio 3</strong> (anemia instalada). Você pode ter <strong>ferritina baixa</strong> (estoques vazios) com hemograma normal e já sentir sintomas. Por isso a ferritina é o exame mais importante!</p>
+                </div>
+              </div>
+            </div>
+            
+            <!-- Myth 5 -->
+            <div class="mb-3 p-4 rounded-2xl" style="background: white; border-l-4 solid #b46464; border-left-color: #b46464;">
+              <div class="flex items-start gap-3 mb-2">
+                <div class="w-8 h-8 rounded-full flex items-center justify-center flex-shrink-0" style="background: rgba(180, 100, 100, 0.15);">
+                  <span style="color: #b46464; font-size: 16px;">❌</span>
+                </div>
+                <div>
+                  <p class="text-sm font-semibold" style="color: #b46464;">MITO</p>
+                  <p class="text-xs" style="color: #3d3d3d;">"Panela de ferro resolve a deficiência"</p>
+                </div>
+              </div>
+              <div class="flex items-start gap-3">
+                <div class="w-8 h-8 rounded-full flex items-center justify-center flex-shrink-0" style="background: rgba(107, 142, 35, 0.15);">
+                  <span style="color: #6B8E23; font-size: 16px;">✓</span>
+                </div>
+                <div>
+                  <p class="text-sm font-semibold" style="color: #6B8E23;">VERDADE</p>
+                  <p class="text-xs leading-relaxed" style="color: #555;">Panela de ferro <strong>ajuda</strong> adicionando até 20% mais ferro aos alimentos, mas <strong>não substitui</strong> uma alimentação balanceada ou suplementação quando necessária. É uma estratégia complementar, não a solução completa.</p>
+                </div>
+              </div>
+            </div>
+            
+            <!-- Bottom tip -->
+            <div class="p-3 rounded-xl border-l-4" style="background: rgba(107, 142, 35, 0.08); border-color: #6B8E23;">
+              <p class="text-xs" style="color: #555;">
+                <strong style="color: #6B8E23;">💡 Lembre-se:</strong> Informação de qualidade é poder! Sempre busque orientação profissional para decisões sobre sua saúde.
+              </p>
             </div>
           </div>
         </div>
