@@ -174,17 +174,10 @@
   <noscript><img height="1" width="1" style="display:none"
   src="https://www.facebook.com/tr?id=1385259336476482&ev=PageView&noscript=1"
   /></noscript>
-  <div id="app" class="w-full min-h-full flex flex-col items-center py-2 px-3 md:py-8 md:px-6">
-    <!-- Header with Print Button -->
-    <div class="w-full max-w-2xl mb-6 flex items-center justify-between px-2 sticky top-0 z-50 bg-stone-100/95 backdrop-blur-sm py-3 rounded-lg shadow-sm">
-      <a href="/" class="flex items-center gap-2 text-sm font-medium text-stone-600 hover:text-olive transition-colors" style="color: #6B8E23;">
-        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"></path>
-        </svg>
-        <span>Voltar</span>
-      </a>
-      
-      <button onclick="window.print()" class="flex items-center gap-2 px-4 py-2 rounded-lg text-sm font-medium text-white transition-all hover:scale-105 print:hidden" style="background: linear-gradient(135deg, #6B8E23 0%, #5a7a1e 100%); box-shadow: 0 2px 8px rgba(107, 142, 35, 0.3);">
+  <div id="app" class="w-full min-h-full flex flex-col items-center py-6 px-3">
+    <!-- Simple Header with Print Button -->
+    <div class="w-full max-w-2xl mb-6 flex items-center justify-end px-2 sticky top-4 z-50">
+      <button onclick="window.print()" class="flex items-center gap-2 px-4 py-2 rounded-lg text-sm font-medium text-white transition-all hover:scale-105 print:hidden" style="background: linear-gradient(135deg, #6B8E23 0%, #5a7a1e 100%); box-shadow: 0 4px 12px rgba(107, 142, 35, 0.3);">
         <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
           <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 17h2a2 2 0 002-2v-4a2 2 0 00-2-2H5a2 2 0 00-2 2v4a2 2 0 002 2h2m2 4h6a2 2 0 002-2v-4a2 2 0 00-2-2H9a2 2 0 00-2 2v4a2 2 0 002 2zm8-12V5a2 2 0 00-2-2H9a2 2 0 00-2 2v4h10z"></path>
         </svg>
@@ -192,9 +185,9 @@
       </button>
     </div>
     
-    <!-- Content Container - All pages in vertical scroll -->
-    <div id="pageContainer" class="w-full max-w-2xl space-y-8">
-      <!-- All pages will be rendered here -->
+    <!-- Pages Container - All pages stacked vertically -->
+    <div id="pageContainer" class="w-full max-w-2xl space-y-12">
+      <!-- All pages will be rendered here, stacked vertically -->
     </div>
   </div>
   <script>
@@ -1670,15 +1663,15 @@
       `;
     }
 
-    // Navigation and rendering functions
-    // Render all pages in vertical scroll
+
+    // Render all pages stacked vertically (PDF-style)
     function renderAllPages() {
       const container = document.getElementById('pageContainer');
       container.innerHTML = '';
       
       for (let i = 1; i <= totalPages; i++) {
         const pageWrapper = document.createElement('div');
-        pageWrapper.className = 'page-section mb-8 last:mb-0';
+        pageWrapper.className = 'page-section';
         pageWrapper.innerHTML = generatePage(i);
         container.appendChild(pageWrapper);
         
@@ -1689,7 +1682,7 @@
       }
     }
 
-    // Initialize on page load
+    // Initialize - render all pages on load
     renderAllPages();
 
     function updateCounters() {
