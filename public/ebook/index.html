@@ -33,8 +33,14 @@
   <script src="https://cdn.tailwindcss.com"></script>
   <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700&amp;family=Lato:wght@300;400;500;600;700&amp;display=swap" rel="stylesheet">
   <style>
+    * {
+      box-sizing: border-box;
+    }
+    
     body {
       box-sizing: border-box;
+      -webkit-overflow-scrolling: touch;
+      overscroll-behavior-y: contain;
     }
     
     :root {
@@ -48,6 +54,21 @@
     .font-display { font-family: 'Playfair Display', serif; }
     .font-body { font-family: 'Lato', sans-serif; }
     
+    /* Performance optimization for mobile scroll */
+    html {
+      scroll-behavior: smooth;
+    }
+    
+    #app {
+      will-change: scroll-position;
+      transform: translateZ(0);
+      -webkit-transform: translateZ(0);
+    }
+    
+    #pageContainer {
+      will-change: auto;
+      contain: layout style;
+    }
     
     .page {
       width: 100%;
@@ -57,6 +78,10 @@
       box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.15);
       overflow-y: auto;
       overflow-x: hidden;
+      transform: translateZ(0);
+      -webkit-transform: translateZ(0);
+      backface-visibility: hidden;
+      -webkit-backface-visibility: hidden;
     }
     
     @media (min-width: 768px) {
@@ -67,6 +92,12 @@
       }
     }
     
+    /* Prevent re-rendering flicker */
+    .page-section {
+      will-change: auto;
+      transform: translate3d(0,0,0);
+      -webkit-transform: translate3d(0,0,0);
+    }
     
     .checkbox-custom {
       appearance: none;
@@ -2243,26 +2274,46 @@
     }
 
 
-    // Render all pages stacked vertically (PDF-style)
+    // Render all pages function - optimized to run only once
+    let pagesRendered = false;
+    
     function renderAllPages() {
+      // Prevent multiple renders
+      if (pagesRendered) return;
+      pagesRendered = true;
+      
       const container = document.getElementById('pageContainer');
-      container.innerHTML = '';
+      
+      // Use document fragment for better performance
+      const fragment = document.createDocumentFragment();
       
       for (let i = 1; i <= totalPages; i++) {
         const pageWrapper = document.createElement('div');
         pageWrapper.className = 'page-section';
         pageWrapper.innerHTML = generatePage(i);
-        container.appendChild(pageWrapper);
-        
-        // Re-attach checkbox listeners for checklist pages
-        if (i >= 3 && i <= 5) {
-          setTimeout(() => updateCounters(), 100);
-        }
+        fragment.appendChild(pageWrapper);
       }
+      
+      // Single DOM update
+      container.appendChild(fragment);
+      
+      // Re-attach checkbox listeners for checklist pages after render
+      setTimeout(() => {
+        updateCounters();
+        
+        // Add event listeners to checkboxes
+        document.querySelectorAll('.checkbox-custom').forEach(checkbox => {
+          checkbox.addEventListener('change', updateCounters);
+        });
+      }, 100);
     }
 
-    // Initialize - render all pages on load
-    renderAllPages();
+    // Initialize - render all pages on load (only once)
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', renderAllPages);
+    } else {
+      renderAllPages();
+    }
 
     function updateCounters() {
       // Count checkboxes for each category
