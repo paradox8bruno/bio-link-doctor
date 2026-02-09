@@ -135,6 +135,35 @@
     .checklist-item:hover {
       background: rgba(156, 175, 136, 0.1);
     }
+    
+    /* Print Styles */
+    @media print {
+      body {
+        background: white !important;
+      }
+      
+      /* Hide header and navigation */
+      #app > div:first-child {
+        display: none !important;
+      }
+      
+      /* Optimize page breaks */
+      .page-section {
+        page-break-inside: avoid;
+        page-break-after: auto;
+      }
+      
+      /* Ensure good contrast */
+      * {
+        color: #000 !important;
+        background: white !important;
+      }
+      
+      /* Keep important colors */
+      h1, h2, h3, .font-semibold {
+        color: #3d3d3d !important;
+      }
+    }
   </style>
   <style>@view-transition { navigation: auto; }</style>
   <script src="/_sdk/data_sdk.js" type="text/javascript"></script>
@@ -146,25 +175,27 @@
   src="https://www.facebook.com/tr?id=1385259336476482&ev=PageView&noscript=1"
   /></noscript>
   <div id="app" class="w-full min-h-full flex flex-col items-center py-2 px-3 md:py-8 md:px-6">
-    <!-- Navigation Header -->
-    <div class="w-full max-w-2xl mb-4 flex items-center justify-between px-2 sticky top-0 z-50 bg-stone-100/90 backdrop-blur-sm py-3 -mx-3 px-3 md:static md:bg-transparent md:py-0 md:backdrop-blur-none rounded-lg md:rounded-none"><button id="prevBtn" class="flex items-center gap-2 text-sm font-medium text-stone-500 hover:text-olive transition-colors disabled:opacity-30 disabled:cursor-not-allowed" style="color: #6B8E23;">
-        <svg class="w-6 h-6 md:w-5 md:h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path>
+    <!-- Header with Print Button -->
+    <div class="w-full max-w-2xl mb-6 flex items-center justify-between px-2 sticky top-0 z-50 bg-stone-100/95 backdrop-blur-sm py-3 rounded-lg shadow-sm">
+      <a href="/" class="flex items-center gap-2 text-sm font-medium text-stone-600 hover:text-olive transition-colors" style="color: #6B8E23;">
+        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"></path>
         </svg>
-        <span class="hidden sm:inline">Anterior</span>
+        <span>Voltar</span>
+      </a>
+      
+      <button onclick="window.print()" class="flex items-center gap-2 px-4 py-2 rounded-lg text-sm font-medium text-white transition-all hover:scale-105 print:hidden" style="background: linear-gradient(135deg, #6B8E23 0%, #5a7a1e 100%); box-shadow: 0 2px 8px rgba(107, 142, 35, 0.3);">
+        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 17h2a2 2 0 002-2v-4a2 2 0 00-2-2H5a2 2 0 00-2 2v4a2 2 0 002 2h2m2 4h6a2 2 0 002-2v-4a2 2 0 00-2-2H9a2 2 0 00-2 2v4a2 2 0 002 2zm8-12V5a2 2 0 00-2-2H9a2 2 0 00-2 2v4h10z"></path>
+        </svg>
+        <span>Imprimir</span>
       </button>
-      <div class="flex items-center gap-2">
-        <span id="pageNum" class="text-base md:text-sm font-bold" style="color: #6B8E23;">1</span>
-        <span class="text-stone-400">/</span>
-        <span class="text-base md:text-sm text-stone-500">17</span>
-      </div><button id="nextBtn" class="flex items-center gap-2 text-sm font-medium hover:text-olive transition-colors" style="color: #6B8E23;"> <span class="hidden sm:inline">Próxima</span>
-     <svg class="w-5 h-5" fill="none" stroke="currentColor" viewbox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
-     </svg></button>
-   </div><!-- Page Container -->
-   <div id="pageContainer" class="w-full max-w-2xl flex-1 flex items-start justify-center"><!-- Pages will be rendered here -->
-   </div><!-- Page Indicators -->
-   <div class="flex gap-2 mt-4 flex-wrap justify-center max-w-xs"><!-- Indicators rendered by JS -->
-   </div>
+    </div>
+    
+    <!-- Content Container - All pages in vertical scroll -->
+    <div id="pageContainer" class="w-full max-w-2xl space-y-8">
+      <!-- All pages will be rendered here -->
+    </div>
   </div>
   <script>
     const defaultConfig = {
@@ -1640,80 +1671,26 @@
     }
 
     // Navigation and rendering functions
-    function renderPage() {
-      // Update Hash and Track
-      const newHash = 'pagina' + currentPage;
-      
-      // Only update hash/track if it changed or if it's missing (initial load handling)
-      // Check if hash matches current page
-      const currentHashNum = parseInt(window.location.hash.replace('#pagina', ''));
-      
-      if (window.location.hash !== '#' + newHash) {
-          // If the hash is different (or empty), update it and track
-          // Note: If user navigated via back button, hash changes *before* we render? 
-          // No, we render *after* we detect hash change if we use hashchange event.
-          // But here we drive navigation via buttons -> functions -> renderPage.
-          // So we push the hash here.
-          
-          /* Prevent infinite loop if renderPage is called from hash change handler */
-          if (currentHashNum !== currentPage) {
-             window.location.hash = newHash;
-             
-             // Tracking - Meta Pixel only
-             if (window.fbq) {
-                fbq('trackCustom', 'EbookPageView', { page: currentPage });
-             }
-          }
-      }
-
+    // Render all pages in vertical scroll
+    function renderAllPages() {
       const container = document.getElementById('pageContainer');
-      container.innerHTML = generatePage(currentPage);
-      document.getElementById('pageNum').textContent = currentPage;
-      
-      // Update navigation buttons
-      document.getElementById('prevBtn').disabled = currentPage === 1;
-      document.getElementById('nextBtn').disabled = currentPage === totalPages;
-      
-      // Update indicators
-      renderIndicators();
-      
-      // Re-attach checkbox listeners if on checklist pages
-      if (currentPage >= 3 && currentPage <= 5) {
-        updateCounters();
-      }
-    }
-
-    function renderIndicators() {
-      const indicatorContainer = document.querySelector('.flex.gap-2.mt-4');
-      indicatorContainer.innerHTML = '';
+      container.innerHTML = '';
       
       for (let i = 1; i <= totalPages; i++) {
-        const indicator = document.createElement('button');
-        indicator.className = `page-indicator w-2 h-2 rounded-full transition-all ${i === currentPage ? 'active' : ''}`;
-        indicator.style.background = i === currentPage ? '#6B8E23' : '#D4C5B9';
-        indicator.onclick = () => goToPage(i);
-        indicatorContainer.appendChild(indicator);
+        const pageWrapper = document.createElement('div');
+        pageWrapper.className = 'page-section mb-8 last:mb-0';
+        pageWrapper.innerHTML = generatePage(i);
+        container.appendChild(pageWrapper);
+        
+        // Re-attach checkbox listeners for checklist pages
+        if (i >= 3 && i <= 5) {
+          setTimeout(() => updateCounters(), 100);
+        }
       }
     }
 
-    function goToPage(page) {
-      currentPage = page;
-      renderPage();
-    }
-
-    function nextPage() {
-      if (currentPage < totalPages) {
-        currentPage++;
-        renderPage();
-      }
-    }
-
-    function prevPage() {
-      if (currentPage > 1) {
-        currentPage--;
-        renderPage();
-      }
-    }
+    // Initialize on page load
+    renderAllPages();
 
     function updateCounters() {
       // Count checkboxes for each category
@@ -1745,71 +1722,6 @@
         }
       }
     }
-
-    // Event listeners
-    document.getElementById('nextBtn').addEventListener('click', nextPage);
-    document.getElementById('prevBtn').addEventListener('click', prevPage);
-
-    // Keyboard navigation
-    document.addEventListener('keydown', (e) => {
-      if (e.key === 'ArrowRight' || e.key === ' ') {
-        e.preventDefault();
-        nextPage();
-      } else if (e.key === 'ArrowLeft') {
-        prevPage();
-      }
-    });
-
-    // Touch swipe support
-    let touchStartX = 0;
-    let touchEndX = 0;
-
-    document.addEventListener('touchstart', (e) => {
-      touchStartX = e.changedTouches[0].screenX;
-    });
-
-    document.addEventListener('touchend', (e) => {
-      touchEndX = e.changedTouches[0].screenX;
-      handleSwipe();
-    });
-
-    function handleSwipe() {
-      const swipeThreshold = 50;
-      const diff = touchStartX - touchEndX;
-      
-      if (Math.abs(diff) > swipeThreshold) {
-        if (diff > 0) {
-          nextPage();
-        } else {
-          prevPage();
-        }
-      }
-    }
-
-    // Initial render
-    // Initial render and hash handling
-    const initialHash = window.location.hash;
-    if (initialHash && initialHash.startsWith('#pagina')) {
-        const pageNum = parseInt(initialHash.replace('#pagina', ''));
-        if (!isNaN(pageNum) && pageNum >= 1 && pageNum <= totalPages) {
-            currentPage = pageNum;
-        }
-    }
-    
-    renderPage();
-    
-    // Listen for hash changes (e.g. back button)
-    window.addEventListener('hashchange', () => {
-        const hash = window.location.hash;
-        if (hash && hash.startsWith('#pagina')) {
-            const pageNum = parseInt(hash.replace('#pagina', ''));
-            if (!isNaN(pageNum) && pageNum >= 1 && pageNum <= totalPages && pageNum !== currentPage) {
-                currentPage = pageNum;
-                renderPage();
-            }
-        }
-    });
   </script>
- <script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'9c94595fa3061719',t:'MTc3MDMxNDg2NC4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+</body>
 </html>
-
