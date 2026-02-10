@@ -39,13 +39,37 @@ const LeadForm = () => {
 
     setLoading(true);
     
-    // Simulate API call since Supabase is not used
-    setTimeout(() => {
-      console.log("Form submitted:", result.data);
+    try {
+      const response = await fetch("https://connect.mailerlite.com/api/subscribers", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          "Accept": "application/json",
+          "Authorization": `Bearer ${import.meta.env.VITE_MAILERLITE_API_KEY}`,
+        },
+        body: JSON.stringify({
+          email: result.data.email,
+          fields: {
+            name: result.data.name || "",
+          },
+          groups: [import.meta.env.VITE_MAILERLITE_GROUP_ID],
+        }),
+      });
+
+      if (!response.ok) {
+        const errorData = await response.json();
+        console.error("MailerLite Error:", errorData);
+        throw new Error("Falha ao inscrever");
+      }
+
       setSubmitted(true);
       toast.success("Guia enviado para o seu e-mail! 🌿");
+    } catch (err) {
+      console.error("Erro ao cadastrar:", err);
+      toast.error("Ocorreu um erro. Tente novamente.");
+    } finally {
       setLoading(false);
-    }, 1500);
+    }
   };
 
   if (submitted) {
