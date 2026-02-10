@@ -64,6 +64,11 @@ const LeadForm = () => {
 
       setSubmitted(true);
       toast.success("Guia enviado para o seu e-mail! 🌿");
+      
+      // Track Lead event
+      if (window.fbq) {
+        window.fbq('track', 'Lead');
+      }
     } catch (err) {
       console.error("Erro ao cadastrar:", err);
       toast.error("Ocorreu um erro. Tente novamente.");
