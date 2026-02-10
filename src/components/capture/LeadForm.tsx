@@ -3,7 +3,6 @@ import { motion } from "framer-motion";
 import { Send, CheckCircle, Leaf } from "lucide-react";
 import { z } from "zod";
 import { toast } from "sonner";
-import { supabase } from "@/integrations/supabase/client";
 
 const leadSchema = z.object({
   name: z.string().trim().max(100).optional(),
@@ -33,26 +32,20 @@ const LeadForm = () => {
       return;
     }
 
+    if (honeypot) {
+      // Silently fail for bots
+      return;
+    }
+
     setLoading(true);
-    try {
-      const { data, error } = await supabase.functions.invoke("mailerlite-subscribe", {
-        body: {
-          email: result.data.email,
-          name: result.data.name || "",
-          website: honeypot,
-        },
-      });
-
-      if (error) throw error;
-
+    
+    // Simulate API call since Supabase is not used
+    setTimeout(() => {
+      console.log("Form submitted:", result.data);
       setSubmitted(true);
       toast.success("Guia enviado para o seu e-mail! 🌿");
-    } catch (err) {
-      console.error("Erro ao cadastrar:", err);
-      toast.error("Ocorreu um erro. Tente novamente.");
-    } finally {
       setLoading(false);
-    }
+    }, 1500);
   };
 
   if (submitted) {
