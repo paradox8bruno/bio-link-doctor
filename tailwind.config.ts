@@ -66,6 +66,8 @@ export default {
       fontFamily: {
         sans: ['Inter', 'sans-serif'],
         display: ['Cormorant Garamond', 'serif'],
+        'capture-display': ['Lora', 'serif'],
+        'capture-body': ['Source Sans 3', 'sans-serif'],
       },
       borderRadius: {
         lg: "var(--radius)",
